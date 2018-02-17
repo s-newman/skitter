@@ -1,0 +1,19 @@
+sudo: required
+
+language: python3
+python:
+    - "3.6"
+
+services:
+    - docker
+
+before_install:
+    - curl https://bootstrap.pypa.io/get-pip.py > get-pip.py
+    - sudo python3 get-pip.py
+    - sudo pip3 install locust
+    - docker-compose up -d
+
+script:
+    - docker ps | grep api-gateway -q
+    - docker ps | grep frontend -q
+    - pytnon3 locust_test.py
