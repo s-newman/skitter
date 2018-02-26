@@ -1,0 +1,19 @@
+version: '2'
+services:
+
+    frontend:
+        build: app
+        image: frontend
+        command: uwsgi --ini ui.ini
+        expose:
+            - "8000"
+        restart: always
+
+    front-proxy:
+        build: proxy
+        image: front-proxy
+        expose:
+            - "8000"
+        restart: always
+        depends_on:
+            - frontend
