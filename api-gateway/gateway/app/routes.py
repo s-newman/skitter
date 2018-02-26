@@ -5,7 +5,7 @@ import requests
 CHUNK_SIZE = 1024
 """The size, in bytes, of data to stream at a time."""
 
-@app.route('/ui/<path>'):
+@app.route('/ui/<path>')
 def frontend(path):
     """Fetches a webpage from the frontend.
 
