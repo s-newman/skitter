@@ -10,8 +10,8 @@ COPY run.py ./run.py
 COPY app ./app
 COPY requirements.txt ./requirements.txt
 
-# Install GCC (it's required for uWSGI...)
-RUN apk add build-base
+# Install packages required to build uWSGI
+RUN apk --update add build-base linux-headers
 
 # Install pip requirements
 RUN pip3 install -r requirements.txt
