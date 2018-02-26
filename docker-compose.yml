@@ -2,12 +2,23 @@ version: '2'
 services:
 
     frontend:
-        build: frontend
+        build: frontend/app
         image: frontend
         command: uwsgi --ini ui.ini
         expose:
             - "8000"
+        ports:
+            - "8000:8000"
         restart: always
+
+    front-proxy:
+        build: frontend/proxy
+        image: front-proxy
+        expose:
+            - "8000"
+        restart: always
+        depends_on:
+            - frontend
 
     api-gate:
         build: api-gateway/gateway
