@@ -9,13 +9,20 @@ services:
             - "8000"
         restart: always
 
-    api-gateway:
-        build: api-gateway
-        image: api-gateway
+    api-gate:
+        build: api-gateway/gateway
+        image: api-gate
+        expose:
+            - "8000"
+        restart: always
+
+    proxy:
+        build: api-gateway/gateway-proxy
+        image: proxy
         expose:
             - "80"
         ports:
             - "80:80"
         restart: always
         depends_on:
-            - frontend
+            - api-gate
