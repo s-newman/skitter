@@ -5,12 +5,13 @@ import requests
 CHUNK_SIZE = 1024
 """The size, in bytes, of data to stream at a time."""
 
-@app.route('/ui/<path>')
-def frontend(path):
+@app.route('/')
+def frontend():
     """Fetches a webpage from the frontend.
 
     :param path:    A string; the page that is being requested.
     :returns:       The resultant page, streamed back to the client.
+    """
     """
     r = get_response(frontend, path)
     headers = dict(r.headers)
@@ -18,6 +19,8 @@ def frontend(path):
         for chunk in r.iter_content(CHUNK_SIZE):
             yield chunk
     return Response(generate(), headers=headers)
+    """
+    return request.path
 
 def get_response(host, method):
     """Make a given request and return the associated response.
