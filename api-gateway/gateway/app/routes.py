@@ -13,14 +13,14 @@ def frontend():
     :returns:       The resultant page, streamed back to the client.
     """
     """
-    r = get_response(frontend, path)
+    r = get_response('frontend:8000', request.path)
     headers = dict(r.headers)
     def generate():
         for chunk in r.iter_content(CHUNK_SIZE):
             yield chunk
     return Response(generate(), headers=headers)
     """
-    return request.path
+    return get_response('front-proxy:8000', request.path).text
 
 def get_response(host, method):
     """Make a given request and return the associated response.
@@ -39,6 +39,7 @@ def get_response(host, method):
                     client.
     """
     # TODO: add HTTPS support
-    url = 'http://{}/{}'.format(host, method)
+    url = 'http://{}{}'.format(host, method)
     # Fetch the URL and stream it back
-    return requests.get(url, stream=True, params=request.args, headers=headers)
+    #return requests.get(url, stream=True, params=request.args)
+    return requests.get(url)
