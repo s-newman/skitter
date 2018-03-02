@@ -1,4 +1,5 @@
 from app import app
+from app.config import *
 from flask import request, Response
 import requests
 
@@ -17,7 +18,7 @@ def frontend(page=None, filename=None):
                         as a javascript file or a stylesheet.
     :returns:           The resultant page, streamed back to the client.
     """
-    r = get_response('front-proxy:8000', request.path)
+    r = get_response(FRONTEND, request.path)
     headers = dict(r.headers)
     def generate():
         for chunk in r.iter_content(CHUNK_SIZE):
