@@ -1,26 +1,28 @@
 from app import app
-from flask import request
+from flask import request, Response
 import requests
 
 CHUNK_SIZE = 1024
 """The size, in bytes, of data to stream at a time."""
 
 @app.route('/')
-def frontend():
+@app.route('/ui/<page>')
+@app.route('/static/<filename>')
+def frontend(page=None, filename=None):
     """Fetches a webpage from the frontend.
 
-    :param path:    A string; the page that is being requested.
-    :returns:       The resultant page, streamed back to the client.
+    :param page:        A string; the API endpoint for one of the frontend
+                        pages (that does not include the index/home page).
+    :param filename:    A string; the name of a static file on the server, such
+                        as a javascript file or a stylesheet.
+    :returns:           The resultant page, streamed back to the client.
     """
-    """
-    r = get_response('frontend:8000', request.path)
+    r = get_response('front-proxy:8000', request.path)
     headers = dict(r.headers)
     def generate():
         for chunk in r.iter_content(CHUNK_SIZE):
             yield chunk
     return Response(generate(), headers=headers)
-    """
-    return get_response('front-proxy:8000', request.path).text
 
 def get_response(host, method):
     """Make a given request and return the associated response.
