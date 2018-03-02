@@ -14,6 +14,11 @@ before_install:
     - docker-compose up -d
 
 script:
-    - docker ps | grep api-gateway -q
+    # Check if all the docker images are up
     - docker ps | grep frontend -q
+    - docker ps | grep front-proxy -q
+    - docker ps | grep api-gate -q
+    - docker ps | grep proxy -q
+
+    # Run load balance checks
     - python3 locust_check.py
