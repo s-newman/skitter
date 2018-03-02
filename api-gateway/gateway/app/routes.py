@@ -1,6 +1,6 @@
 from app import app
 from app.config import *
-from flask import request, Response
+from flask import request, Response, abort
 import requests
 
 CHUNK_SIZE = 1024
@@ -16,7 +16,7 @@ def frontend(page=None, filename=None):
                         pages (that does not include the index/home page).
     :param filename:    A string; the name of a static file on the server, such
                         as a javascript file or a stylesheet.
-    :returns:           The resultant page, streamed back to the client.
+    :return:           The resultant page, streamed back to the client.
     """
     r = get_response(FRONTEND, request.path)
     headers = dict(r.headers)
@@ -46,3 +46,30 @@ def get_response(host, method):
     # Fetch the URL and stream it back
     #return requests.get(url, stream=True, params=request.args)
     return requests.get(url)
+
+# Optional methods are not included in this list.
+@app.route('/isAuthenticated')
+@app.route('/signIn')
+@app.route('/newUser')
+@app.route('/deleteUser')
+@app.route('/changeDisplayName')
+@app.route('/changeProfileImage')
+@app.route('/logout')
+@app.route('/AddSkit')
+@app.route('/RemoveSkit')
+@app.route('/GetSkits')
+@app.route('/followUser')
+@app.route('/unfollowUser')
+@app.route('/userSearch')
+@app.route('/addSkitReply')
+@app.route('/removeSkitReply')
+def unimplemented():
+    """Returns an HTTP 501: Not Implemented error.
+
+    Used as a placeholder for all API endpoints that have not been implemented.
+    Once an endpoint is implemented, it should be moved from here into it's own
+    function.
+    
+    :return:    An HTTP 501: Not Implemented error.
+    """
+    abort(501)
