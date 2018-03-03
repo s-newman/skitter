@@ -85,3 +85,10 @@ Follows a user.
 ### DELETE  /followed-user
 __Not implemented__
 Unfollows a user.
+
+## Other
+API nodes that don't fall under any other category.
+
+### POST    /mysql-query
+__Not implemented__
+Makes a query to the MySQL database.
