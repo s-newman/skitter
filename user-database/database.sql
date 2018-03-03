@@ -1,6 +1,3 @@
-CREATE DATABASE users;
-USE users;
-
 --- Create USER_INFO Table
 CREATE TABLE USER_INFO (
     user_id int NOT NULL,
