@@ -1,0 +1,3 @@
+--- Create USER Table
+--- Create PROFILE_PICTURE Table
+--- Create FOLLOW Table
