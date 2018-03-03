@@ -1,5 +1,6 @@
 CREATE DATABASE users;
 USE users;
+GRANT ALL ON users.* to 'api-gateway'@'%';
 
 -- Create PROFILE_PICTURE Table
 
