@@ -25,14 +25,6 @@ def frontend(page=None, filename=None):
             yield chunk
     return Response(generate(), headers=headers)
 
-@app.route('/mysql-query')
-def mysql_query():
-    """Make a query to the MySQL server.
-
-    :return:        The results of the query.
-    """
-    # TODO
-
 def get_response(host, method):
     """Make a given request and return the associated response.
 
