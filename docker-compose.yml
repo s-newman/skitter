@@ -20,6 +20,13 @@ services:
         depends_on:
             - frontend
 
+    user-db:
+        build: user-database
+        image: user-db
+        expose:
+            - "3306"
+        restart: always
+
     api-gate:
         build: api-gateway/gateway
         image: api-gate
