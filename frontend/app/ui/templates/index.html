@@ -1,6 +1,15 @@
 {% extends "base.html" %}
 
+{% block scripts %}
+<script src="{{ url_for('static', filename='index.js')}}" type="text/javascript"></script>
+{% endblock %}
+
 {% block content %}
     <h1>Under Construction</h1>
     <p>Skitter is currently under construction.  Please come back later!</p>
+    <form id="loginForm">
+        <input type="text" id="username" value="Username" /><br />
+        <input type="password" id="password" value="Password" /><br />
+        <input type="submit" value="Log In" />
+    </form>
 {% endblock %}
