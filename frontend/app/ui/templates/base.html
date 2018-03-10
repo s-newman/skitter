@@ -11,6 +11,9 @@
         <title>Skitter</title>
         {% endif %}
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheet.css') }}">
+        {% if scripts %}
+        {% block scripts %}{% endblock %}
+        {% endif %}
     </head>
     <body>
         {% block content %}{% endblock %}
