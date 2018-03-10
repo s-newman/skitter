@@ -1,13 +1,13 @@
-$(document).ready(function () {
-    // Check if the user is authenticated already
-    let authCheckPost = $.post('/isAuthenticated', getCookie('SID'), function(data) {
-        let response = JSON.parseJSON(data);
-        if(response['status'] == 'authenticated') {
-            // user is auth'd, redirect em
-            authedUser();
-        }
-    });
+// Check if the user is authenticated already
+let authCheckPost = $.post('/isAuthenticated', getCookie('SID'), function(data) {
+    let response = JSON.parseJSON(data);
+    if(response['status'] == 'authenticated') {
+        // user is auth'd, redirect em
+        authedUser();
+    }
+});
 
+$(document).ready(function () {
     // Attempt to log in the user when they submit the login form
     $('#loginForm').submit(function(event) {
         // Create JSON string to send
@@ -15,7 +15,7 @@ $(document).ready(function () {
             username: $('#username').val(),
             password: $('#password').val()
         };
-        
+
         // Attempt to authenticate
         let loginPost = $.post('/login', postData);
 
