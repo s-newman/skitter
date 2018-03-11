@@ -1,6 +1,7 @@
 from ui import app
 from flask import render_template
 
+# Routes for webpages
 @app.route('/')
 def index():
     return render_template('index.html', scripts=True, jquery=True)
