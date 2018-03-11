@@ -12,6 +12,11 @@ let authCheckPost = $.post('/isAuthenticated', getCookie('SID'), function(data) 
 $(document).ready(function () {
     // Attempt to log in the user when they submit the login form
     $('#loginForm').submit(function(event) {
+        // Clear error
+        $('#errorText').empty();
+        $('#username').css('border-color', '#6c3c17');
+        $('#password').css('border-color', '#6c3c17');
+        
         // Create JSON string to send
         let postData = {
             username: $('#username').val(),
@@ -24,6 +29,10 @@ $(document).ready(function () {
 
         // Log to console if request failed
         loginPost.fail(function() {
+            // Display error to user
+            $('#errorText').html('Invalid credentials.');
+            $('#username').css('border-color', '#ff0000');
+            $('#password').css('border-color', '#ff0000');
             console.log('Login attempt failed.');
         });
 
@@ -32,6 +41,7 @@ $(document).ready(function () {
             console.log('Login attempt successful, redirecting...')
             window.location.href('/dashboard');
         });
+        event.preventDefault();
     });
 });
 

@@ -64,3 +64,7 @@ body {
 .border {
     border-radius: 0.2em;
 }
+
+#errorText {
+    color: #ff0000;
+}
