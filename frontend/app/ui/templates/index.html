@@ -5,11 +5,20 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Under Construction</h1>
-    <p>Skitter is currently under construction.  Please come back later!</p>
-    <form id="loginForm">
-        <input type="text" id="username" placeholder="Username" /><br />
-        <input type="password" id="password" placeholder="Password" /><br />
-        <input type="submit" value="Log In" />
-    </form>
+<div class="login-block border">
+    <div class="login-container">
+        <h1>Express yourself.</h1>
+        <p>Join Skitter today.</p>
+        <form id="loginForm">
+            <ul class="form">
+                <li><input type="text" id="username" placeholder="Username" class="input border" /></li>
+                <li><input type="password" id="password" placeholder="Password" class="input border" /></li>
+                <li><input type="submit" value="Log In" class="login border" /></li>
+            </ul>
+        </form>
+        <p>Because little blue birds are dumb.</p>
+        <!-- <p>Note: not guaranteed to be free of Russian influence.</p> -->
+    </div>
+    <img src="{{ url_for('static', filename='skitter.png') }}" alt="Skitter Squirrel" class="box"/>
+</div>
 {% endblock %}

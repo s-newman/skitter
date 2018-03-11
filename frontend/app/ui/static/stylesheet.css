@@ -1,9 +1,66 @@
 body {
-    margin: 0;
-    padding 0 0 1em 0;
+    margin: auto;
+    width: 45em;
+    padding: 0 0 1em 0;
     font-size: 1em;
     line-height: 1.5em;
-    color: #414141;
+    color: #6c3c17;
     font-family: Arial;
-    background-color: #ededed;
+    background-color: #ffba78;
+}
+
+.login-container {
+    float: right;
+    padding: 0 1em;
+}
+
+.login-block {
+    margin: 1em auto;
+    padding: 2em 1em;
+    height: auto;
+    background-color:#eeeeee;
+    -webkit-box-shadow: 0 0 1em 0.5em;
+    -moz-box-shadow: 0 0 1em 0.5em;
+    box-shadow: 0 0 1em 0.5em;
+}
+
+.box img {
+    float: right;
+}
+
+.form {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    padding: 0em 1em;
+}
+
+.form li {
+    list-style: none;
+    padding: 0.25em 0em;
+}
+
+.login {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding: 0.25em 1em;
+    border: 0;
+    background: none;
+    box-shadow: none;
+    border-radius: 0em;
+    background-color: #ee7b23;
+    color: #6c3c17;
+    font-weight: bold;
+}
+
+.input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding: 0.25em 1em;
+    border: 0.1em solid #6c3c17;
+    background: none;
+    box-shadow: none;
+    color: #6c3c17;
+}
+
+.border {
+    border-radius: 0.2em;
 }
