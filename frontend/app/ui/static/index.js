@@ -1,8 +1,10 @@
 // Check if the user is authenticated already
 let authCheckPost = $.post('/isAuthenticated', getCookie('SID'), function(data) {
+    console.log('Checking if user is authenticated...');
     let response = JSON.parseJSON(data);
     if(response['status'] == 'authenticated') {
         // user is auth'd, redirect em
+        console.log('User is authenticated, redirecting...');
         authedUser();
     }
 });
@@ -15,6 +17,7 @@ $(document).ready(function () {
             username: $('#username').val(),
             password: $('#password').val()
         };
+        console.log('Attempting to authenticate user:', postData);
 
         // Attempt to authenticate
         let loginPost = $.post('/login', postData);
@@ -22,11 +25,11 @@ $(document).ready(function () {
         // Log to console if request failed
         loginPost.fail(function() {
             console.log('Login attempt failed.');
-            console.log(postData);
         });
 
         // Redirect to dashboard page if request was successful
         loginPost.done(function() {
+            console.log('Login attempt successful, redirecting...')
             window.location.href('/dashboard');
         });
     });
