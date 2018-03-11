@@ -25,7 +25,7 @@ $(document).ready(function () {
         console.log('Attempting to authenticate user:', postData);
 
         // Attempt to authenticate
-        let loginPost = $.post('/login', postData);
+        let loginPost = $.post('/signIn', postData);
 
         // Log to console if request failed
         loginPost.fail(function() {
