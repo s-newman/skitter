@@ -39,6 +39,10 @@ Changes a user's display name.
 __Not implemented__
 Changes a user's profile image.
 
+### GET     /userInfo
+__Not implemented__
+Retrieves the username and profile picture for a user.
+
 ### GET     /settings
 __Not implemented__
 Retrieves the current account settings for a specific user.
