@@ -6,22 +6,24 @@
 
 {% block content %}
 <section class="main border">
-    <img src="{{ url_for('static', filename='img/skitter.png') }}" alt="Skitter Squirrel" id="login-logo" height="300" width="300" />
-    <section class="login">
-        <h1>Express yourself.</h1>
-        <p>Join Skitter today.</p>
-        <form id="loginForm">
-            <ul>
-                <li class="form-item"><input type="text" id="username" placeholder="Username" class="border" /></li>
-                <li class="form-item"><input type="password" id="password" placeholder="Password" class="border" /></li>
-                <li class="form-item">
-                    <input type="submit" value="Log In" class="border" />
-                    <span id="errorText"></span>
-                </li>
-            </ul>
-        </form>
-        <p>Because little blue birds are dumb.</p>
-        <!-- <p>Note: not guaranteed to be free of Russian influence.</p> -->
+    <section class="middle-col">
+        <img src="{{ url_for('static', filename='img/skitter.png') }}" alt="Skitter Squirrel" id="login-logo" height="300" width="300" />
+        <section class="login">
+            <h1>Express yourself.</h1>
+            <p>Join Skitter today.</p>
+            <form id="loginForm">
+                <ul>
+                    <li class="form-item"><input type="text" id="username" placeholder="Username" class="border" /></li>
+                    <li class="form-item"><input type="password" id="password" placeholder="Password" class="border" /></li>
+                    <li class="form-item">
+                        <input type="submit" value="Log In" class="border" />
+                        <span id="errorText"></span>
+                    </li>
+                </ul>
+            </form>
+            <p>Because little blue birds are dumb.</p>
+            <!-- <p>Note: not guaranteed to be free of Russian influence.</p> -->
+        </section>
     </section>
 </section>
 {% endblock %}
