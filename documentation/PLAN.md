@@ -5,7 +5,7 @@
 1. SAML/Shibboleth integration
 2. Account information stored in database
 ### Tests:
-1. Adding and removing useres
+1. Adding and removing users
 2. Test authentication
 3. Security checks:
   - Session fixation
@@ -71,28 +71,26 @@
 7. Sign out
 ### Tests:
 1. RIPS (http://rips-scanner.sourceforge.net/) to test for PHP vulnerabilities
-2. Test /changeDisplayName
-3. Test /changeProfileImage
-4. Test /logout
+2. Test `/changeDisplayName`
+3. Test `/changeProfileImage`
+4. Test `/logout`
 5. Security Checks:
   - CSRF
   - XSS
   - SQLi
   - File Upload restriction
   - Check for known vulns in image-processing libs
-6. Test /changeEmail
-7. Test /changeAccountPrivacy
-8. Test /removeAccount
-9. Test user privacy
+6. Test `/changeEmail`
+7. Test `/changeAccountPrivacy`
+8. Test user privacy
   - If private, the user should only be visible to their followers
 ### APIs:
-1. /changeDisplayName
-2. /changeProfileImage
-3. /logout
-4. /changeEmail
-5. /changeRealName
-6. /changeAccountPrivacy
-7. /removeAccount
+1. `/changeDisplayName`
+2. `/changeProfileImage`
+3. `/logout`
+4. `/changeEmail`
+5. `/changeRealName`
+6. `/changeAccountPrivacy`
 
 ## Add/View/Remove Skits (Tweets): NodeJS
 ### Requirements:
@@ -104,20 +102,20 @@
 3. View skits
 4. Kibana dashboard for ElasticSearch
 ### Tests:
-1. Test /AddSkit
+1. Test `/addSkit`
   - 140-character limit
   - Confusables
-2. Test /RemoveSkit
-3. Test /GetSkits
+2. Test `/removeSkit`
+3. Test `/getSkits`
 4. Security checks
   - ElasticSearch authentication management (XPack, HTTP Basic Auth)
   - Input sanitization
   - XSS
   - SQLi
 ### APIs:
-1. /AddSkit
-2. /RemoveSkit
-3. /GetSkits
+1. `/addSkit`
+2. `/removeSkit`
+3. `/getSkits`
 
 ## Follow/Unfollow: Flask
 ### Requirements:
@@ -133,18 +131,18 @@
 ### Tests:
 1. PEP8 Compliance
 2. 10/10 PyLint rating
-3. Test /userSearch
-4. Test /followUser
-5. Test /unfollowUser
+3. Test `/userSearch`
+4. Test `/followUser`
+5. Test `/unfollowUser`
 6. Security Checks:
   - CSRF
-7. Test /getNewSkits
+7. Test `/getSkits`
 8. Test central list of followed/following users
 ### APIs:
-1. /userSearch
-2. /followUser
-3. /unfollowUser
-4. /getNewTweets
+1. `/userSearch`
+2. `/followUser`
+3. `/unfollowUser`
+4. `/getSkits`
   - Checks with the server if there are any new tweets from followed users
 
 ## Add/remove reply: Ruby on Rails
@@ -155,11 +153,11 @@
   - Linking replies and original Skits inside ElasticSearch
   - http://www.rubydoc.info/gems/elasticsearch-api/Elasticsearch/API/Actions#update-instance_method
 ### Tests:
-1. Test /addSkitReply
-2. Test /removeSkitReply
+1. Test `/addSkitReply`
+2. Test `/removeSkitReply`
 3. Security checks
   - Timing attacks?
   - CSRF
 ### APIs:
-1. /addSkitReply
-2. 2. /removeSkitReply
+1. `/addSkitReply`
+2. `/removeSkitReply`
