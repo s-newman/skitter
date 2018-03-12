@@ -15,6 +15,7 @@ CREATE TABLE PROFILE_PICTURE (
 CREATE TABLE USER_INFO (
     user_id int NOT NULL,
     username varchar(15) NOT NULL,
+    rit_username varchar(7) NOT NULL UNIQUE,
     first_name varchar(15),
     last_name varchar(25),
     email varchar(254) NOT NULL,
