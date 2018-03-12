@@ -1,9 +1,75 @@
 {% extends "internal.html" %}
 
 {% block scripts %}
-<!-- test -->
+<script src="{{ url_for('static', filename='js/dashboard.js') }}" type="text/javascript"></script>
 {% endblock %}
 
 {% block internal_page %}
-<!-- test2 -->
+<section class="main">
+    <aside class="user-sidebar">
+        <img alt="Profile Picture" height=100 width=100 id="main-profile-pic" />
+        <a class="username" href="/profile">Username</a>
+    </aside>
+    <section class="middle-col">
+        <input id="new-skit" placeholder="What's on your mind?" />
+        <section class="skits">
+            <article class="skit">
+                <h1>Test skit</h1>
+                <p>Hi!</p>
+            </article>
+            <article class="skit">
+                <h1>Test skit two</h1>
+                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+                Aenean commodo ligula eget dolor. Aenean massa. Cum sociis
+                natoque penatibus et magnis dis parturient.</p>
+            </article>
+            <article class="skit">
+                <h1>Test skit three</h1>
+                <p>Despite the constant negative press covfefe</p>
+            </article>
+            <article class="skit">
+                <h1>Test skit</h1>
+                <p>Hi!</p>
+            </article>
+            <article class="skit">
+                <h1>Test skit two</h1>
+                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+                Aenean commodo ligula eget dolor. Aenean massa. Cum sociis
+                natoque penatibus et magnis dis parturient.</p>
+            </article>
+            <article class="skit">
+                <h1>Test skit three</h1>
+                <p>Despite the constant negative press covfefe</p>
+            </article>
+            <article class="skit">
+                <h1>Test skit</h1>
+                <p>Hi!</p>
+            </article>
+            <article class="skit">
+                <h1>Test skit two</h1>
+                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+                Aenean commodo ligula eget dolor. Aenean massa. Cum sociis
+                natoque penatibus et magnis dis parturient.</p>
+            </article>
+            <article class="skit">
+                <h1>Test skit three</h1>
+                <p>Despite the constant negative press covfefe</p>
+            </article>
+            <article class="skit">
+                <h1>Test skit</h1>
+                <p>Hi!</p>
+            </article>
+            <article class="skit">
+                <h1>Test skit two</h1>
+                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+                Aenean commodo ligula eget dolor. Aenean massa. Cum sociis
+                natoque penatibus et magnis dis parturient.</p>
+            </article>
+            <article class="skit">
+                <h1>Test skit three</h1>
+                <p>Despite the constant negative press covfefe</p>
+            </article>
+        </section>
+    </section>
+</div>
 {% endblock %}
