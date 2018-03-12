@@ -102,9 +102,10 @@ nav.page-header {
 
 aside.user-sidebar {
     flex: 1;
-    display: flex;
+    display: inline-flex;
     flex-direction: column;
     background-color: #a8fcf6;
+    height: fit-content;
     margin: 0 4em 0 0;
     padding: 1em;
     -webkit-box-shadow: 0 0 1em 0.5em;
