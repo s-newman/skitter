@@ -103,9 +103,36 @@ nav.page-header {
 aside.user-sidebar {
     flex: 1;
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
+    background-color: #a8fcf6;
+    margin: 0 4em 0 0;
+    padding: 1em;
+    -webkit-box-shadow: 0 0 1em 0.5em;
+       -moz-box-shadow: 0 0 1em 0.5em;
+            box-shadow: 0 0 1em 0.5em;
 }
 
 a.username {
-    /* TODO */
+    color: #6c3c17;
+    text-decoration: none;
+}
+
+a.main-username {
+    font-weight: bold;
+    font-size: 1.5em;
+    background-color: #eeeeee;
+    background-blend-mode: lighten;
+    padding: 0.3em;
+}
+
+a.username:visited {
+    color: #6c3c17;
+    text-decoration: none;
+}
+
+a.username:hover {
+    color: #34c3b9;
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-decoration-color: #34c3b9;
 }
