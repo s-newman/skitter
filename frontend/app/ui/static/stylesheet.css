@@ -1,11 +1,15 @@
 body {
     margin: auto;
-    width: 45em;
     padding: 0 0 1em 0;
+    width: 60em;
     line-height: 1em;
     color: #6c3c17;
     font-family: Arial;
     background-color: #ffba78;
+}
+
+body.login {
+    width: 45em;
 }
 
 h1 {
