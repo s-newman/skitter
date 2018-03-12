@@ -71,3 +71,14 @@ input[type=submit] {
     color: #ff0000;
     font-size: 0.8em;
 }
+
+header.page-header {
+    position: fixed;
+    top: 0;
+    left: auto;
+    right: auto;
+    width: 40em;
+    margin: 1em auto;
+    padding: 0.5em;
+    background-color: #a8fcf6;
+}
