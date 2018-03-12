@@ -9,6 +9,8 @@ CHUNK_SIZE = 1024
 @app.route('/')
 @app.route('/ui/<page>')
 @app.route('/static/<filename>')
+@app.route('/static/js/<filename>')
+@app.route('/static/img/<filename>')
 def frontend(page=None, filename=None):
     """Fetches a webpage from the frontend.
 
