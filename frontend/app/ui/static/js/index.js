@@ -29,6 +29,15 @@ $(document).ready(function () {
 
         // Log to console if request failed
         loginPost.fail(function() {
+            /* Test user authentication
+               * * * * * * * * * * *
+               * REMOVE FROM PROD  *
+               * * * * * * * * * * *
+            */
+            if(postData.username === 'testuser' && postData.password === 'password') {
+                console.log('Authentication with test user accepted.');
+                authedUser();
+            }
             // Display error to user
             $('#errorText').html('Invalid credentials.');
             $('#username').css('border-color', '#ff0000');
@@ -39,7 +48,7 @@ $(document).ready(function () {
         // Redirect to dashboard page if request was successful
         loginPost.done(function() {
             console.log('Login attempt successful, redirecting...')
-            window.location.href('/dashboard');
+            authedUser();
         });
         event.preventDefault();
     });
