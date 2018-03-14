@@ -20,3 +20,9 @@ function getCookie(name) {
     // Cookie was not found
     return "";
 }
+
+// Add a cookie to the browser
+function addCookie(name, value) {
+    console.log('Adding new cookie: ' + name + '=' + value);
+    document.cookie += name + '=' + value;
+}
