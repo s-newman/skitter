@@ -59,6 +59,10 @@ li.form-item {
     padding: 0.25em 0;
 }
 
+img.skit-profile-pic {
+    float: left;
+}
+
 input {
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -116,6 +120,8 @@ aside.user-sidebar {
 a.username {
     color: #6c3c17;
     text-decoration: none;
+    font-weight: bold;
+    padding: 0.25em 0.1em;
 }
 
 a.main-username {

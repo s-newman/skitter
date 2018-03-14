@@ -11,63 +11,24 @@
         <a class="username main-username" href="/profile">Username</a>
     </aside>
     <section class="middle-col">
-        <input id="new-skit" placeholder="What's on your mind?" />
+        <form id="post-skit">
+            <input id="new-skit" placeholder="What's on your mind?" />
+            <input id="submit-skit" type="submit" value="Post!" />
+            <span id="errortext"></span>
+        </form>
         <section class="skits">
             <article class="skit">
                 <h1>Test skit</h1>
                 <p>Hi!</p>
             </article>
             <article class="skit">
-                <h1>Test skit two</h1>
+                <img src="{{ url_for('static', filename='img/default-profile.png') }}" alt="Skit Profile Picture" class="skit-profile-pic" height=64 width=64 />
+                <a class="username" href="/profile/xyz">Username</a>
                 <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
                 Aenean commodo ligula eget dolor. Aenean massa. Cum sociis
                 natoque penatibus et magnis dis parturient.</p>
-            </article>
-            <article class="skit">
-                <h1>Test skit three</h1>
-                <p>Despite the constant negative press covfefe</p>
-            </article>
-            <article class="skit">
-                <h1>Test skit</h1>
-                <p>Hi!</p>
-            </article>
-            <article class="skit">
-                <h1>Test skit two</h1>
-                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                Aenean commodo ligula eget dolor. Aenean massa. Cum sociis
-                natoque penatibus et magnis dis parturient.</p>
-            </article>
-            <article class="skit">
-                <h1>Test skit three</h1>
-                <p>Despite the constant negative press covfefe</p>
-            </article>
-            <article class="skit">
-                <h1>Test skit</h1>
-                <p>Hi!</p>
-            </article>
-            <article class="skit">
-                <h1>Test skit two</h1>
-                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                Aenean commodo ligula eget dolor. Aenean massa. Cum sociis
-                natoque penatibus et magnis dis parturient.</p>
-            </article>
-            <article class="skit">
-                <h1>Test skit three</h1>
-                <p>Despite the constant negative press covfefe</p>
-            </article>
-            <article class="skit">
-                <h1>Test skit</h1>
-                <p>Hi!</p>
-            </article>
-            <article class="skit">
-                <h1>Test skit two</h1>
-                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                Aenean commodo ligula eget dolor. Aenean massa. Cum sociis
-                natoque penatibus et magnis dis parturient.</p>
-            </article>
-            <article class="skit">
-                <h1>Test skit three</h1>
-                <p>Despite the constant negative press covfefe</p>
+                <button type="button" class="show-replies">Replies</button>
+                <button type="button" class="add-reply">Respond</button>
             </article>
         </section>
     </section>
