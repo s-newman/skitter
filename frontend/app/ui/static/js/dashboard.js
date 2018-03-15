@@ -21,7 +21,8 @@ $(document).ready(function() {
             // Load latest skits
         })
     });
-
+    
+    // Show or hide skit replies
     $('button').click(function(event) {
         // Show skit replies
         if($(event.target).hasClass('show-replies')) {
@@ -36,7 +37,7 @@ $(document).ready(function() {
                 console.log('Getting skit replies...');
 
                 // Add replies to DOM
-                getReplySection(event).innerHTML = newSkitReply('dude', '/profile/dude', null, 'hey man this reply sucks');
+                getSection(event, 'replies').innerHTML = newSkitReply('dude', '/profile/dude', null, 'hey man this reply sucks');
                 /*
                 *******************
                 * TODO: Implement *
@@ -54,7 +55,7 @@ $(document).ready(function() {
             event.target.innerHTML = 'Replies';
 
             // Remove replies from DOM
-            getReplySection(event).innerHTML = '';
+            getSection(event, 'replies').innerHTML = '';
         }
     });
 
@@ -81,7 +82,7 @@ function newSkitReply(username, profilePath, picturePath, content) {
         '</article>';
 }
 
-// Function to create reply section from the clicked button
-function getReplySection(event) {
-    return document.getElementById(event.target.id.split('-')[1] + '-replies');
+// Function to get a specific section from the clicked button
+function getSection(event, type) {
+    return document.getElementById(event.target.id.split('-')[1] + '-' + type);
 }
