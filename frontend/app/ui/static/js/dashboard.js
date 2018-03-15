@@ -22,10 +22,38 @@ $(document).ready(function() {
         })
     });
 
+    $('button').click(function(event) {
+        // Show skit replies
+        if($(event.target).hasClass('show-replies')) {
+            console.log('Showing replies...');
+            // Change button to hide replies
+            $(event.target).removeClass('show-replies');
+            $(event.target).addClass('hide-replies')
+            event.target.innerHTML = 'Hide';
 
-    // Show skit replies
+            // Retrieve replies from server
+            let getReplies = $.get('/getSkitReplies', function(data) {
+                console.log('Getting skit replies...');
+                // Add replies to DOM
+                /*
+                *******************
+                * TODO: Implement *
+                *******************
+                */
+            });
+        }
 
-    // Hide skit replies
+        // Hide skit replies
+        else if($(event.target).hasClass('hide-replies')) {
+            console.log('Hiding replies...');
+            // Change button to show replies
+            $(event.target).removeClass('hide-replies');
+            $(event.target).addClass('show-replies');
+            event.target.innerHTML = 'Replies';
+
+            // Remove replies from DOM
+        }
+    });
 
     // Reply to skit
 });
@@ -35,14 +63,3 @@ $.get('/getSkits', function() {
     console.log('Getting skits...');
     // TODO
 });
-
-// Show skit replies
-$('.skits').on('click', 'show-replies', function() {
-    $.get('/getSkitReplies', function() {
-        console.log('Getting skit replies...');
-    });
-});
-
-// Hide skit replies
-
-// Reply to skit
