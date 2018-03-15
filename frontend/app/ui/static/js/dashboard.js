@@ -1,25 +1,26 @@
 $(document).ready(function() {
-    // Post a tweet when they click "Post!"
-    $('#post-skit').submit(function() {
+    // Post a skit when they click "Post!"
+    $('#post-skit').submit(function(event) {
         // Create a JSON string to send
         let postData = {
-
+            // TODO
         };
 
         // Attempt to post skit
         console.log('Attempting to post skit:', postData);
-        let skitPost = $.post('/addSkit', postData);
+        let skitPost = $.post('/addSkit', postData, function() {
+            console.log('Skit posted.');
+
+            // Load latest skits
+        });
 
         // Log error if post failed
         skitPost.fail(function() {
 
             console.log('Failed to post skit.')
-        })
+        });
 
-        // Log success if post worked
-        skitPost.done(function() {
-            // Load latest skits
-        })
+        event.preventDefault();
     });
     
     // Show or hide skit replies
@@ -59,7 +60,40 @@ $(document).ready(function() {
         }
     });
 
-    // Reply to skit
+    // Reply to skit button clicked
+    $('.add-reply').click(function(event) {
+        // Display input box
+        getSection(event, 'response').innerHTML = '<form class="new-skit-reply">' +
+            '<input class="new-skit-reply-input" placeholder="What\'s on your mind?" />' +
+            '<input class="new-skit-reply-submit" type="submit" value="Post!" />' +
+            '</form>';
+
+            // Post reply
+            $('.new-skit-reply').submit(function(innerEvent) {
+                // Create a JSON string to send
+                let postData = {
+                    // TODO
+                };
+        
+                // Attempt to post skit reply
+                console.log('Attempting to post skit reply:', postData);
+                let skitReplyPost = $.post('/addSkitReply', postData, function() {
+                    console.log('Reply posted.');
+                });
+        
+                // Log error if post failed
+                skitReplyPost.fail(function() {
+        
+                    console.log('Failed to reply to skit.')
+                });
+        
+                // Remove skit reply form
+                innerEvent.target.parentNode.innerHTML = '';
+        
+                innerEvent.preventDefault();
+            });
+    });
+
 });
 
 // Load latest skits
