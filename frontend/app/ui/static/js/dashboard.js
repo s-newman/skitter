@@ -1,4 +1,10 @@
+// Interval to retrieve skits (note 1000 = # of milliseconds in a second)
+let refreshTimer = 3 * 1000;
+
 $(document).ready(function() {
+    // Get the initial listing of skits
+
+    getSkits();
     // Post a skit when they click "Post!"
     $('#post-skit').submit(function(event) {
         // Create a JSON string to send
@@ -94,13 +100,25 @@ $(document).ready(function() {
             });
     });
 
+    // Load latest skits every minute
+    let timer = setInterval(getSkits, refreshTimer);
 });
 
-// Load latest skits
-$.get('/getSkits', function() {
-    console.log('Getting skits...');
-    // TODO
-});
+// Temporary variable to prove that skits are being updated.  Remove once implemented fully.
+var counter = 123;
+
+// Getter for skits
+function getSkits() {
+    //$.get('/getSkits', function() {
+        console.log('Getting skits...');
+        // TODO
+
+        // Add skits to the DOM
+        $('.skits').append(newSkit('broseph', '/profile/theOfficialBroseph', null, counter, '12222'));
+        counter++;  // Remove from prod.
+    //});
+}
+
 
 // Constructor for replies
 function newSkitReply(username, profilePath, picturePath, content) {
@@ -113,6 +131,25 @@ function newSkitReply(username, profilePath, picturePath, content) {
         '<img src="' + picturePath + '" class="skit-profile-pic" height=64 width=64 />' +
         '<a class="username" href"' + profilePath + '">' + username + '</a>' +
         '<p>' + content + '</p>' +
+        '</article>';
+}
+
+// Constructor for skits
+function newSkit(username, profilePath, picturePath, content, skitID) {
+    // Set the profile picture to the default if one is not specified
+    if(picturePath === null) {
+        picturePath = defaultProfile;
+    }
+
+    // Ain't that ugly as hell?
+    return '<article id="' + skitID +  '"class="skit">' +
+        '<img src="' + picturePath + '" alt="Skit Profile Picture" class="skit-profile-pic" height=64 width=64 />' +
+        '<a class="username" href="' + profilePath + '">' + username + '</a>' +
+        '<p>' + content + '</p>' +
+        '<button id="toggle-' + skitID + '" type="button" class="show-replies">Replies</button>' +
+        '<button id="reply-' + skitID + '" type="button" class="add-reply">Respond</button><br />' +
+        '<section id="' + skitID + '-response"></section>' +
+        '<section id="' + skitID + '-replies"></section>' +
         '</article>';
 }
 
