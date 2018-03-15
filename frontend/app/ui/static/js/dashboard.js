@@ -32,15 +32,17 @@ $(document).ready(function() {
             event.target.innerHTML = 'Hide';
 
             // Retrieve replies from server
-            let getReplies = $.get('/getSkitReplies', function(data) {
+            //let getReplies = $.get('/getSkitReplies', function(data) {
                 console.log('Getting skit replies...');
+
                 // Add replies to DOM
+                getReplySection(event).innerHTML = newSkitReply('dude', '/profile/dude', null, 'hey man this reply sucks');
                 /*
                 *******************
                 * TODO: Implement *
                 *******************
                 */
-            });
+            //});
         }
 
         // Hide skit replies
@@ -52,6 +54,7 @@ $(document).ready(function() {
             event.target.innerHTML = 'Replies';
 
             // Remove replies from DOM
+            getReplySection(event).innerHTML = '';
         }
     });
 
@@ -63,3 +66,22 @@ $.get('/getSkits', function() {
     console.log('Getting skits...');
     // TODO
 });
+
+// Constructor for replies
+function newSkitReply(username, profilePath, picturePath, content) {
+    // Set the profile picture to the default if one is not specified
+    if(picturePath === null) {
+        picturePath = defaultProfile;
+    }
+
+    return '<article class="skit-reply">' +
+        '<img src="' + picturePath + '" class="skit-profile-pic" height=64 width=64 />' +
+        '<a class="username" href"' + profilePath + '">' + username + '</a>' +
+        '<p>' + content + '</p>' +
+        '</article>';
+}
+
+// Function to create reply section from the clicked button
+function getReplySection(event) {
+    return document.getElementById(event.target.id.split('-')[1] + '-replies');
+}
