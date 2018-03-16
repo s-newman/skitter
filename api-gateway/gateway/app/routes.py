@@ -7,7 +7,7 @@ CHUNK_SIZE = 1024
 """The size, in bytes, of data to stream at a time."""
 
 @app.route('/')
-@app.route('/ui/<page>')
+@app.route('/dashboard')
 @app.route('/static/<filename>')
 @app.route('/static/js/<filename>')
 @app.route('/static/img/<filename>')

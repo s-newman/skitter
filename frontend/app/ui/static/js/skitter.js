@@ -1,5 +1,8 @@
 /* A collection of helper functions for Skitter. */
 
+// The location of the default profile picture
+var defaultProfile = '/static/img/default-profile.png';
+
 // Get a cookie from the browser based on the cookie's name
 function getCookie(name) {
     // Cookie names all end with an equals sign
@@ -19,4 +22,10 @@ function getCookie(name) {
 
     // Cookie was not found
     return "";
+}
+
+// Add a cookie to the browser
+function addCookie(name, value) {
+    console.log('Adding new cookie: ' + name + '=' + value);
+    document.cookie += name + '=' + value;
 }
