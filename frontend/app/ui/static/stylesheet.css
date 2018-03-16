@@ -80,6 +80,10 @@ input[type=submit] {
     font-weight: bold;
 }
 
+input.error {
+    border-color: #ff0000;
+}
+
 .border {
     border-radius: 0.2em;
 }
