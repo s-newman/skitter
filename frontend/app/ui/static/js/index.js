@@ -32,6 +32,13 @@ $(document).ready(function () {
         });
         event.preventDefault();
     });
+
+    $('#sign-up').click(function(event) {
+        // We don't want the form to be submitted (yet)!
+        event.preventDefault();
+        console.log('signing up...');
+        window.location.href = '/new-account';
+    });
 });
 
 // Redirect all authenticated users
