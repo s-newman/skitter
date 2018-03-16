@@ -1,4 +1,39 @@
-{% extends base.html %}
+{% extends "base.html" %}
 
 {% block content %}
+<body class="login">
+    <section class="main border">
+        <section class="middle-col">
+            <h1>Welcome to Skitter!</h1>
+            <p>We just need some info before you get started.</p>
+            <form id="new-acct-form">
+                <ul>
+                    <li class="form-item">
+                        <label>Choose a username:</label>
+                        <input type="text" id="username" class="border">
+                    </li>
+                    <li class="form-item">
+                        <label>Enter a password:</label>
+                        <input type="password" id="first-password" class="border">
+                    </li>
+                    <li class="form-item">
+                        <label>Confirm password:</label>
+                        <input type="password" id="second-password" class="border">
+                    </li>
+                    <li class="form-item">
+                        <label>Upload a profile picture!</label><br />
+                        <label>Pictures must be no more that 1 MB, and must be
+                        a JPEG, PNG, or GIF filetype.</label><br />
+                        <input type="file" id="picture-upload">
+                    </li>
+                    <li>
+                        <label>Email address:</label>
+                        <input type="email" id="email" class="border">
+                    </li>
+                    <li><input type="submit" value="Sign me up!" class="border"></li>
+                </ul>
+            </form>
+        </section>
+    </section>
+</body>
 {% endblock %}
