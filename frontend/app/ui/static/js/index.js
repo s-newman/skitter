@@ -3,8 +3,8 @@ $(document).ready(function () {
     $('#loginForm').submit(function(event) {
         // Clear error
         $('#errorText').empty();
-        $('#username').css('border-color', '#6c3c17');
-        $('#password').css('border-color', '#6c3c17');
+        $('#username').removeClass('error');
+        $('#password').removeClass('error');
         
         // Create JSON string to send
         let postData = {
@@ -20,8 +20,8 @@ $(document).ready(function () {
         loginPost.fail(function() {
             // Display error to user
             $('#errorText').html('Invalid credentials.');
-            $('#username').css('border-color', '#ff0000');
-            $('#password').css('border-color', '#ff0000');
+            $('#username').addClass('error');
+            $('#password').addClass('error');
             console.log('Login attempt failed.');
         });
 
