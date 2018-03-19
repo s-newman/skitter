@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 
 {% block scripts %}
-<script src="{{ url_for('static', filename='js/new_account.js') }}" type="text/javascript"></script>
+<script src="{{ url_for('static', filename='js/settings.js') }}" type="text/javascript"></script>
+<script src="{{ url_for('static', filename='js/new-account.js') }}" type="text/javascript"></script>
 {% endblock %}
 
 {% block content %}
@@ -15,15 +16,6 @@
                     <li class="form-item">
                         <label>Choose a username:</label>
                         <input type="text" id="username" class="border">
-                    </li>
-                    <li class="form-item">
-                        <label>Enter a password:</label>
-                        <input type="password" id="first-password" class="border">
-                    </li>
-                    <li class="form-item">
-                        <label>Confirm password:</label>
-                        <input type="password" id="second-password" class="border">
-                        <span id="error-text"></span>
                     </li>
                     <li class="form-item">
                         <label>Upload a profile picture!</label><br />

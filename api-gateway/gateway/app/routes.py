@@ -9,6 +9,7 @@ CHUNK_SIZE = 1024
 @app.route('/')
 @app.route('/dashboard')
 @app.route('/new-account')
+@app.route('/settings')
 @app.route('/static/<filename>')
 @app.route('/static/js/<filename>')
 @app.route('/static/img/<filename>')

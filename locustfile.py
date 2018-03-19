@@ -4,6 +4,15 @@ from random import randint
 def index(l):
     l.client.get('/')
 
+def settings(l):
+    l.client.get('/settings')
+
+def dashboard(l):
+    l.client.get('/dashboard')
+
+def new_account(l):
+    l.client.get('/new-account')
+
 class UserBehavior(TaskSet):
     tasks = {
         index: 1

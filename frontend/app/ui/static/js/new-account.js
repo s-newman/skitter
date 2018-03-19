@@ -1,28 +1,8 @@
 $(document).ready(function() {
-    // Check if the passwords match
-    $('#second-password').on('input', function(event) {
-        // Clear the error text if they match
-        if($('#second-password').val() === $('#first-password').val()) {
-            $('#error-text').empty();
-            $('#second-password').removeClass('error');
-        } else {
-            // Add the error text
-            $('#error-text').html('Passwords do not match.');
-            $('#second-password').addClass('error');
-        }
-    });
-
     // Detect if file is too big
-    $('#picture-upload').bind('change', function() {
-        // Clear the error text
-
-
-        // Display error text if too large
-        if(this.files[0].size > 1000000) {
-            console.log('File is too large!');
-            $('#upload-error-text').html('File is too large!');
-        }
-    })
+    $('#picture-upload').bind('change', checkPictureSize(
+        document.querySelector('#picture-upload').files[0],
+        $('#upload-error-text')));
 
     // Create the new user
     $('#new-acct-form').submit(function(event) {
@@ -40,13 +20,6 @@ $(document).ready(function() {
            $('#email').val() === '') {
             console.log('Not all form fields are filled.');
             $('#form-error-text').html('Please fill out all form fields!<br />');
-            error = true;
-            event.preventDefault();
-        }
-
-        // Only allow submission if the passwords match
-        if($('#first-password').val() !== $('#second-password').val()) {
-            $('#form-error-text').append('Passwords do not match.<br />');
             error = true;
             event.preventDefault();
         }
