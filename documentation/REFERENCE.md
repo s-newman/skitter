@@ -10,7 +10,7 @@ API nodes that relate to the authentication, creation, and removal of users.
 
 ### GET     /isAuthenticated
 __Not implemented__
-Checks if a specific user is currently authenticated.
+Checks if a specific user is currently authenticated, given their username and password.
 
 ### PUT     /signIn
 __Not implemented__
