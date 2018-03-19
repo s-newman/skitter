@@ -24,11 +24,6 @@ $(document).ready(function() {
         });
     });
 
-    // Submit password change
-    $('#change-password').submit(function(event) {
-
-    });
-
     // Submit profile picture change
     $('#change-profile-pic').submit(function(event) {
 

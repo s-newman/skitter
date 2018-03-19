@@ -1,8 +1,4 @@
 $(document).ready(function() {
-    // Check if the passwords match
-    $('#second-password').on('input', checkMatch($('#first-password').val(),
-        $('#second-password').val(), $('#error-text'), $('#second-password')));
-
     // Detect if file is too big
     $('#picture-upload').bind('change', checkPictureSize(
         document.querySelector('#picture-upload').files[0],
@@ -24,13 +20,6 @@ $(document).ready(function() {
            $('#email').val() === '') {
             console.log('Not all form fields are filled.');
             $('#form-error-text').html('Please fill out all form fields!<br />');
-            error = true;
-            event.preventDefault();
-        }
-
-        // Only allow submission if the passwords match
-        if($('#first-password').val() !== $('#second-password').val()) {
-            $('#form-error-text').append('Passwords do not match.<br />');
             error = true;
             event.preventDefault();
         }
