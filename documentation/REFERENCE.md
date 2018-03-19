@@ -31,6 +31,25 @@ Deletes an already existing user.
 ## Settings
 API nodes that relate to the viewing and modification of user settings.
 
+### GET     /username
+__Not implemented__
+Checks if a specific username/display name is taken.  This function is rate-limited.
+
+#### Parameters:
+```
+{
+    username: 'The username to test'
+}
+```
+
+#### Returns:
+```
+{
+    taken: boolean value
+}
+```
+`taken` is `true` if the username is taken, and `false` if the username is free.
+
 ### PUT     /changeDisplayName
 __Not implemented__
 Changes a user's display name.
