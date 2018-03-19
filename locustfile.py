@@ -1,29 +1,27 @@
-from locust import HttpLocust, TaskSet
+from locust import HttpLocust, TaskSet, task
 from random import randint
 
-def index(l):
-    l.client.get('/')
 
-def settings(l):
-    l.client.get('/settings')
+class Tests(TaskSet):
+    @task
+    def index(self):
+        self.client.get('/')
 
-def dashboard(l):
-    l.client.get('/dashboard')
+    @task
+    def settings(self):
+        self.client.get('/settings')
 
-def new_account(l):
-    l.client.get('/new-account')
+    @task
+    def dashboard(self):
+        self.client.get('/dashboard')
 
-class UserBehavior(TaskSet):
-    tasks = {
-        index: 1
-    }
-
-    def on_start(self):
-        index(self)
+    @task
+    def new_account(self):
+        self.client.get('/new-account')
 
 
 class WebsiteUser(HttpLocust):
-    task_set = UserBehavior
-    min_wait = 5000
-    max_wait = 9000
+    task_set = Tests
+    min_wait = 1000
+    max_wait = 10000
     host = 'http://localhost'
