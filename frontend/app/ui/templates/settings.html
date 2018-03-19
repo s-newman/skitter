@@ -1,8 +1,48 @@
 {% extends "internal.html" %}
 
 {% block scripts %}
+<script src="{{ url_for('static', filename='js/settings.js') }}" type="text/javascript"></script>
 {% endblock %}
 
 {% block internal_page %}
-<p> sup </p>
+<section class="middle-col">
+    <h1>Want to change things up?</h1>
+    <p>You came to the right place.</p>
+    <ul>
+        <form id="change-username">
+            <li class="form-item"><h2>Username</h2></li>
+            <li class="form-item">
+                <label>New Username:</label>
+                <input type="text" id="username" placeholder="">
+            </li>
+            <li class="form-item"><input type="submit" value="Change"></li>
+        </form>
+        <form id="change-password">
+            <li class="form-item"><h2>Password</h2></li>
+            <li class="form-item">
+                <label>Old Password:</label>
+                <input type="password" id="old-password" class="border">
+            </li>
+            <li class="form-item">
+                <label>New Password:</label>
+                <input type="password" id="first-password" class="border">
+            </li>
+            <li class="form-item">
+                <label>New Password Again:</label>
+                <input type="password" id="second-password" class="border">
+                <span id="password-error-text"></span>
+            </li>
+            <li class="form-item"><input type="submit" value="Change Password"></li>
+        </form>
+        <form id="change-profile-pic" enctype="multipart/form-data">
+            <li class="form-item"><h2>Profile Picture</h2></li>
+            <li class="form-item">
+                <label>Upload New Picture:</label>
+                <input type="file" id="picture-upload">
+                <span id="upload-error=text"></span>
+            </li>
+            <li class="form-item"><input type="submit" value="Change"></li>
+        </form>
+    </ul>
+</section>
 {% endblock %}
