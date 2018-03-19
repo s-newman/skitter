@@ -12,7 +12,7 @@ def dashboard():
 
 @app.route('/new-account')
 def new_account():
-    return render_template('new_account.html', scripts=True, jquery=True)
+    return render_template('new-account.html', scripts=True, jquery=True)
 
 @app.route('/settings')
 def settings():
