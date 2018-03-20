@@ -20,4 +20,4 @@ def settings():
 
 @app.route('/profile/<user>')
 def profile(user):
-    return 'Hello'
+    return render_template('profile.html', scripts=True, user=user)
