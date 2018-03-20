@@ -18,6 +18,14 @@ class Tests(TaskSet):
     @task
     def new_account(self):
         self.client.get('/new-account')
+    
+    @task
+    def profile(self):
+        self.client.get('/profile/{}'.format(randint(1, 1000)))
+    
+    @task
+    def logout(self):
+        self.client.get('/logout')
 
 
 class WebsiteUser(HttpLocust):
