@@ -21,3 +21,7 @@ def settings():
 @app.route('/profile/<user>')
 def profile(user):
     return render_template('profile.html', scripts=True, user=user)
+
+@app.route('/logout')
+def logout():
+    return render_template('logout.html')
