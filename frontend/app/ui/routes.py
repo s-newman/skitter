@@ -16,4 +16,8 @@ def new_account():
 
 @app.route('/settings')
 def settings():
-    return render_template('settings.html', scripts=True, jquery=True)
+    return render_template('settings.html', scripts=True)
+
+@app.route('/profile/<user>')
+def profile(user):
+    return 'Hello'
