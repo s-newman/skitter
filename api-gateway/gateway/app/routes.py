@@ -10,6 +10,8 @@ CHUNK_SIZE = 1024
 @app.route('/dashboard')
 @app.route('/new-account')
 @app.route('/settings')
+@app.route('/profile/<user>')
+@app.route('/logout')   # TODO: correctly implement
 @app.route('/static/<filename>')
 @app.route('/static/js/<filename>')
 @app.route('/static/img/<filename>')
@@ -58,7 +60,6 @@ def get_response(host, method):
 @app.route('/deleteUser')
 @app.route('/changeDisplayName')
 @app.route('/changeProfileImage')
-@app.route('/logout')
 @app.route('/AddSkit')
 @app.route('/RemoveSkit')
 @app.route('/GetSkits')
