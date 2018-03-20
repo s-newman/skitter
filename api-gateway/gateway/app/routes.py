@@ -15,14 +15,16 @@ CHUNK_SIZE = 1024
 @app.route('/static/<filename>')
 @app.route('/static/js/<filename>')
 @app.route('/static/img/<filename>')
-def frontend(page=None, filename=None):
+def frontend(page=None, filename=None, user=None):
     """Fetches a webpage from the frontend.
 
     :param page:        A string; the API endpoint for one of the frontend
                         pages (that does not include the index/home page).
     :param filename:    A string; the name of a static file on the server, such
                         as a javascript file or a stylesheet.
-    :return:           The resultant page, streamed back to the client.
+    :param user:        A string; the username/user ID (still haven't figured
+                        it out) whose profile page is being loaded.
+    :return:            The resultant page, streamed back to the client.
     """
     r = get_response(FRONTEND, request.path)
     headers = dict(r.headers)
