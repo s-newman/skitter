@@ -5,19 +5,19 @@ FROM python:3.5-alpine
 # Create running directory
 WORKDIR /api
 
-# Copy over application files
-COPY run.py ./run.py
-COPY app ./app
-COPY requirements.txt ./requirements.txt
-
 # Install packages required to build uWSGI
 RUN apk --update add build-base linux-headers
 
 # Install pip requirements
 RUN pip3 install -r requirements.txt
 
+# Run the application on startup
+CMD uwsgi --ini app.ini
+
 # Configure uWSGI
 COPY app.ini ./app.ini
 
-# Run the application on startup
-CMD uwsgi --ini app.ini
+# Copy over application files
+COPY run.py ./run.py
+COPY requirements.txt ./requirements.txt
+COPY app ./app
