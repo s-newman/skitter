@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install -y \
     python3-pip
 
 # Install requirements and update pip
+COPY requirements.txt /var/www/requirements.txt
 RUN pip3 install -r requirements.txt
 RUN pip3 install --upgrade pip
 
@@ -21,6 +22,5 @@ RUN pip3 install --upgrade pip
 COPY ui.ini /var/www/ui.ini
 
 # Copy over application files
-COPY requirements.txt /var/www/requirements.txt
 COPY run.py /var/www/run.py
 COPY ui /var/www/ui

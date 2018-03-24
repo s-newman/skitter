@@ -9,7 +9,9 @@ WORKDIR /api
 RUN apk --update add build-base linux-headers
 
 # Install pip requirements
+COPY requirements.txt ./requirements.txt
 RUN pip3 install -r requirements.txt
+RUN pip3 install --upgrade pip
 
 # Run the application on startup
 CMD uwsgi --ini app.ini
@@ -19,5 +21,4 @@ COPY app.ini ./app.ini
 
 # Copy over application files
 COPY run.py ./run.py
-COPY requirements.txt ./requirements.txt
 COPY app ./app
