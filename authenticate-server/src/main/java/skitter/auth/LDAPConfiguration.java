@@ -11,6 +11,9 @@ public class LDAPConfiguration {
     private String username = "";
     private String password = "";
 
+    public LDAPConfiguration() {
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }
