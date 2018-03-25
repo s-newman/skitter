@@ -1,8 +1,10 @@
 $(document).ready(function() {
     // Detect if file is too big
-    $('#picture-upload').bind('change', checkPictureSize(
-        document.querySelector('#picture-upload').files[0],
-        $('#upload-error-text')));
+    $('#picture-upload').bind('change', function() {
+        let fileArray = document.getElementById('picture-upload').files;
+
+        checkPictureSize(fileArray[fileArray.length - 1].size, $('#upload-error-text'));
+    });
 
     // Create the new user
     $('#new-acct-form').submit(function(event) {
