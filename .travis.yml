@@ -23,3 +23,6 @@ script:
 
     # Run load balance checks
     - python3 testing/locust_check.py
+
+    # Run browser functionality checks
+    - python3 testing/selenium-test.py
