@@ -1,11 +1,12 @@
 package skitter.auth;
 
+import org.json.simple.JSONObject;
 import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.filter.AndFilter;
 import org.springframework.ldap.filter.PresentFilter;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,13 +14,27 @@ import javax.naming.NamingException;
 import javax.naming.directory.Attributes;
 import java.security.SecureRandom;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.List;
+
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
 public class Controller {
 
     final private static String baseDn = "ou=People,dc=rit,dc=edu";
     final private static int tokenLength = 40;
+    private DB db;
+
+    public Controller() {
+        try {
+            db = new DB("172.17.0.2:3306", "users");
+        } catch (Exception e) {
+            System.err.println(e);
+            System.exit(1);
+        }
+    }
 
     private static String generateSessionID() {
         SecureRandom rand = new SecureRandom();
@@ -30,8 +45,16 @@ public class Controller {
         return token;
     }
 
-    @RequestMapping(value = "/signIn", method = RequestMethod.POST, produces = "application/json")
-    public ResponseTransfer signIn(@RequestParam("username") String username, @RequestParam("password") String password) {
+    @RequestMapping(value = "/signIn", method = POST, produces = "application/json")
+    public String signIn(@RequestBody SignIn signin) {
+
+        JSONObject response = new JSONObject();
+        response.put("successful", "false");
+        response.put("sessionID", "");
+        response.put("message", "");
+
+        String username = signin.getUsername();
+        String password = signin.getPassword();
 
         LDAPConfiguration config = new LDAPConfiguration();
         config.setUsername("uid=" + username + "," + baseDn);
@@ -49,67 +72,97 @@ public class Controller {
             people = template.search("uid=" + username + "," + baseDn, filter.encode(), new PersonAttributesMapper());
         } catch (Exception e) {
             System.err.println(e.getMessage());
-            return new ResponseTransfer("unsuccessful", "", e.getMessage());
+            response.replace("message", "Authentication error");
+            return response.toJSONString();
         }
 
         if (authenticated) {
             if (people == null) {
-                return new ResponseTransfer("unsuccessful", "", "Cannot get user information");
+                response.replace("message", "Cannot get user information");
+                return response.toJSONString();
             }
 
-            System.out.println(people.get(0));
             PreparedStatement stmt = null;
-            DB db = null;
             String sessionID = "";
 
             try {
-                db = new DB("172.17.0.2:3306", "users");
                 stmt = db.getConn().prepareStatement("INSERT INTO SESSION (rit_username, session_id) VALUES (?, ?)");
                 stmt.setString(1, username);
                 sessionID = generateSessionID();
                 stmt.setString(2, sessionID);
                 stmt.executeUpdate();
             } catch (Exception e) {
-                return new ResponseTransfer("unsuccessful", "", "Error connecting to database");
+                System.err.println(e.getMessage());
+                response.replace("message", "Error connecting to database");
+                return response.toJSONString();
             } finally {
-                db.destroyConnection();
                 try {
                     if (stmt != null) {
                         stmt.close();
                     }
                 } catch (Exception e) {
-                    return new ResponseTransfer("unsuccessful", "", "Cannot close statement");
+                    System.err.println(e.getMessage());
+                    response.replace("message", "Cannot close statement");
+                    return response.toJSONString();
                 }
             }
 
-            return new ResponseTransfer("successful", sessionID, "" + people.get(0));
+            response.replace("successful", "true");
+            response.replace("sessionID", sessionID);
+            JSONObject person = new JSONObject();
+            person.put("lastname", people.get(0).getLastName());
+            person.put("firstname", people.get(0).getFirstName());
+            response.replace("message", person);
+            return response.toJSONString();
         }
-        return new ResponseTransfer("unsuccessful", "", "unknown error");
+        response.replace("message", "unknown error");
+        return response.toJSONString();
     }
 
-    private class ResponseTransfer {
+    @RequestMapping(value = "/isAuthenticated", method = GET, produces = "application/json")
+    public String isAuthenticated(@RequestParam("username") String username) {
+        PreparedStatement stmt = null;
+        JSONObject response = new JSONObject();
+        response.put("authenticated", "false");
+        response.put("message", "");
 
-        private String success;
-        private String sessionID;
-        private String text;
-
-        public ResponseTransfer(String success, String sessionID, String text) {
-            this.success = success;
-            this.sessionID = sessionID;
-            this.text = text;
+        try {
+            stmt = db.getConn().prepareStatement("SELECT * FROM SESSION WHERE rit_username = ?;");
+            stmt.setString(1, username);
+            ResultSet rs = stmt.executeQuery();
+            rs.last();
+            int nRow = rs.getRow();
+            if (nRow == 1) {
+                response.replace("authenticated", "true");
+            } else if (nRow != 0) {
+                response.replace("message", "Unknown database error");
+            }
+            return response.toJSONString();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            response.replace("message", "Error executing SQL statement");
+            return response.toJSONString();
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+                response.replace("message", "Cannot close statement");
+                return response.toJSONString();
+            }
         }
+    }
 
-        public String getSuccess() {
-            return success;
-        }
+    @RequestMapping(value = "/newUser", method = POST, produces = "application/json")
+    public String newUser(@RequestBody SignUp signup) {
+        return "";
+    }
 
-        public String getSessionID() {
-            return sessionID;
-        }
-
-        public String getText() {
-            return text;
-        }
+    @RequestMapping(value = "/deleteUser", method = GET, produces = "application/json")
+    public String deleteUser(@RequestParam("username") String username) {
+        return "";
     }
 
     private class PersonAttributesMapper implements AttributesMapper<Person> {
@@ -118,38 +171,6 @@ public class Controller {
             person.setLastName((String) attrs.get("sn").get());
             person.setFirstName((String) attrs.get("givenName").get());
             return person;
-        }
-    }
-
-    private class Person {
-        private String firstName;
-        private String lastName;
-
-        public Person() {
-        }
-
-        public String getFirstName() {
-            return firstName;
-        }
-
-        public void setFirstName(String firstName) {
-            this.firstName = firstName;
-        }
-
-        public String getLastName() {
-            return lastName;
-        }
-
-        public void setLastName(String lastName) {
-            this.lastName = lastName;
-        }
-
-        @Override
-        public String toString() {
-            return "{" +
-                    "\"firstName\": \"" + firstName + "\"" +
-                    ", \"lastName\": \"" + lastName + "\"" +
-                    '}';
         }
     }
 

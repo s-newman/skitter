@@ -30,6 +30,7 @@ bootJar {
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile("org.springframework.ldap:spring-ldap-core")
+	compile("com.googlecode.json-simple:json-simple")
 	runtime('mysql:mysql-connector-java')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
