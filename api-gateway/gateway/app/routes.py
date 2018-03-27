@@ -6,6 +6,7 @@ import requests
 CHUNK_SIZE = 1024
 """The size, in bytes, of data to stream at a time."""
 
+
 @app.route('/')
 @app.route('/dashboard')
 @app.route('/new-account')
@@ -28,10 +29,12 @@ def frontend(page=None, filename=None, user=None):
     """
     r = get_response(FRONTEND, request.path)
     headers = dict(r.headers)
+
     def generate():
         for chunk in r.iter_content(CHUNK_SIZE):
             yield chunk
     return Response(generate(), headers=headers)
+
 
 def get_response(host, method):
     """Make a given request and return the associated response.
@@ -52,8 +55,9 @@ def get_response(host, method):
     # TODO: add HTTPS support
     url = 'http://{}{}'.format(host, method)
     # Fetch the URL and stream it back
-    #return requests.get(url, stream=True, params=request.args)
+    # return requests.get(url, stream=True, params=request.args)
     return requests.get(url)
+
 
 # Optional methods are not included in this list.
 @app.route('/isAuthenticated')
@@ -76,7 +80,7 @@ def unimplemented():
     Used as a placeholder for all API endpoints that have not been implemented.
     Once an endpoint is implemented, it should be moved from here into it's own
     function.
-    
+
     :return:    An HTTP 501: Not Implemented error.
     """
     abort(501)

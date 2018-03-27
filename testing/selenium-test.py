@@ -4,6 +4,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 """The hostname of the server being tested."""
 HOST = 'http://localhost/'
 
+
 def index(browser):
     ##
     #   Enter trash credentials and hit log in, "Invalid credentials."
@@ -20,7 +21,7 @@ def index(browser):
     #   `/new-account`
     ##
     browser.find_element_by_id('sign-up').click()
-    
+
     # Give it a little bit for the next page to load
     wait_for_load = WebDriverWait(browser, 10)
     wait.until(lambda browser: browser.current_url != HOST + '/')
@@ -29,6 +30,7 @@ def index(browser):
     assert browser.current_url == HOST + '/new-account'
 
     return None
+
 
 def new_account(browser):
     ##
@@ -64,6 +66,7 @@ def new_account(browser):
     ##
     return None
 
+
 def dashboard(browser):
     ##
     #   Clicking on "Username" should redirect to `/profile`
@@ -84,6 +87,7 @@ def dashboard(browser):
     ##
     return None
 
+
 def profile(browser):
     ##
     #   Clicking on "Skitter" should redirect to `/dashboard`
@@ -98,11 +102,13 @@ def profile(browser):
     ##
     return None
 
+
 def logout(browser):
     ##
     #   Clicking on "Come back soon!" should redirect to `/`
     ##
     return None
+
 
 def settings(browser):
     ##
@@ -112,6 +118,7 @@ def settings(browser):
     #       large!" should disappear
     ##
     return None
+
 
 def main():
     # Add all browsers that will be tested
@@ -125,6 +132,7 @@ def main():
         profile(browser)
         logout(browser)
         settings(browser)
+
 
 if __name__ == '__main__':
     main()
