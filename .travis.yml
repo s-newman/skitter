@@ -15,7 +15,7 @@ before_install:
 
 script:
     # Check code style
-    - pycodestyle $(find . -name "*.py")
+    - pycodestyle --ignore=E402 $(find . -name "*.py")
 
     # Check if all the docker images are up
     - docker ps | grep frontend -q
