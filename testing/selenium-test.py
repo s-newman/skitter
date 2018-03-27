@@ -2,7 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 
 """The hostname of the server being tested."""
-HOST = 'http://localhost/'
+HOST = 'http://localhost'
 
 
 def index(browser):
@@ -10,7 +10,7 @@ def index(browser):
     #   Enter trash credentials and hit log in, "Invalid credentials."
     #   should appear
     ##
-    browser.get('http://localhost/')
+    browser.get(HOST + '/')
     browser.find_element_by_id('username').send_keys('fakenews')
     browser.find_element_by_id('password').send_keys('factswha')
     browser.find_element_by_id('log-in').click()
