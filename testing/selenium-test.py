@@ -34,36 +34,29 @@ def index(browser):
 
 def new_account(browser):
     ##
-    #   Upload file larger than 1MB, "File is too large!" should appear.
-    #   ->  Then, click sign up, "File upload is too large." should appear
-    ##
-
-    ##
     #   Click sign up without filling out forms.  The following error should
-    #   appear:
-    #       Please correct the following errors:
-    #       Please fill out all form fields!
-    #       Please upload a profile picture.
+    #   appear
+    #       Please pick a username!
     ##
+    browser.get(HOST + '/new-account')
+    submit = browser.find_element_by_css_selector('input[type=submit]')
+    submit.click()
+    assert 'Please pick a username!' in browser.page_source
 
     ##
-    #   Click sign up after uploading picture.  The following error should
-    #   appear:
-    #       Please correct the following errors:
-    #       Please fill out all form fields!
+    #   Click sign up after putting garbage in username field, should redirect
+    #   to `/newUser`
     ##
+    browser.find_element_by_id('username').send_keys('fakenews')
+    submit.click()
 
-    ##
-    #   Click sign up after putting garbage in username field and uploading
-    #   picture.  The following error should appear:
-    #       Please correct the following errors:
-    #       Please fill out all form fields!
-    ##
+    # Give it a little bit for the next page to load
+    wait_for_load = WebDriverWait(browser, 10)
+    wait.until(lambda browser: browser.current_url != HOST + '/new-account')
 
-    ##
-    #   Click sign up after putting garbage in username field, and email in
-    #   email fields and uploading picture, should redirect to `/newUser`
-    ##
+    # Check if the proper page loaded
+    assert browser.current_url == HOST + '/NewUser'
+
     return None
 
 
