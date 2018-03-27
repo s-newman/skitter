@@ -12,6 +12,7 @@ before_install:
     - sudo python3 get-pip.py
     - sudo pip3 install -r requirements.txt
     - sudo rm -f get-pip.py
+    - sudo /bin/bash testing/get-webdrivers.sh
     - docker-compose up -d
 
 script:
