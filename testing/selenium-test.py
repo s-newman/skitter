@@ -6,7 +6,8 @@ HOST = 'http://localhost/'
 
 def index(browser):
     ##
-    #   Enter trash credentials and hit log in, "Invalid credentials." should appear
+    #   Enter trash credentials and hit log in, "Invalid credentials."
+    #   should appear
     ##
     browser.get('http://localhost/')
     browser.find_element_by_id('username').send_keys('fakenews')
@@ -15,7 +16,8 @@ def index(browser):
     assert 'Invalid credentials.' in browser.page_source
 
     ##
-    #   Enter trash credentials and hit sign up, should redirect to `/new-account`
+    #   Enter trash credentials and hit sign up, should redirect to
+    #   `/new-account`
     ##
     browser.find_element_by_id('sign-up').click()
     
@@ -29,52 +31,86 @@ def index(browser):
     return None
 
 def new_account(browser):
-    # Upload file larger than 1MB, "File is too large!" should appear
+    ##
+    #   Upload file larger than 1MB, "File is too large!" should appear.
+    #   ->  Then, click sign up, "File upload is too large." should appear
+    ##
 
-    ### Click sign up, "File upload is too large." should appear
+    ##
+    #   Click sign up without filling out forms.  The following error should
+    #   appear:
+    #       Please correct the following errors:
+    #       Please fill out all form fields!
+    #       Please upload a profile picture.
+    ##
 
-    # Click sign up without filling out forms, 
-    ### "Please correct the following errors:
-    ### Please fill out all form fields!
-    ### Please upload a profile picture." should appear
+    ##
+    #   Click sign up after uploading picture.  The following error should
+    #   appear:
+    #       Please correct the following errors:
+    #       Please fill out all form fields!
+    ##
 
-    # Click sign up after uploading picture,
-    ### "Please correct the following errors:
-    ### Please fill out all form fields!" should appear
+    ##
+    #   Click sign up after putting garbage in username field and uploading
+    #   picture.  The following error should appear:
+    #       Please correct the following errors:
+    #       Please fill out all form fields!
+    ##
 
-    # Click sign up after putting garbage in username field and uploading picture,
-    ### "Please correct the following errors:
-    ### Please fill out all form fields!" should appear
-
-    # Click sign up after putting garbage in username field, and email in email fields and uploading picture, should redirect to `/newUser`
+    ##
+    #   Click sign up after putting garbage in username field, and email in
+    #   email fields and uploading picture, should redirect to `/newUser`
+    ##
     return None
 
 def dashboard(browser):
-    # Clicking on "Username" should redirect to `/profile`
+    ##
+    #   Clicking on "Username" should redirect to `/profile`
+    ##
 
-    # Clicking on "broseph" should redirect to `/profile/theOfficialBroseph`
+    ##
+    #   Clicking on "broseph" should redirect to `/profile/theOfficialBroseph`
+    ##
 
-    # Clicking on a show replies button should change the button to "hide replies"
+    ##
+    #   Clicking on a show replies button should change the button to "hide
+    #   replies"
+    ##
 
-    # Clicking on a reply button should create the reply input box and the reply submission button
+    ##
+    #   Clicking on a reply button should create the reply input box and the
+    #   reply submission button
+    ##
     return None
 
 def profile(browser):
-    # Clicking on "Skitter" should redirect to `/dashboard`
+    ##
+    #   Clicking on "Skitter" should redirect to `/dashboard`
+    ##
 
-    # Clicking on "Settings" should redirect to `/settings`
+    ##
+    #   Clicking on "Settings" should redirect to `/settings`
+    ##
 
-    # Clicking on "Log Out" should redirect to `/logout`
+    ##
+    #   Clicking on "Log Out" should redirect to `/logout`
+    ##
     return None
 
 def logout(browser):
-    # Clicking on "Come back soon!" should redirect to `/`
+    ##
+    #   Clicking on "Come back soon!" should redirect to `/`
+    ##
     return None
 
 def settings(browser):
-    # Uploading a file larger than 1MB and clicking change, "File is too large!" should appear
-    
-    ### Upload a file smaller than 1MB and click change, "File is too large!" should disappear
+    ##
+    #   Uploading a file larger than 1MB and clicking change, "File is too
+    #   large!" should appear
+    #   ->  Then, upload a file smaller than 1MB and click change, "File is too
+    #       large!" should disappear
+    ##
     return None
 
 def main():
