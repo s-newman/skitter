@@ -28,7 +28,7 @@ def index(browser):
 
     return None
 
-def new_account():
+def new_account(browser):
     # Upload file larger than 1MB, "File is too large!" should appear
 
     ### Click sign up, "File upload is too large." should appear
@@ -49,7 +49,7 @@ def new_account():
     # Click sign up after putting garbage in username field, and email in email fields and uploading picture, should redirect to `/newUser`
     return None
 
-def dashboard():
+def dashboard(browser):
     # Clicking on "Username" should redirect to `/profile`
 
     # Clicking on "broseph" should redirect to `/profile/theOfficialBroseph`
@@ -59,7 +59,7 @@ def dashboard():
     # Clicking on a reply button should create the reply input box and the reply submission button
     return None
 
-def profile():
+def profile(browser):
     # Clicking on "Skitter" should redirect to `/dashboard`
 
     # Clicking on "Settings" should redirect to `/settings`
@@ -67,23 +67,28 @@ def profile():
     # Clicking on "Log Out" should redirect to `/logout`
     return None
 
-def logout():
+def logout(browser):
     # Clicking on "Come back soon!" should redirect to `/`
     return None
 
-def settings():
+def settings(browser):
     # Uploading a file larger than 1MB and clicking change, "File is too large!" should appear
     
     ### Upload a file smaller than 1MB and click change, "File is too large!" should disappear
     return None
 
 def main():
-    index()
-    new_account()
-    dashboard()
-    profile()
-    logout()
-    settings()
+    # Add all browsers that will be tested
+    browsers = [webdriver.Firefox(), webdriver.Chrome()]
+
+    # Test all pages with each browser
+    for browser in browsers:
+        index(browser)
+        new_account(browser)
+        dashboard(browser)
+        profile(browser)
+        logout(browser)
+        settings(browser)
 
 if __name__ == '__main__':
     main()
