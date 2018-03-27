@@ -2,7 +2,7 @@ from csv import DictReader
 from sys import exit
 from subprocess import call
 
-CSV_FILE = 'results'
+CSV_FILE = '../results'
 
 call(['locust', '-f', 'locustfile.py', '--csv=' + CSV_FILE, '--no-web', '-c',
       '300', '-r', '50', '-t', '1m'])
