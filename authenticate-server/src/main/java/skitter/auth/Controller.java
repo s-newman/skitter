@@ -188,7 +188,7 @@ public class Controller {
             stmt.executeUpdate();
         } catch (Exception e) {
             System.err.println(e.getMessage());
-            response.replace("message", "Error connecting to database");
+            response.replace("message", "Error executing SQL statement");
             return response.toJSONString();
         } finally {
             try {
@@ -215,7 +215,7 @@ public class Controller {
      * }
      */
     @RequestMapping(value = "/deleteUser", method = GET, produces = "application/json")
-    public String deleteUser(@RequestParam("username") String username) {
+    public String deleteUser(@RequestParam("rit_username") String rit_username) {
         PreparedStatement stmt = null;
         JSONObject response = new JSONObject();
         response.put("successful", "false");
@@ -223,13 +223,15 @@ public class Controller {
 
         try {
             stmt = db.getConn().prepareStatement("DELETE FROM USER_INFO WHERE rit_username = ?;");
-            stmt.setString(1, username);
+            stmt.setString(1, rit_username);
             int nRow = stmt.executeUpdate();
 
             if (nRow == 1) {
                 response.replace("successful", "true");
             } else if (nRow != 0) {
                 response.replace("message", "Unknown database error");
+            } else {
+                response.replace("message", "User does not exists");
             }
             return response.toJSONString();
         } catch (Exception e) {
