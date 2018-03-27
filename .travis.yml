@@ -10,7 +10,7 @@ services:
 before_install:
     - curl https://bootstrap.pypa.io/get-pip.py > get-pip.py
     - sudo python3 get-pip.py
-    - sudo pip3 install locust
+    - sudo pip3 install -r requirements.txt
     - docker-compose up -d
 
 script:
