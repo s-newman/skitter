@@ -1,9 +1,31 @@
 from selenium import webdriver
+from selenium.webdriver.support.ui import WebDriverWait
 
-def index():
-    # Enter trash credentials and hit log in, "Invalid credentials." should appear
+"""The hostname of the server being tested."""
+HOST = 'http://localhost/'
 
-    # Enter trash credentials and hit sign up, should redirect to `/new-account`
+def index(browser):
+    ##
+    #   Enter trash credentials and hit log in, "Invalid credentials." should appear
+    ##
+    browser.get('http://localhost/')
+    browser.find_element_by_id('username').send_keys('fakenews')
+    browser.find_element_by_id('password').send_keys('factswha')
+    browser.find_element_by_id('log-in').click()
+    assert 'Invalid credentials.' in browser.page_source
+
+    ##
+    #   Enter trash credentials and hit sign up, should redirect to `/new-account`
+    ##
+    browser.find_element_by_id('sign-up').click()
+    
+    # Give it a little bit for the next page to load
+    wait_for_load = WebDriverWait(browser, 10)
+    wait.until(lambda browser: browser.current_url != HOST + '/')
+
+    # Check if the proper page loaded
+    assert browser.current_url == HOST + '/new-account'
+
     return None
 
 def new_account():
