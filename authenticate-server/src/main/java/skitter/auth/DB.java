@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DB {
-
+    // TODO: Database credentials.
     static final private String jdbcDriver = "com.mysql.jdbc.Driver";
     private String username = "root";
     private String password = "";

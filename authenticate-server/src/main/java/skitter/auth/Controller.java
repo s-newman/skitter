@@ -22,6 +22,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
 public class Controller {
+    // TODO: javadocs for the endpoints
 
     final private static String baseDn = "ou=People,dc=rit,dc=edu";
     final private static int tokenLength = 40;
@@ -29,7 +30,11 @@ public class Controller {
 
     public Controller() {
         try {
-            db = new DB("172.17.0.2:3306", "users");
+            String DBHost = "user-db";
+            if (System.getenv("DBHOST") != null) {
+                DBHost = System.getenv("DBHOST");
+            }
+            db = new DB(DBHost, "users");
         } catch (Exception e) {
             System.err.println(e);
             System.exit(1);
@@ -157,12 +162,91 @@ public class Controller {
 
     @RequestMapping(value = "/newUser", method = POST, produces = "application/json")
     public String newUser(@RequestBody SignUp signup) {
-        return "";
+        String rit_username = signup.getRit_username();
+        String username = signup.getUsername();
+        String firstname = signup.getFirstname();
+        String lastname = signup.getLastname();
+
+        String email = rit_username + "@rit.edu";
+        int profile_picture_id = 0;
+
+        JSONObject response = new JSONObject();
+        response.put("successful", "false");
+        response.put("message", "");
+
+        PreparedStatement stmt = null;
+
+        try {
+            stmt = db.getConn().prepareStatement("INSERT INTO USER_INFO (username, rit_username, first_name, last_name, email, private_account, profile_picture_id) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            stmt.setString(1, username);
+            stmt.setString(2, rit_username);
+            stmt.setString(3, firstname);
+            stmt.setString(4, lastname);
+            stmt.setString(5, email);
+            stmt.setBoolean(6, false);
+            stmt.setInt(7, profile_picture_id);
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            response.replace("message", "Error connecting to database");
+            return response.toJSONString();
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+                response.replace("message", "Cannot close statement");
+                return response.toJSONString();
+            }
+        }
+
+        response.replace("successful", "true");
+        return response.toJSONString();
     }
 
+    /**
+     * Delete a user from a database. At this point it's only for testing purpose.
+     * @param username: The RIT username of the account to be deleted
+     * @return {
+     *     successful: true if the user is successfully removed, false otherwise.
+     *     messsage: any error message.
+     * }
+     */
     @RequestMapping(value = "/deleteUser", method = GET, produces = "application/json")
     public String deleteUser(@RequestParam("username") String username) {
-        return "";
+        PreparedStatement stmt = null;
+        JSONObject response = new JSONObject();
+        response.put("successful", "false");
+        response.put("message", "");
+
+        try {
+            stmt = db.getConn().prepareStatement("DELETE FROM USER_INFO WHERE rit_username = ?;");
+            stmt.setString(1, username);
+            int nRow = stmt.executeUpdate();
+
+            if (nRow == 1) {
+                response.replace("successful", "true");
+            } else if (nRow != 0) {
+                response.replace("message", "Unknown database error");
+            }
+            return response.toJSONString();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            response.replace("message", "Error executing SQL statement");
+            return response.toJSONString();
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+                response.replace("message", "Cannot close statement");
+                return response.toJSONString();
+            }
+        }
     }
 
     private class PersonAttributesMapper implements AttributesMapper<Person> {
