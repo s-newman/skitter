@@ -14,6 +14,9 @@ before_install:
     - docker-compose up -d
 
 script:
+    # Check code style
+    - pycodestyle $(find . -name "*.py")
+
     # Check if all the docker images are up
     - docker ps | grep frontend -q
     - docker ps | grep front-proxy -q
