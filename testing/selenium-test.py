@@ -52,7 +52,8 @@ def new_account(browser):
 
     # Give it a little bit for the next page to load
     wait_for_load = WebDriverWait(browser, 10)
-    wait_for_load.until(lambda browser: browser.current_url != HOST + '/new-account')
+    wait_for_load.until(lambda browser: browser.current_url != HOST +
+                        '/new-account')
 
     # Check if the proper page loaded
     assert browser.current_url == HOST + '/newUser'
