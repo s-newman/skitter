@@ -24,7 +24,7 @@ def index(browser):
 
     # Give it a little bit for the next page to load
     wait_for_load = WebDriverWait(browser, 10)
-    wait.until(lambda browser: browser.current_url != HOST + '/')
+    wait_for_load.until(lambda browser: browser.current_url != HOST + '/')
 
     # Check if the proper page loaded
     assert browser.current_url == HOST + '/new-account'
@@ -52,10 +52,10 @@ def new_account(browser):
 
     # Give it a little bit for the next page to load
     wait_for_load = WebDriverWait(browser, 10)
-    wait.until(lambda browser: browser.current_url != HOST + '/new-account')
+    wait_for_load.until(lambda browser: browser.current_url != HOST + '/new-account')
 
     # Check if the proper page loaded
-    assert browser.current_url == HOST + '/NewUser'
+    assert browser.current_url == HOST + '/newUser'
 
     return None
 
