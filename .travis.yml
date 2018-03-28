@@ -1,5 +1,10 @@
 sudo: required
-
+dist: trusty
+env:
+    - MOZ_HEADLESS=1
+addons:
+    chrome: stable
+    firefox: latest
 language: python3
 python:
     - "3.6"
@@ -12,6 +17,7 @@ before_install:
     - sudo python3 get-pip.py
     - sudo pip3 install -r requirements.txt
     - sudo rm -f get-pip.py
+    - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 &
     - sudo /bin/bash testing/get-webdrivers.sh
     - docker-compose up -d
 
