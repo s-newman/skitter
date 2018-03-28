@@ -2,9 +2,9 @@ from csv import DictReader
 from sys import exit
 from subprocess import call
 
-CSV_FILE = '../results'
+CSV_FILE = 'results'
 
-call(['locust', '-f', 'tesing/locustfile.py', '--csv=' + CSV_FILE, '--no-web',
+call(['locust', '-f', 'testing/locustfile.py', '--csv=' + CSV_FILE, '--no-web',
       '-c', '300', '-r', '50', '-t', '1m'])
 
 reader = None
