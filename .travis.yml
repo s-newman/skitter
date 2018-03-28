@@ -1,7 +1,5 @@
 sudo: required
 dist: trusty
-env:
-    - MOZ_HEADLESS=1
 addons:
     chrome: stable
     firefox: latest
@@ -17,7 +15,6 @@ before_install:
     - sudo python3 get-pip.py
     - sudo pip3 install -r requirements.txt
     - sudo rm -f get-pip.py
-    - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
     - sudo /bin/bash testing/get-webdrivers.sh
     - docker-compose up -d
 
@@ -36,4 +33,4 @@ script:
     - python3 testing/locust_check.py
 
     # Run browser functionality checks
-    - python3 testing/selenium-test.py
+    - xvfb-run python3 testing/selenium-test.py
