@@ -179,7 +179,7 @@ def settings(browser):
     assert 'File is too large!' in browser.page_source
 
     # Upload small file
-    browser.find_element_by_id('picture-upload').send_keys(getcwd() + 
+    browser.find_element_by_id('picture-upload').send_keys(getcwd() +
                                                            '/testing/small')
     browser.find_element_by_id('change-profile-pic').submit()
     assert 'File is too large!' not in browser.page_source
