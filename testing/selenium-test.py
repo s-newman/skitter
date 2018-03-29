@@ -119,7 +119,7 @@ def dashboard(browser):
     #   reply submission button
     ##
     responses.find_element_by_class_name('new-skit-reply-submit').click()
-    assert response_section.get_attribute('innerHTML') == ''
+    assert responses.get_attribute('innerHTML') == ''
 
     return None
 
