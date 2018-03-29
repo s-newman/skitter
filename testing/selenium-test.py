@@ -124,18 +124,29 @@ def dashboard(browser):
     return None
 
 
+def internal_link(browser, text, link):
+    browser.get(HOST + '/profile/123')
+    browser.find_element_by_link_text(text)
+    wait_for_load(browser, '/profile')
+    assert browser.current_url == HOST + link
+
+
 def profile(browser):
     ##
     #   Clicking on "Skitter" should redirect to `/dashboard`
     ##
+    internal_link(browser, 'Skitter', '/dashboard')
 
     ##
     #   Clicking on "Settings" should redirect to `/settings`
     ##
+    internal_link(browser, 'Settings', '/settings')
 
     ##
     #   Clicking on "Log Out" should redirect to `/logout`
     ##
+    internal_link(browser, 'Log Out', '/logout')
+
     return None
 
 
