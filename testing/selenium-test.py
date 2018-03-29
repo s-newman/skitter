@@ -1,6 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 import time
+from os import getcwd
 
 """The hostname of the server being tested."""
 HOST = 'http://localhost'
@@ -154,6 +155,11 @@ def logout(browser):
     ##
     #   Clicking on "Come back soon!" should redirect to `/`
     ##
+    browser.get(HOST + '/logout')
+    browser.find_element_by_link_text('Come back soon!').click()
+    wait_for_load(browser, '/logout')
+    assert browser.current_url == HOST + '/'
+
     return None
 
 
@@ -164,6 +170,18 @@ def settings(browser):
     #   ->  Then, upload a file smaller than 1MB and click change, "File is too
     #       large!" should disappear
     ##
+    browser.get(HOST + '/settings')
+
+    # Upload big file
+    browser.find_element_by_id('picture-upload').send_keys(getcwd() +
+                                                           '/testing/big')
+    assert 'File is too large!' in browser.page_source
+
+    # Upload small file
+    browser.find_element_by_id('picture-upload').send_keys(getcwd() + 
+                                                           '/small')
+    assert 'File is too large!' not in browser.page_source
+
     return None
 
 
