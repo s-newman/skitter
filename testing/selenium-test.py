@@ -5,6 +5,11 @@ from selenium.webdriver.support.ui import WebDriverWait
 HOST = 'http://localhost'
 
 
+def wait_for_load(browser, page):
+    wait = WebDriverWait(browser, 10)
+    wait.until(lambda browser: browser.current_url != HOST + page)
+
+
 def index(browser):
     ##
     #   Enter trash credentials and hit log in, "Invalid credentials."
@@ -21,10 +26,7 @@ def index(browser):
     #   `/new-account`
     ##
     browser.find_element_by_id('sign-up').click()
-
-    # Give it a little bit for the next page to load
-    wait_for_load = WebDriverWait(browser, 10)
-    wait_for_load.until(lambda browser: browser.current_url != HOST + '/')
+    wait_for_load(browser, '/')
 
     # Check if the proper page loaded
     assert browser.current_url == HOST + '/new-account'
@@ -49,11 +51,7 @@ def new_account(browser):
     ##
     browser.find_element_by_id('username').send_keys('fakenews')
     submit.click()
-
-    # Give it a little bit for the next page to load
-    wait_for_load = WebDriverWait(browser, 10)
-    wait_for_load.until(lambda browser: browser.current_url != HOST +
-                        '/new-account')
+    wait_for_load(browser, '/new-account')
 
     # Check if the proper page loaded
     assert browser.current_url == HOST + '/newUser'
