@@ -126,7 +126,7 @@ def dashboard(browser):
 
 def internal_link(browser, text, link):
     browser.get(HOST + '/profile/123')
-    browser.find_element_by_link_text(text)
+    browser.find_element_by_link_text(text).click()
     wait_for_load(browser, '/profile')
     assert browser.current_url == HOST + link
 
