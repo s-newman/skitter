@@ -168,6 +168,7 @@ def main():
         profile(browser)
         logout(browser)
         settings(browser)
+        browser.quit()
 
 
 if __name__ == '__main__':
