@@ -82,7 +82,7 @@ def dashboard(browser):
     #   replies"
     ##
     browser.get(HOST + '/dashboard')
-    
+
     # Wait a little bit for the skits to load
     time.sleep(3.5)
 
@@ -108,17 +108,17 @@ def dashboard(browser):
     # Find the replies section for the associated skit
     skit_id = button.get_attribute('id').split('-')[1]
     parent = button.find_elements_by_xpath('..')[0]
-    response_section = parent.find_element_by_id('{}-response'.format(skit_id))
+    responses = parent.find_element_by_id('{}-response'.format(skit_id))
 
     # Check if the skit reply has been found - note this operates like assert
     # in that it will throw an exception if it doesn't work
-    response_section.find_element_by_class_name('new-skit-reply')
+    responses.find_element_by_class_name('new-skit-reply')
 
     ##
     #   Clicking on a post reply button should hide the reply input box and the
     #   reply submission button
     ##
-    response_section.find_element_by_class_name('new-skit-reply-submit').click()
+    responses.find_element_by_class_name('new-skit-reply-submit').click()
     assert response_section.get_attribute('innerHTML') == ''
 
     return None
