@@ -4,8 +4,8 @@ from subprocess import call
 
 CSV_FILE = 'results'
 
-call(['locust', '-f', 'locustfile.py', '--csv=' + CSV_FILE, '--no-web', '-c',
-      '300', '-r', '50', '-t', '1m'])
+call(['locust', '-f', 'testing/locustfile.py', '--csv=' + CSV_FILE, '--no-web',
+      '-c', '300', '-r', '50', '-t', '1m'])
 
 reader = None
 

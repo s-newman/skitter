@@ -1,3 +1,7 @@
+# Locust output files
+results_distribution.csv
+results_requests.csv
+
 # vscode directory
 .vscode/
 

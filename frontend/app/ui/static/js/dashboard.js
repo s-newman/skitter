@@ -30,7 +30,7 @@ $(document).ready(function() {
     });
     
     // Show or hide skit replies
-    $('button').click(function(event) {
+    $('.skits').on('click', 'button', function(event) {
         // Show skit replies
         if($(event.target).hasClass('show-replies')) {
             console.log('Showing replies...');
@@ -38,13 +38,14 @@ $(document).ready(function() {
             $(event.target).removeClass('show-replies');
             $(event.target).addClass('hide-replies')
             event.target.innerHTML = 'Hide';
+            let skitID = event.target.id.split('-')[1];
 
             // Retrieve replies from server
             //let getReplies = $.get('/getSkitReplies', function(data) {
                 console.log('Getting skit replies...');
 
                 // Add replies to DOM
-                getSection(event, 'replies').innerHTML = newSkitReply('dude', '/profile/dude', null, 'hey man this reply sucks');
+                $(event.target).siblings('#' + skitID + '-replies').html(newSkitReply('dude', '/profile/dude', null, 'hey man this reply sucks'));
                 /*
                 *******************
                 * TODO: Implement *
@@ -62,17 +63,20 @@ $(document).ready(function() {
             event.target.innerHTML = 'Replies';
 
             // Remove replies from DOM
-            getSection(event, 'replies').innerHTML = '';
+            let skitID = event.target.id.split('-')[1];
+            $(event.target).siblings('#' + skitID + '-replies').empty();
         }
     });
 
     // Reply to skit button clicked
-    $('.add-reply').click(function(event) {
+    $('.skits').on('click', '.add-reply', function(event) {
         // Display input box
-        getSection(event, 'response').innerHTML = '<form class="new-skit-reply">' +
+        let skitID = event.target.id.split('-')[1];
+        $(event.target).siblings('#' + skitID + '-response').html(
+            '<form class="new-skit-reply">' +
             '<input class="new-skit-reply-input" placeholder="What\'s on your mind?" />' +
             '<input class="new-skit-reply-submit" type="submit" value="Post!" />' +
-            '</form>';
+            '</form>');
 
             // Post reply
             $('.new-skit-reply').submit(function(innerEvent) {
