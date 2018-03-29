@@ -1,5 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
+import time
 
 """The hostname of the server being tested."""
 HOST = 'http://localhost'
@@ -63,20 +64,63 @@ def dashboard(browser):
     ##
     #   Clicking on "Username" should redirect to `/profile`
     ##
+    browser.get(HOST + '/dashboard')
+    browser.find_element_by_class_name('main-username').click()
+    wait_for_load(browser, '/dashboard')
+    assert browser.current_url == HOST + '/profile'
 
     ##
     #   Clicking on "broseph" should redirect to `/profile/theOfficialBroseph`
     ##
+    browser.get(HOST + '/dashboard')
+    browser.find_element_by_class_name('main-username').click()
+    wait_for_load(browser, '/dashboard')
+    assert browser.current_url == HOST + '/profile'
 
     ##
     #   Clicking on a show replies button should change the button to "hide
     #   replies"
     ##
+    browser.get(HOST + '/dashboard')
+    
+    # Wait a little bit for the skits to load
+    time.sleep(3.5)
+
+    # Click on the replies
+    button = browser.find_element_by_class_name('show-replies')
+    button.click()
+    assert 'Hide' in button.text
+
+    ##
+    #   Clicking on a hide replies button should change the button to "show
+    #   replies"
+    ##
+    button.click()
+    assert 'Replies' in button.text
 
     ##
     #   Clicking on a reply button should create the reply input box and the
     #   reply submission button
     ##
+    button = browser.find_element_by_class_name('add-reply')
+    button.click()
+
+    # Find the replies section for the associated skit
+    skit_id = button.get_attribute('id').split('-')[1]
+    parent = button.find_elements_by_xpath('..')[0]
+    response_section = parent.find_element_by_id('{}-response'.format(skit_id))
+
+    # Check if the skit reply has been found - note this operates like assert
+    # in that it will throw an exception if it doesn't work
+    response_section.find_element_by_class_name('new-skit-reply')
+
+    ##
+    #   Clicking on a post reply button should hide the reply input box and the
+    #   reply submission button
+    ##
+    response_section.find_element_by_class_name('new-skit-reply-submit').click()
+    assert response_section.get_attribute('innerHTML') == ''
+
     return None
 
 
