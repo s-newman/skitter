@@ -41,6 +41,5 @@ CREATE TABLE FOLLOW (
 CREATE TABLE SESSION (
     rit_username varchar(8) NOT NULL,
     session_id varchar(100) NOT NULL,
-    PRIMARY KEY (rit_username),
-    FOREIGN KEY (rit_username) REFERENCES USER_INFO(rit_username)
+    PRIMARY KEY (rit_username)
 );
