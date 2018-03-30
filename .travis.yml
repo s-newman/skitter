@@ -12,7 +12,7 @@ before_install:
     - docker-compose build
 
 install:
-    - docker-compose up &
+    - docker-compose up -d
 
 before_script:
     - curl https://bootstrap.pypa.io/get-pip.py > get-pip.py
