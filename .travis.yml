@@ -1,8 +1,5 @@
 sudo: required
 dist: trusty
-addons:
-    chrome: stable
-    firefox: latest
 language: python3
 python:
     - "3.6"
@@ -15,7 +12,6 @@ before_install:
     - sudo python3 get-pip.py
     - sudo pip3 install -r requirements.txt
     - sudo rm -f get-pip.py
-    - sudo /bin/bash testing/get-webdrivers.sh
     - docker-compose up -d
 
 script:
@@ -31,6 +27,3 @@ script:
 
     # Run load balance checks
     - python3 testing/locust_check.py
-
-    # Run browser functionality checks
-    - xvfb-run python3 testing/selenium-test.py
