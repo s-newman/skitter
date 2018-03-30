@@ -13,7 +13,6 @@ CREATE TABLE PROFILE_PICTURE (
 -- Create USER_INFO Table
 
 CREATE TABLE USER_INFO (
-    user_id int NOT NULL,
     username varchar(15) NOT NULL,
     rit_username varchar(7) NOT NULL UNIQUE,
     first_name varchar(15),
@@ -22,7 +21,7 @@ CREATE TABLE USER_INFO (
     session_id varchar(40),
     private_account bool,
     profile_picture_id int NOT NULL,
-    PRIMARY KEY (user_id),
+    PRIMARY KEY (rit_username),
     FOREIGN KEY (profile_picture_id) REFERENCES PROFILE_PICTURE(picture_id)
 );
 
@@ -41,6 +40,7 @@ CREATE TABLE FOLLOW (
 
 CREATE TABLE SESSION (
     rit_username varchar(8) NOT NULL,
-    session_id int NOT NULL
-    PRIMARY KEY (rit_username)
-)
+    session_id int NOT NULL,
+    PRIMARY KEY (rit_username),
+    FOREIGN KEY (rit_username) REFERENCES USER_INFO(rit_username)
+);
