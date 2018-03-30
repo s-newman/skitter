@@ -2,7 +2,7 @@ from app import app
 from app.config import *
 from flask import request, Response, abort
 import requests
-import json.loads
+from json import loads as json_to_dict
 
 CHUNK_SIZE = 1024
 """The size, in bytes, of data to stream at a time."""
@@ -83,7 +83,7 @@ def get_response(host, method, http_method, data=None):
         return requests.get(url)
     
     elif http_method == 'POST':
-        return requests.post(url, json=json.loads(data))
+        return requests.post(url, json=json_to_dict(data))
 
 
 # Optional methods are not included in this list.
