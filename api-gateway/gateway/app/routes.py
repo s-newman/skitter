@@ -34,7 +34,7 @@ def frontend(page=None, filename=None, user=None):
 
 @app.route('/isAuthenticated')
 @app.route('/signIn', methods=['POST'])
-@app.route('/newUser')
+@app.route('/newUser', methods=['POST'])
 @app.route('/deleteUser')
 def authentication():
     if request.method == 'GET':
