@@ -10,8 +10,9 @@ EXPOSE 80
 # Install dependencies
 RUN apt-get update && apt-get install -y \
     build-essential \
-    python-dev \
-    python3-pip
+    python3-dev \
+    python3-pip \
+    libmysqlclient-dev
 
 # Install requirements and update pip
 COPY requirements.txt /var/www/requirements.txt
