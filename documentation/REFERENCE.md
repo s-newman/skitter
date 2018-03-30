@@ -12,7 +12,7 @@ API nodes that relate to the authentication, creation, and removal of users.
 __Not implemented__
 Checks if a specific user is currently authenticated, given their username and password.
 
-### PUT     /signIn
+### POST    /signIn
 __Not implemented__
 Attempts to authenticate a specific user.
 
@@ -24,7 +24,7 @@ Attempts to log out a specific user.
 __Not implemented__
 Registers a new user.
 
-### DELETE  /removeAccount
+### GET     /deleteUser
 __Not implemented__
 Deletes an already existing user.
 
