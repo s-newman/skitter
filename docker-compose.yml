@@ -27,6 +27,15 @@ services:
             - "3306"
         restart: always
 
+    auth:
+        build: authenticate-server
+        image: auth
+        expose:
+            - "8080"
+        restart: always
+        depends_on:
+            - frontend
+
     api-gate:
         build: api-gateway/gateway
         image: api-gate
