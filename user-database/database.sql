@@ -14,7 +14,7 @@ CREATE TABLE PROFILE_PICTURE (
 
 CREATE TABLE USER_INFO (
     username varchar(15) NOT NULL,
-    rit_username varchar(8) NOT NULL UNIQUE,
+    rit_username varchar(7) NOT NULL UNIQUE,
     first_name varchar(15),
     last_name varchar(25),
     email varchar(254) NOT NULL,
@@ -29,8 +29,8 @@ CREATE TABLE USER_INFO (
 
 CREATE TABLE FOLLOW (
     follow_id int NOT NULL,
-    follower_user_id varchar(8) NOT NULL,
-    following_user_id varchar(8) NOT NULL,
+    follower_user_id varchar(7) NOT NULL,
+    following_user_id varchar(7) NOT NULL,
     PRIMARY KEY (follow_id),
     FOREIGN KEY (follower_user_id) REFERENCES USER_INFO(rit_username),
     FOREIGN KEY (following_user_id) REFERENCES USER_INFO(rit_username)
@@ -39,7 +39,7 @@ CREATE TABLE FOLLOW (
 -- Create SESSION Table
 
 CREATE TABLE SESSION (
-    rit_username varchar(8) NOT NULL,
-    session_id varchar(100) NOT NULL,
+    rit_username varchar(7) NOT NULL,
+    session_id varchar(80) NOT NULL,
     PRIMARY KEY (rit_username)
 );
