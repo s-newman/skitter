@@ -36,3 +36,11 @@ CREATE TABLE FOLLOW (
     FOREIGN KEY (follower_user_id) REFERENCES USER_INFO(user_id),
     FOREIGN KEY (following_user_id) REFERENCES USER_INFO(user_id)
 );
+
+-- Create SESSION Table
+
+CREATE TABLE SESSION (
+    rit_username varchar(8) NOT NULL,
+    session_id int NOT NULL
+    PRIMARY KEY (rit_username)
+)
