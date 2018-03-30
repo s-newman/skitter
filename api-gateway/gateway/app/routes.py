@@ -83,7 +83,7 @@ def get_response(host, method, http_method, data=None):
         return requests.get(url)
     
     elif http_method == 'POST':
-        return requests.post(url, json=json_to_dict(data))
+        return requests.post(url, json=json_to_dict(data.decode('utf-8')))
 
 
 # Optional methods are not included in this list.
