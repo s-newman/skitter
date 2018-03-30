@@ -47,6 +47,7 @@ def authentication():
 
 def make_response(r):
     headers = dict(r.headers)
+
     def generate():
         for chunk in r.iter_content(CHUNK_SIZE):
             yield chunk
@@ -81,7 +82,7 @@ def get_response(host, method, http_method, data=None):
     # return requests.get(url, stream=True, params=request.args)
     if http_method == 'GET':
         return requests.get(url)
-    
+
     elif http_method == 'POST':
         return requests.post(url, json=json_to_dict(data.decode('utf-8')))
 
