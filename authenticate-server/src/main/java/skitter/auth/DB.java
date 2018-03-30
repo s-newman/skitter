@@ -2,7 +2,6 @@ package skitter.auth;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 
 public class DB {
     // TODO: Database credentials.
@@ -14,7 +13,7 @@ public class DB {
     private String DBHost;
     private Connection conn;
 
-    public DB(String DBHost, String DBName) throws Exception {
+    public DB(String DBHost, String DBName) {
         this.DBName = DBName;
         this.DBHost = DBHost;
         this.URL = this.URL + this.DBHost + "/" + this.DBName + "?autoReconnect=true&useSSL=false";
@@ -25,7 +24,7 @@ public class DB {
         Connection conn = null;
 
         // Continue to attempt to connect until a connection is established
-        while (conn == null) {
+        while(conn == null) {
             try {
                 Class.forName(jdbcDriver);
                 conn = DriverManager.getConnection(URL, username, password);
