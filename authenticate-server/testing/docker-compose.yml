@@ -1,0 +1,14 @@
+version: '2'
+services:
+    user-db:
+        build: user-database
+        image: user-db
+        expose:
+            - "3306"
+        restart: always
+    auth:
+        build: auth
+        image: auth
+        expose:
+            - "8080"
+        restart: always
