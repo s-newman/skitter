@@ -8,11 +8,17 @@ services:
     - docker
 
 before_install:
+    - authenticate-server/gradlew bootJar
+    - docker-compose build
+
+install:
+    - docker-compose up
+
+before_script:
     - curl https://bootstrap.pypa.io/get-pip.py > get-pip.py
     - sudo python3 get-pip.py
     - sudo pip3 install -r requirements.txt
     - sudo rm -f get-pip.py
-    - docker-compose up -d
 
 script:
     # Check code style
