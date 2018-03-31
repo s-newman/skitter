@@ -19,6 +19,7 @@ $(document).ready(function () {
             if(data.successful === 'true') {
                 console.log('Authentication successful.');
                 setCookie('SID', data.sessionID, 1);
+                authedUser();
             }
 
             // Authentication failed
@@ -32,17 +33,6 @@ $(document).ready(function () {
             // The thing failed.
             console.log('There was an error with your request.');
         });
-        /*
-        let loginPost = $.post('/signIn', postData, function() {
-            console.log('Login attempt successful, redirecting...');
-            console.log(data);
-        });
-
-        // Log to console if request failed
-        loginPost.fail(function() {
-            // Display error to user
-        });
-        */
 
         event.preventDefault();
     });
