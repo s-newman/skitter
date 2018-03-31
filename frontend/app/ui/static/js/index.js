@@ -1,14 +1,14 @@
 $(document).ready(function () {
     // Attempt to log in the user when they submit the login form
-    $('#loginForm').submit(function() {
-        if(authenticate()) {
+    $('#loginForm').submit(function(event) {
+        if(authenticate(event)) {
             window.location.href = '/dashboard';
         }
         event.preventDefault();
     });
     
     $('#sign-up').click(function(event) {
-        if(authenticate()) {
+        if(authenticate(event)) {
             console.log('signing up...');
             window.location.href = '/new-account';
         }
@@ -16,7 +16,7 @@ $(document).ready(function () {
     });
 });
 
-function authenticate() {
+function authenticate(event) {
     // Check if the user is already authenticated
     let authCheck = JSON.stringify({
         username: $('#username').val()
@@ -39,7 +39,7 @@ function authenticate() {
         username: $('#username').val(),
         password: $('#password').val()
     });
-    console.log('Attempting to authenticate user:', postData);
+    console.log('Attempting to authenticate user:');
     
     // Attempt to authenticate
     postJSON('/signIn', postData, function(data) {
