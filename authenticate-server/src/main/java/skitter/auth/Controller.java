@@ -206,7 +206,6 @@ public class Controller {
 
     @RequestMapping(value = "/newUser", method = POST, produces = "application/json")
     public String newUser(@RequestBody SignUp signup) {
-        System.out.println("Reached the newuser stuff");
         String rit_username = signup.getRit_username();
         String username = signup.getUsername();
         String firstname = signup.getFirstname();
@@ -291,9 +290,7 @@ public class Controller {
             stmt.setString(5, email);
             stmt.setBoolean(6, false);
             stmt.setInt(7, profile_picture_id);
-            System.out.println("Statement prepared.");
             stmt.executeUpdate();
-            System.out.println("Statement executed.");
         } catch (Exception e) {
             System.err.println(e.getMessage());
             response.replace("message", "Error executing SQL statement");
