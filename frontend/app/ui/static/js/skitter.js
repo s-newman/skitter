@@ -27,13 +27,9 @@ function getCookie(cname) {
  * Adds a cookie to the browser.  Courtesy of w3schools: https://www.w3schools.com/js/js_cookies.asp
  * @param {string} cname The name of the cookie to create
  * @param {string} cvalue The value of the cookie to create
- * @param {number} exdays The number of days the cookie should last
  */
-function setCookie(cname, cvalue, exdays) {
-    var d = new Date();
-    d.setTime(d.getTime() + (exdays*24*60*60*1000));
-    var expires = "expires="+ d.toUTCString();
-    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+function setCookie(cname, cvalue) {
+    document.cookie = cname + "=" + cvalue + ";path=/";
 }
 
 /**
