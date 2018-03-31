@@ -19,10 +19,6 @@ COPY requirements.txt /var/www/requirements.txt
 RUN pip3 install -r requirements.txt
 RUN pip3 install --upgrade pip
 
-# Install mysql connector
-RUN wget https://dev.mysql.com/get/Downloads/Connector-Python/mysql-connector-python_2.1.7-1ubuntu14.04_all.deb
-RUN sudo dpkg -i mysql-connector-python_2.1.7-1ubuntu14.04_all.deb
-
 # Configure uWSGI
 COPY ui.ini /var/www/ui.ini
 
