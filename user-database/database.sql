@@ -43,3 +43,6 @@ CREATE TABLE SESSION (
     session_id varchar(80) NOT NULL,
     PRIMARY KEY (rit_username)
 );
+
+-- TODO REmove
+SET GLOBAL general_log=1;
