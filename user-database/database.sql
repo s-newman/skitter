@@ -6,7 +6,7 @@ GRANT ALL ON users.* to 'api-gateway'@'%';
 
 CREATE TABLE PROFILE_PICTURE (
     picture_id int NOT NULL,
-    picture varbinary(65500) NOT NULL,
+    picture varchar(50) NOT NULL,
     PRIMARY KEY (picture_id)
 );
 
@@ -44,5 +44,8 @@ CREATE TABLE SESSION (
     PRIMARY KEY (rit_username)
 );
 
--- TODO REmove
-SET GLOBAL general_log=1;
+-- Add default profile picture
+INSERT INTO PROFILE_PICTURE (picture_id, picture) VALUES (
+    0,
+    '/static/img/default-profile'
+);
