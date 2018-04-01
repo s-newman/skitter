@@ -7,8 +7,8 @@ import java.sql.SQLException;
 public class DB {
     // TODO: Database credentials.
     static final private String jdbcDriver = "com.mysql.jdbc.Driver";
-    private String username = "root";
-    private String password = "";
+    private String username = "api-gateway";
+    private String password = "changemeplease-securitysucks";
     private String URL = "jdbc:mysql://";
     private String DBName;
     private String DBHost;
@@ -19,18 +19,19 @@ public class DB {
         this.DBHost = DBHost;
         this.URL = this.URL + this.DBHost + "/" + this.DBName + "?autoReconnect=true&useSSL=false";
         this.conn = makeConnection();
-        if (this.conn == null) {
-            throw new SQLException();
-        }
     }
 
     public Connection makeConnection() {
-        Connection conn;
-        try {
-            Class.forName(jdbcDriver);
-            conn = DriverManager.getConnection(URL, username, password);
-        } catch (Exception e) {
-            return null;
+        Connection conn = null;
+
+        // Continue to attempt to connect until a connection is established
+        while (conn == null) {
+            try {
+                Class.forName(jdbcDriver);
+                conn = DriverManager.getConnection(URL, username, password);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
         }
         return conn;
     }
