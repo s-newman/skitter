@@ -35,8 +35,14 @@ public class Controller {
                 DBHost = System.getenv("DBHOST");
             }
             db = new DB(DBHost, "users");
+            if (System.getenv("DBUSER") != null) {
+                db.setUsername(System.getenv("DBUSER"));
+            }
+            if (System.getenv("DBPASS") != null) {
+                db.setPassword(System.getenv("DBPASS"));
+            }
         } catch (Exception e) {
-            System.err.println(e);
+            System.err.println(e.getMessage());
             System.exit(1);
         }
     }
@@ -71,6 +77,7 @@ public class Controller {
         boolean authenticated;
         List<Person> people = null;
 
+        // LDAP Auth
         try {
             LdapTemplate template = config.ldapTemplate();
             authenticated = template.authenticate("uid=" + username + "," + baseDn, filter.encode(), password);
@@ -81,6 +88,7 @@ public class Controller {
             return response.toJSONString();
         }
 
+        // Successful LDAP Auth
         if (authenticated) {
             if (people == null) {
                 response.replace("message", "Cannot get user information");
@@ -90,15 +98,24 @@ public class Controller {
             PreparedStatement stmt = null;
             String sessionID = "";
 
+            // Check if a session is already established.
             try {
-                stmt = db.getConn().prepareStatement("INSERT INTO SESSION (rit_username, session_id) VALUES (?, ?)");
+                stmt = db.getConn().prepareStatement("SELECT * FROM SESSION WHERE rit_username = ?;");
                 stmt.setString(1, username);
-                sessionID = generateSessionID();
-                stmt.setString(2, sessionID);
-                stmt.executeUpdate();
+                ResultSet rs = stmt.executeQuery();
+                rs.last();
+                int nRow = rs.getRow();
+
+                if (nRow == 1) {
+                    sessionID = rs.getString("session_id");
+                    rs.close();
+                } else if (nRow != 0){
+                    response.replace("message", "session information is corrupted");
+                    return response.toJSONString();
+                }
             } catch (Exception e) {
                 System.err.println(e.getMessage());
-                response.replace("message", "Error connecting to database");
+                response.replace("message", "Error retrieving session information");
                 return response.toJSONString();
             } finally {
                 try {
@@ -112,6 +129,31 @@ public class Controller {
                 }
             }
 
+            // Create new session
+            if (sessionID.equals("")) {
+                try {
+                    stmt = db.getConn().prepareStatement("INSERT INTO SESSION (rit_username, session_id) VALUES (?, ?)");
+                    stmt.setString(1, username);
+                    sessionID = generateSessionID();
+                    stmt.setString(2, sessionID);
+                    stmt.executeUpdate();
+                } catch (Exception e) {
+                    System.err.println(e.getMessage());
+                    response.replace("message", "Error creating session entry");
+                    return response.toJSONString();
+                } finally {
+                    try {
+                        if (stmt != null) {
+                            stmt.close();
+                        }
+                    } catch (Exception e) {
+                        System.err.println(e.getMessage());
+                        response.replace("message", "Cannot close statement");
+                        return response.toJSONString();
+                    }
+                }
+            }
+
             response.replace("successful", "true");
             response.replace("sessionID", sessionID);
             JSONObject person = new JSONObject();
@@ -120,6 +162,7 @@ public class Controller {
             response.replace("message", person);
             return response.toJSONString();
         }
+
         response.replace("message", "unknown error");
         return response.toJSONString();
     }
@@ -142,6 +185,7 @@ public class Controller {
             } else if (nRow != 0) {
                 response.replace("message", "Unknown database error");
             }
+            rs.close();
             return response.toJSONString();
         } catch (Exception e) {
             System.err.println(e.getMessage());
@@ -208,7 +252,7 @@ public class Controller {
 
     /**
      * Delete a user from a database. At this point it's only for testing purpose.
-     * @param username: The RIT username of the account to be deleted
+     * @param rit_username: The RIT username of the account to be deleted
      * @return {
      *     successful: true if the user is successfully removed, false otherwise.
      *     messsage: any error message.
