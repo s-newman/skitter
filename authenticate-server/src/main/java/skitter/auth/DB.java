@@ -19,9 +19,6 @@ public class DB {
         this.DBHost = DBHost;
         this.URL = this.URL + this.DBHost + "/" + this.DBName + "?autoReconnect=true&useSSL=false";
         this.conn = makeConnection();
-        if (this.conn == null) {
-            throw new SQLException();
-        }
     }
 
     public Connection makeConnection() {

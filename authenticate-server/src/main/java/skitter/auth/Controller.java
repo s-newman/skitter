@@ -220,6 +220,67 @@ public class Controller {
 
         PreparedStatement stmt = null;
 
+        // Check existing account
+        try {
+            stmt = db.getConn().prepareStatement("SELECT * FROM USER_INFO WHERE rit_username = ?;");
+            stmt.setString(1, rit_username);
+            ResultSet rs = stmt.executeQuery();
+            rs.last();
+            int nRow = rs.getRow();
+            if (nRow == 1) {
+                response.replace("message", "User already has an account");
+                return response.toJSONString();
+            } else if (nRow != 0) {
+                response.replace("message", "User information corrupted. Please check the database");
+                return response.toJSONString();
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            response.replace("message", "Error retrieving user information: rit_username");
+            return response.toJSONString();
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+                response.replace("message", "Cannot close statement");
+                return response.toJSONString();
+            }
+        }
+
+        // Check duplicated username
+        try {
+            stmt = db.getConn().prepareStatement("SELECT * FROM USER_INFO WHERE username = ?;");
+            stmt.setString(1, username);
+            ResultSet rs = stmt.executeQuery();
+            rs.last();
+            int nRow = rs.getRow();
+            if (nRow == 1) {
+                response.replace("message", "Username not available");
+                return response.toJSONString();
+            } else if (nRow != 0) {
+                response.replace("message", "User information corrupted. Please check the database");
+                return response.toJSONString();
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            response.replace("message", "Error retrieving user information: username");
+            return response.toJSONString();
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+                response.replace("message", "Cannot close statement");
+                return response.toJSONString();
+            }
+        }
+
+        // Make new user
         try {
             stmt = db.getConn().prepareStatement("INSERT INTO USER_INFO (username, rit_username, first_name, last_name, email, private_account, profile_picture_id) VALUES (?, ?, ?, ?, ?, ?, ?)");
             stmt.setString(1, username);
