@@ -4,11 +4,6 @@ $(document).ready(function () {
         event.preventDefault();
         authenticate(event, '/dashboard');
     });
-    
-    $('#sign-up').click(function(event) {
-        event.preventDefault();
-        authenticate(event, '/new-account');
-    });
 });
 
 function authenticate(event, location) {
