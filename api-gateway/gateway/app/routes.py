@@ -22,8 +22,7 @@ def logout():
     cnx.execute('EXECUTE remove_session USING @a;')
 
     # Remove the cookie
-    r = get_response(FRONTEND, request.path, 'GET')
-    resp = make_response(r)
+    resp = get_response(FRONTEND, request.path, 'GET')
     resp.set_cookie('SID', '', expires=0)
 
     # Return the logout page
@@ -43,8 +42,7 @@ def frontend(page=None, filename=None):
                         as a javascript file or a stylesheet.
     :return:            The resultant page, streamed back to the client.
     """
-    r = get_response(FRONTEND, request.path, 'GET')
-    return make_response(r)
+    return get_response(FRONTEND, request.path, 'GET')
 
 
 @app.route('/settings')
@@ -68,8 +66,7 @@ def internal_frontend(user=None):
         abort(401)
     else:
         # The user is logged in, allow them to continue
-        r = get_response(FRONTEND, request.path, 'GET')
-        return make_response(r)
+        return get_response(FRONTEND, request.path, 'GET')
 
 
 @app.route('/isAuthenticated')
@@ -84,10 +81,10 @@ def authentication():
             # Check if we're using test authentication
             json_dict = json_to_dict(request.data.decode('utf-8'))
             if json_dict['username'] in TEST_USERS:
-                return test_auth(json_dict)
+                resp = test_auth(json_dict)
 
         r = get_response(AUTH, request.path, 'POST', request.data)
-    return make_response(r)
+    return r
 
 
 def test_auth(creds):
@@ -140,15 +137,6 @@ def test_auth(creds):
             'message': 'Authentication error',
             'successful': 'false'
         })
-
-
-def make_response(r):
-    headers = dict(r.headers)
-
-    def generate():
-        for chunk in r.iter_content(CHUNK_SIZE):
-            yield chunk
-    return Response(generate(), headers=headers)
 
 
 def get_response(host, method, http_method, data=None):
