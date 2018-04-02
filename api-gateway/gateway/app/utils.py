@@ -4,6 +4,8 @@ from werkzeug.datastructures import Headers
 import requests
 from json import loads as json_to_dict
 from sqlalchemy.engine import create_engine, Connection
+from binascii import hexlify
+from os import urandom
 
 def get_response(host, method, http_method, data=None):
     """Make a given request and return the associated response.

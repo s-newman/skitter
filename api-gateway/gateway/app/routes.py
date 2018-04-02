@@ -4,8 +4,6 @@ from app.utils import *
 from flask import request, abort
 import requests
 from json import loads as json_to_dict
-from os import urandom
-from binascii import hexlify
 
 CHUNK_SIZE = 1024
 """The size, in bytes, of data to stream at a time."""
