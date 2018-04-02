@@ -9,8 +9,22 @@ CHUNK_SIZE = 1024
 """The size, in bytes, of data to stream at a time."""
 
 
+@app.route('/logout')
+def logout():
+    cnx = connect_db()
+
+    # Remove the user's session from the database
+    cnx.execute('PREPARE remove_session FROM \
+                 \'DELETE FROM SESSION WHERE session_id = ?\';')
+    cnx.execute('SET @a = \'{}\';'.format(request.cookies.get('SID')))
+    cnx.execute('EXECUTE remove_session USING @a;')
+    
+    # Return the logout page
+    r = get_response(FRONTEND, request.path, 'GET')
+    return make_response(r)
+
+
 @app.route('/')
-@app.route('/logout')   # TODO: correctly implement
 @app.route('/static/<filename>')
 @app.route('/static/js/<filename>')
 @app.route('/static/img/<filename>')
@@ -32,20 +46,7 @@ def frontend(page=None, filename=None):
 @app.route('/new-account')
 @app.route('/profile/<user>')
 def internal_frontend(user=None):
-    # Create engine
-    engine = create_engine('mysql+mysqlconnector://{}:{}@{}/users'.format(
-        DB_USER, DB_PASS, DB
-    ))
-
-    # Try to connect
-    cnx = None
-    while cnx is None:
-        try:
-            cnx = engine.connect()
-        except Exception as e:
-            print('Could not connect to database.  Message is: "{}". \
-                   Retrying...'.format(e))
-    print('Connected to database.')
+    cnx = connect_db()
 
     # Execute the query
     cnx.execute('PREPARE check_auth FROM \
@@ -141,3 +142,21 @@ def unimplemented():
     :return:    An HTTP 501: Not Implemented error.
     """
     abort(501)
+
+
+def connect_db():
+    # Create engine
+    engine = create_engine('mysql+mysqlconnector://{}:{}@{}/users'.format(
+        DB_USER, DB_PASS, DB
+    ))
+
+    # Try to connect
+    cnx = None
+    while cnx is None:
+        try:
+            cnx = engine.connect()
+        except Exception as e:
+            print('Could not connect to database.  Message is: "{}". \
+                   Retrying...'.format(e))
+    print('Connected to database.')
+    return cnx
