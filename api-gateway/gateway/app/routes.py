@@ -1,6 +1,6 @@
 from app import app
 from app.config import *
-from flask import request, Response, abort
+from flask import request, Response, abort, redirect
 import requests
 from json import loads as json_to_dict
 from sqlalchemy.engine import create_engine
@@ -56,10 +56,9 @@ def internal_frontend(user=None):
     # Convert the results to a list to make my life easier
     rows = [row for row in result]
 
-    # Redirect the user to the index page if not logged in
+    # Display a 401 error if the user is not logged in
     if len(rows) != 1:
-        r = get_response(FRONTEND, '/', 'GET')
-        return make_response(r)
+        abort(401)
     else:
         # The user is logged in, allow them to continue
         r = get_response(FRONTEND, request.path, 'GET')
