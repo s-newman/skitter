@@ -103,7 +103,7 @@ def test_auth(creds):
             },
             'successful': 'true'
         })
-        resp.set_cookie('SID', val=sid)
+        resp.set_cookie('SID', value=sid)
     else:
         # User isn't valid
         resp = jsonify({
