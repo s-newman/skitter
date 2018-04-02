@@ -1,67 +1,72 @@
 $(document).ready(function () {
     // Attempt to log in the user when they submit the login form
     $('#loginForm').submit(function(event) {
-        if(authenticate(event)) {
-            window.location.href = '/dashboard';
-        }
         event.preventDefault();
+        authenticate(event, '/dashboard');
     });
     
     $('#sign-up').click(function(event) {
-        if(authenticate(event)) {
-            console.log('signing up...');
-            window.location.href = '/new-account';
-        }
         event.preventDefault();
+        authenticate(event, '/new-account');
     });
 });
 
-function authenticate(event) {
-    // Check if the user is already authenticated
-    let authCheck = JSON.stringify({
-        username: $('#username').val()
-    });
-    postJSON('/isAuthenticated', authCheck, function(data) {
-        // Already authenticated, return
-        if(data.authenticated === 'true') {
-            return true;
-        }
-        // PLS FIX DUC THX
-    });
-
+function authenticate(event, location) {
     // Clear error
     $('#errorText').empty();
     $('#username').removeClass('error');
     $('#password').removeClass('error');
-    
-    // Create JSON string to send
-    let postData = JSON.stringify({
-        username: $('#username').val(),
-        password: $('#password').val()
+
+    // Check if the user is already authenticated
+    let authCheck = JSON.stringify({
+        username: $('#username').val()
     });
-    console.log('Attempting to authenticate user:');
+    let checkRequest = postJSON('/isAuthenticated', authCheck);
     
-    // Attempt to authenticate
-    postJSON('/signIn', postData, function(data) {
-        // Authentication was successful
-        if(data.successful === 'true') {
-            console.log('Authentication successful.');
-            setCookie('SID', data.sessionID, 1);
-            return true;
+    // Request is successful
+    checkRequest.done(function(data) {
+        console.log('/isAuthenticated request sent successfully.');
+
+        // Already authentiated
+        if(data.authenticated === 'true') {
+            console.log('Already authenticated!');
+            window.location.href = location;
+        } else {
+            // Attempt to authenticate the user
+            console.log('Not already authentiated, please hold')
+            let auth = JSON.stringify({
+                username: $('#username').val(),
+                password: $('#password').val()
+            });
+            let authRequest = postJSON('/signIn', auth);
+
+            // Request is successful
+            authRequest.done(function(data) {
+                console.log('/signIn request was successful.');
+
+                // Was able to sign in
+                if(data.successful === 'true') {
+                    console.log('Signed in!');
+                    setCookie('SID', data.sessionID);
+                    window.location.href = location;
+                } else {
+                    // Could not sign in
+                    $('#errorText').html('Invalid credentials.');
+                    $('#username').addClass('error');
+                    $('#password').addClass('error');
+                    console.log('Login attempt failed.');
+                }
+            });
+
+            // Request is not successful
+            authRequest.fail(function() {
+                console.log('/signIn request was not successful.');
+            });
         }
+    });
     
-        // Authentication failed
-        else {
-            $('#errorText').html('Invalid credentials.');
-            $('#username').addClass('error');
-            $('#password').addClass('error');
-            console.log('Login attempt failed.');
-            return false;
-        }
-    }, function() {
-        // The thing failed.
-        console.log('There was an error with your request.');
-        return false;
+    checkRequest.fail(function() {
+        console.log('/isAuthenticated request was unsuccessful.');
     });
 }
 
