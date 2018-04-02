@@ -13,15 +13,10 @@ function authenticate(event, location) {
     $('#password').removeClass('error');
 
     // Check if the user is already authenticated
-    let authCheck = JSON.stringify({
+    let authCheck = {
         username: $('#username').val()
-    });
-    let checkRequest = $.ajax({
-        type: 'GET',
-        url: '/isAuthenticated',
-        contentType: 'application/json',
-        data: authCheck
-    });
+    };
+    let checkRequest = $.get('/isAuthenticated', authCheck);
     
     // Request is successful
     checkRequest.done(function(data) {
