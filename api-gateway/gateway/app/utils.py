@@ -57,7 +57,8 @@ def test_auth(creds):
     
     Returns:
         string -- A JSON stringified dictionary that can be returned in the
-        message body of a response.
+        message body of a response.  If the user is authenticated, it contains
+        a header that will set the session cookie in the browser.
     """
 
     if creds['username'] in TEST_USERS and creds['password'] == 'fakenews':
@@ -94,7 +95,7 @@ def test_auth(creds):
         cnx.execute('COMMIT')
 
         # Emulate the auth server
-        return jsonify({
+        resp = jsonify({
             'sessionID': sid,
             'message': {
                 'firstname': 'Test',
@@ -102,13 +103,16 @@ def test_auth(creds):
             },
             'successful': 'true'
         })
+        resp.set_cookie('SID', val=sid)
     else:
         # User isn't valid
-        return jsonify({
+        resp = jsonify({
             'sessionID': '',
             'message': 'Authentication error',
             'successful': 'false'
         })
+    
+    return resp
 
 
 def connect_db():
