@@ -43,7 +43,7 @@ def get_response(host, method, http_method, data=None):
     # not confusing, right?
     resp = make_response(r.content)
     headers = dict(r.headers)
-    resp.headers = Headers().extend(headers)
+    resp.headers.extend(headers)
     resp.status_code = r.status_code
     return resp
 
