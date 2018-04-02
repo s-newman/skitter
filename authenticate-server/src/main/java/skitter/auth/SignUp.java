@@ -3,13 +3,11 @@ package skitter.auth;
 public class SignUp {
 
     private String rit_username;
-    private String username;
     private String firstname;
     private String lastname;
 
-    public SignUp(String rit_username, String username, String firstname, String lastname) {
+    public SignUp(String rit_username, String firstname, String lastname) {
         this.rit_username = rit_username;
-        this.username = username;
         this.firstname = firstname;
         this.lastname = lastname;
     }
@@ -20,14 +18,6 @@ public class SignUp {
 
     public void setRit_username(String rit_username) {
         this.rit_username = rit_username;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getFirstname() {

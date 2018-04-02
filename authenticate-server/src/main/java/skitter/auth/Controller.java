@@ -207,7 +207,6 @@ public class Controller {
     @RequestMapping(value = "/newUser", method = POST, produces = "application/json")
     public String newUser(@RequestBody SignUp signup) {
         String rit_username = signup.getRit_username();
-        String username = signup.getUsername();
         String firstname = signup.getFirstname();
         String lastname = signup.getLastname();
 
@@ -250,6 +249,7 @@ public class Controller {
             }
         }
 
+        /* Removed - users no longer have control over their username
         // Check duplicated username
         try {
             stmt = db.getConn().prepareStatement("SELECT * FROM USER_INFO WHERE username = ?;");
@@ -279,17 +279,17 @@ public class Controller {
                 return response.toJSONString();
             }
         }
+        */
 
         // Make new user
         try {
-            stmt = db.getConn().prepareStatement("INSERT INTO USER_INFO (username, rit_username, first_name, last_name, email, private_account, profile_picture_id) VALUES (?, ?, ?, ?, ?, ?, ?)");
-            stmt.setString(1, username);
-            stmt.setString(2, rit_username);
-            stmt.setString(3, firstname);
-            stmt.setString(4, lastname);
-            stmt.setString(5, email);
-            stmt.setBoolean(6, false);
-            stmt.setInt(7, profile_picture_id);
+            stmt = db.getConn().prepareStatement("INSERT INTO USER_INFO (rit_username, first_name, last_name, email, private_account, profile_picture_id) VALUES (?, ?, ?, ?, ?, ?)");
+            stmt.setString(1, rit_username);
+            stmt.setString(2, firstname);
+            stmt.setString(3, lastname);
+            stmt.setString(4, email);
+            stmt.setBoolean(5, false);
+            stmt.setInt(6, profile_picture_id);
             stmt.executeUpdate();
         } catch (Exception e) {
             System.err.println(e.getMessage());
