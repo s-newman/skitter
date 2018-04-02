@@ -1,9 +1,11 @@
 from app import app
 from app.config import *
-from flask import request, Response, abort, redirect
+from flask import request, Response, abort, redirect, jsonify
 import requests
 from json import loads as json_to_dict
 from sqlalchemy.engine import create_engine
+from os import urandom
+from binascii import hexlify
 
 CHUNK_SIZE = 1024
 """The size, in bytes, of data to stream at a time."""
@@ -52,7 +54,7 @@ def frontend(page=None, filename=None):
 def internal_frontend(user=None):
     cnx = connect_db()
 
-    # Execute the query
+    # Check if the user is authenticated
     cnx.execute('PREPARE check_auth FROM \
                  \'SELECT * FROM SESSION WHERE session_id = ?\';')
     cnx.execute('SET @a = \'{}\';'.format(request.cookies.get('SID')))
@@ -78,9 +80,45 @@ def authentication():
     if request.method == 'GET':
         r = get_response(AUTH, request.full_path, 'GET')
     elif request.method == 'POST':
-        r = get_response(AUTH, request.path, 'POST', request.data)
+        if request.path == '/signIn':
+            # Check if we're using test authentication
+            json_dict = json_to_dict(request.data.decode('utf-8'))
+            if json_dict['username'] in TEST_USERS:
+                test_auth(json_dict)
 
+        r = get_response(AUTH, request.path, 'POST', request.data)
     return make_response(r)
+
+
+def test_auth(creds):
+    if creds['username'] in TEST_USERS and creds['password'] == 'fakenews':
+        cnx = connect_db()
+
+        # Generate the session ID
+        sid = hexlify(urandom(30)).decode('ascii')
+
+        # Store the session ID in the session table
+        cnx.execute('PREPARE add_session FROM \
+                     \'INSERT INTO SESSION VALUES (?, ?)\';')
+        cnx.execute('SET @a = \'{}\';'.format(creds['username']))
+        cnx.execute('SET @b = \'{}\';'.format(sid))
+
+        # Emulate the auth server
+        return jsonify({
+            'sessionID': sid,
+            'message': {
+                'firstname': 'Test',
+                'lastname': 'User'
+            },
+            'successful': 'true'
+        })
+    else:
+        # User isn't valid
+        return jsonify({
+            'sessionID': '',
+            'message': 'Authentication error',
+            'successful': 'false'
+        })
 
 
 def make_response(r):
