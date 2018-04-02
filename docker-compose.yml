@@ -1,6 +1,13 @@
 version: '2'
 services:
 
+    user-db:
+        build: user-database
+        image: user-db
+        expose:
+            - "3306"
+        restart: always
+
     frontend:
         build: frontend/app
         image: frontend
@@ -20,12 +27,14 @@ services:
         depends_on:
             - frontend
 
-    user-db:
-        build: user-database
-        image: user-db
+    auth:
+        build: authenticate-server
+        image: auth
         expose:
-            - "3306"
+            - "8080"
         restart: always
+        depends_on:
+            - frontend
 
     api-gate:
         build: api-gateway/gateway
