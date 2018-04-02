@@ -73,7 +73,7 @@ def internal_frontend(user=None):
 @app.route('/deleteUser')
 def authentication():
     if request.method == 'GET':
-        r = get_response(AUTH, request.full_path, 'GET')
+        resp = get_response(AUTH, request.full_path, 'GET')
     elif request.method == 'POST':
         if request.path == '/signIn':
             # Check if we're using test authentication
