@@ -96,9 +96,10 @@ def test_auth(creds):
 
         # Check if authenticated
         cnx.execute('PREPARE check_session_dupe FROM ' +
-        '\'SELECT * FROM SESSION WHERE rit_username = ?\';')
+                    '\'SELECT * FROM SESSION WHERE rit_username = ?\';')
         cnx.execute('SET @a = \'{}\';'.format(creds['username']))
-        rows = [row for row in cnx.execute('EXECUTE check_session_dupe USING @a;')]
+        rows = [row for row in cnx.execute('EXECUTE check_session_dupe ' +
+                                           'USING @a;')]
 
         # If authenticated, return the current SID
         if len(rows) == 1:
@@ -219,6 +220,6 @@ def connect_db():
             cnx = engine.connect()
         except Exception as e:
             print('Could not connect to database.  Message is: "{}". ' +
-                   'Retrying...'.format(e))
+                  'Retrying...'.format(e))
     print('Connected to database.')
     return cnx
