@@ -19,9 +19,13 @@ def logout():
     cnx.execute('SET @a = \'{}\';'.format(request.cookies.get('SID')))
     cnx.execute('EXECUTE remove_session USING @a;')
     
-    # Return the logout page
+    # Remove the cookie
     r = get_response(FRONTEND, request.path, 'GET')
-    return make_response(r)
+    resp = make_response(r)
+    resp.set_cookie('SID', '', expires=0)
+
+    # Return the logout page
+    return resp
 
 
 @app.route('/')
