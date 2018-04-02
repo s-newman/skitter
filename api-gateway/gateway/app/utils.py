@@ -7,26 +7,26 @@ from sqlalchemy.engine import create_engine, Connection
 
 def get_response(host, method, http_method, data=None):
     """Make a given request and return the associated response.
-
-    :param host: A string; the hostname of the microservice endpoint to send
-                 the request to, including the destination port.  Should be
-                 formatted like:
-                    frontend:8000
-                 If parameters are included in the request (for example, in the
-                 case of a GET request), they should be included in the string.
-    :param method: A string; the API method to send to the microservice
-                   endpoint.  This string SHOULD NOT include the leading
-                   forward slash.  For example, a request to /login should be
-                   passed as:
-                        login
-    :param http_method: A string; the HTTP method to use to send the request to
-                        the microservice endpoint.
-    :param data: A string; the body of the request.  Should only be set if the
-                 request method is POST.
-    :return: The response recieved for the given request.  Uses
-             streaming to send back requests as they are received to the
-             client.
+    
+    Arguments:
+        host {string} -- The hostname of the microservice endpoint to send the
+        request to, including the destination part.  Should be formatted as
+        [hostname]:[port].  If parameters are included in the request (for
+        example, in the case of a GET request), they should be included in the
+        string.
+        method {string} -- The API method the request is being sent to.
+        http_method {string} -- The HTTP method to use to send the request to
+        the microservice endpoint.
+    
+    Keyword Arguments:
+        data {string} -- The message-body of the request.  Should only be set
+        if the request method is POSt. (default: {None})
+    
+    Returns:
+        flask.Response -- A response object that can be returned from a Flask
+        view directly, or edited before returning.
     """
+
     # TODO: add HTTPS support
     url = 'http://{}{}'.format(host, method)
     # Fetch the URL and stream it back
@@ -47,6 +47,17 @@ def get_response(host, method, http_method, data=None):
 
 
 def test_auth(creds):
+    """Performs authentiation for test users, such as "test123".
+    
+    Arguments:
+        creds {dict} -- A dictionary containing the "username" and "password"
+        keys that should be used to authenticate the test user.
+    
+    Returns:
+        string -- A JSON stringified dictionary that can be returned in the
+        message body of a response.
+    """
+
     if creds['username'] in TEST_USERS and creds['password'] == 'fakenews':
         cnx = connect_db()
 
@@ -99,6 +110,13 @@ def test_auth(creds):
 
 
 def connect_db():
+    """Creates a new connection to the user database.
+    
+    Returns:
+        sqlalchemy.engine.Connection -- A new connection object that is
+        attached to the users table in the user database.
+    """
+
     # Create engine
     engine = create_engine('mysql+mysqlconnector://{}:{}@{}/users'.format(
         DB_USER, DB_PASS, DB
