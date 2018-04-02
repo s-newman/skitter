@@ -1,6 +1,7 @@
 from app import app
 from app.config import *
-from flask import request, Response, abort, redirect, jsonify
+from flask import request, Response, abort, redirect, jsonify, make_response
+from werkzeug.datastructures import Headers
 import requests
 from json import loads as json_to_dict
 from sqlalchemy.engine import create_engine
@@ -166,10 +167,18 @@ def get_response(host, method, http_method, data=None):
     # Fetch the URL and stream it back
     # return requests.get(url, stream=True, params=request.args)
     if http_method == 'GET':
-        return requests.get(url)
+        r = requests.get(url)
 
     elif http_method == 'POST':
-        return requests.post(url, json=json_to_dict(data.decode('utf-8')))
+        r = requests.post(url, json=json_to_dict(data.decode('utf-8')))
+    
+    # Create a flask response object from the requests.Reponse object.  That's
+    # not confusing, right?
+    resp = make_response(r.content)
+    headers = dict(r.headers)
+    resp.headers = Headers().extend(headers)
+    resp.status_code = r.status_code
+    return resp
 
 
 # Optional methods are not included in this list.
