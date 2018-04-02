@@ -1,35 +1,73 @@
 from app import app
 from app.config import *
-from flask import request, Response, abort
+from flask import request, Response, abort, redirect
 import requests
 from json import loads as json_to_dict
+from sqlalchemy.engine import create_engine
 
 CHUNK_SIZE = 1024
 """The size, in bytes, of data to stream at a time."""
 
 
+@app.route('/logout')
+def logout():
+    cnx = connect_db()
+
+    # Remove the user's session from the database
+    cnx.execute('PREPARE remove_session FROM \
+                 \'DELETE FROM SESSION WHERE session_id = ?\';')
+    cnx.execute('SET @a = \'{}\';'.format(request.cookies.get('SID')))
+    cnx.execute('EXECUTE remove_session USING @a;')
+
+    # Remove the cookie
+    r = get_response(FRONTEND, request.path, 'GET')
+    resp = make_response(r)
+    resp.set_cookie('SID', '', expires=0)
+
+    # Return the logout page
+    return resp
+
+
 @app.route('/')
-@app.route('/dashboard')
-@app.route('/new-account')
-@app.route('/settings')
-@app.route('/profile/<user>')
-@app.route('/logout')   # TODO: correctly implement
 @app.route('/static/<filename>')
 @app.route('/static/js/<filename>')
 @app.route('/static/img/<filename>')
-def frontend(page=None, filename=None, user=None):
+def frontend(page=None, filename=None):
     """Fetches a webpage from the frontend.
 
     :param page:        A string; the API endpoint for one of the frontend
                         pages (that does not include the index/home page).
     :param filename:    A string; the name of a static file on the server, such
                         as a javascript file or a stylesheet.
-    :param user:        A string; the username/user ID (still haven't figured
-                        it out) whose profile page is being loaded.
     :return:            The resultant page, streamed back to the client.
     """
     r = get_response(FRONTEND, request.path, 'GET')
     return make_response(r)
+
+
+@app.route('/settings')
+@app.route('/dashboard')
+@app.route('/new-account')
+@app.route('/profile/<user>')
+def internal_frontend(user=None):
+    cnx = connect_db()
+
+    # Execute the query
+    cnx.execute('PREPARE check_auth FROM \
+                 \'SELECT * FROM SESSION WHERE session_id = ?\';')
+    cnx.execute('SET @a = \'{}\';'.format(request.cookies.get('SID')))
+    result = cnx.execute('EXECUTE check_auth USING @a;')
+
+    # Convert the results to a list to make my life easier
+    rows = [row for row in result]
+
+    # Display a 401 error if the user is not logged in
+    if len(rows) != 1:
+        abort(401)
+    else:
+        # The user is logged in, allow them to continue
+        r = get_response(FRONTEND, request.path, 'GET')
+        return make_response(r)
 
 
 @app.route('/isAuthenticated')
@@ -108,3 +146,21 @@ def unimplemented():
     :return:    An HTTP 501: Not Implemented error.
     """
     abort(501)
+
+
+def connect_db():
+    # Create engine
+    engine = create_engine('mysql+mysqlconnector://{}:{}@{}/users'.format(
+        DB_USER, DB_PASS, DB
+    ))
+
+    # Try to connect
+    cnx = None
+    while cnx is None:
+        try:
+            cnx = engine.connect()
+        except Exception as e:
+            print('Could not connect to database.  Message is: "{}". \
+                   Retrying...'.format(e))
+    print('Connected to database.')
+    return cnx

@@ -32,4 +32,4 @@ script:
     - docker ps | grep user-db -q
 
     # Run load balance checks
-    - python3 testing/locust_check.py
+    #- python3 testing/locust_check.py
