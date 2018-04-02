@@ -31,17 +31,3 @@ function getCookie(cname) {
 function setCookie(cname, cvalue) {
     document.cookie = cname + "=" + cvalue + ";path=/";
 }
-
-/**
- * Makes an AJAX request using the POST method, with an application/json MIME
- * type.
- * @param {string} url The URL to sent the request to
- * @param {string} postData A stringified JSON object to send
- */
-function postJSON(url, postData) {
-    return jQuery.ajax(url, {
-        contentType: 'application/json',
-        data: postData,
-        method: 'POST',
-    });
-}

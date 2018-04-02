@@ -21,7 +21,12 @@ function authenticate(event, location) {
     let authCheck = JSON.stringify({
         username: $('#username').val()
     });
-    let checkRequest = postJSON('/isAuthenticated', authCheck);
+    let checkRequest = $.ajax({
+        type: 'GET',
+        url: '/isAuthenticated',
+        contentType: 'application/json',
+        data: authCheck
+    });
     
     // Request is successful
     checkRequest.done(function(data) {
@@ -38,7 +43,12 @@ function authenticate(event, location) {
                 username: $('#username').val(),
                 password: $('#password').val()
             });
-            let authRequest = postJSON('/signIn', auth);
+            let authRequest = $.ajax({
+                type: 'POST',
+                url: '/signIn',
+                contentType: 'application/json',
+                data: auth
+            });
 
             // Request is successful
             authRequest.done(function(data) {
