@@ -98,9 +98,18 @@ def test_auth(creds):
         cnx.execute('PREPARE check_session_dupe FROM ' +
         '\'SELECT * FROM SESSION WHERE rit_username = ?\';')
         cnx.execute('SET @a = \'{}\';'.format(creds['username']))
-        for row in cnx.execute('EXECUTE check_session_dupe USING @a;'):
-            print(row)
-        #if len(rows) == 1:
+        rows = [row for row in cnx.execute('EXECUTE check_session_dupe USING @a;')]
+
+        # If authenticated, return the current SID
+        if len(rows) == 1:
+            return jsonify({
+                'sessionID': rows[0][1],
+                'message': {
+                    'firstname': 'Test',
+                    'lastname': 'User'
+                },
+                'successful': 'true'
+            })
 
         # Generate the session ID
         sid = hexlify(urandom(30)).decode('ascii')
