@@ -37,15 +37,11 @@ function setCookie(cname, cvalue) {
  * type.
  * @param {string} url The URL to sent the request to
  * @param {string} postData A stringified JSON object to send
- * @param {*} callback The function to run when the request succeeds
- * @param {*} errorCallback The function to run when the request fails
  */
-function postJSON(url, postData, callback, errorCallback) {
-    jQuery.ajax(url, {
+function postJSON(url, postData) {
+    return jQuery.ajax(url, {
         contentType: 'application/json',
         data: postData,
-        error: errorCallback,
         method: 'POST',
-        success: callback
     });
 }
