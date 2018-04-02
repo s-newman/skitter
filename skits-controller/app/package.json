@@ -1,0 +1,17 @@
+{
+  "name": "skits-controller",
+  "version": "1.0.0",
+  "description": "Skits Controller",
+  "main": "index.js",
+  "dependencies": {
+    "elasticsearch": "^14.2.2",
+    "express": "^4.16.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node index.js",
+    "test": "node test.js"
+  },
+  "author": "dp",
+  "license": "ISC"
+}
