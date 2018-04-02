@@ -52,7 +52,6 @@ function authenticate(event, location) {
                 // Was able to sign in
                 if(data.successful === 'true') {
                     console.log('Signed in!');
-                    setCookie('SID', data.sessionID);
                     window.location.href = location;
                 } else {
                     // Could not sign in
