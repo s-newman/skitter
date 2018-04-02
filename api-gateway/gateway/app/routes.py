@@ -84,7 +84,7 @@ def authentication():
             # Check if we're using test authentication
             json_dict = json_to_dict(request.data.decode('utf-8'))
             if json_dict['username'] in TEST_USERS:
-                test_auth(json_dict)
+                return test_auth(json_dict)
 
         r = get_response(AUTH, request.path, 'POST', request.data)
     return make_response(r)
@@ -94,14 +94,25 @@ def test_auth(creds):
     if creds['username'] in TEST_USERS and creds['password'] == 'fakenews':
         cnx = connect_db()
 
+        # Check if authenticated
+        cnx.execute('PREPARE check_session_dupe FROM ' +
+        '\'SELECT * FROM SESSION WHERE rit_username = ?\';')
+        cnx.execute('SET @a = \'{}\';'.format(creds['username']))
+        for row in cnx.execute('EXECUTE check_session_dupe USING @a;'):
+            print(row)
+        #if len(rows) == 1:
+
         # Generate the session ID
         sid = hexlify(urandom(30)).decode('ascii')
 
         # Store the session ID in the session table
-        cnx.execute('PREPARE add_session FROM \
-                     \'INSERT INTO SESSION VALUES (?, ?)\';')
+        cnx.execute('PREPARE add_session FROM ' +
+                    '\'INSERT INTO SESSION (rit_username, session_id) ' +
+                    'VALUES (?, ?)\';')
         cnx.execute('SET @a = \'{}\';'.format(creds['username']))
         cnx.execute('SET @b = \'{}\';'.format(sid))
+        cnx.execute('EXECUTE add_session USING @a, @b;')
+        cnx.execute('COMMIT')
 
         # Emulate the auth server
         return jsonify({
