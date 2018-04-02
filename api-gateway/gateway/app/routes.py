@@ -21,7 +21,7 @@ def logout():
 
     # Remove the cookie
     resp = get_response(FRONTEND, request.path, 'GET')
-    resp.set_cookie('SID', '', expires=0)
+    resp.set_cookie('SID', value='', expires=0)
 
     # Return the logout page
     return resp
@@ -79,9 +79,16 @@ def authentication():
             # Check if we're using test authentication
             json_dict = json_to_dict(request.data.decode('utf-8'))
             if json_dict['username'] in TEST_USERS:
+                # Test authentication is in use
                 resp = test_auth(json_dict)
+            else:
+                # Test authentication is not in use
+                resp = get_response(AUTH, request.path, 'POST', request.data)
+        else:
+            # Posting something other than /signIn, so don't need to check for
+            # test authentication
+            resp = get_response(AUTH, request.path, 'POST', request.data)
 
-        r = get_response(AUTH, request.path, 'POST', request.data)
     return r
 
 
