@@ -18,7 +18,7 @@ def logout():
                  \'DELETE FROM SESSION WHERE session_id = ?\';')
     cnx.execute('SET @a = \'{}\';'.format(request.cookies.get('SID')))
     cnx.execute('EXECUTE remove_session USING @a;')
-    
+
     # Remove the cookie
     r = get_response(FRONTEND, request.path, 'GET')
     resp = make_response(r)
@@ -57,7 +57,7 @@ def internal_frontend(user=None):
                  \'SELECT * FROM SESSION WHERE session_id = ?\';')
     cnx.execute('SET @a = \'{}\';'.format(request.cookies.get('SID')))
     result = cnx.execute('EXECUTE check_auth USING @a;')
-    
+
     # Convert the results to a list to make my life easier
     rows = [row for row in result]
 
