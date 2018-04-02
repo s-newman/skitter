@@ -16,8 +16,8 @@ def logout():
     cnx = connect_db()
 
     # Remove the user's session from the database
-    cnx.execute('PREPARE remove_session FROM \
-                 \'DELETE FROM SESSION WHERE session_id = ?\';')
+    cnx.execute('PREPARE remove_session FROM ' +
+                '\'DELETE FROM SESSION WHERE session_id = ?\';')
     cnx.execute('SET @a = \'{}\';'.format(request.cookies.get('SID')))
     cnx.execute('EXECUTE remove_session USING @a;')
 
@@ -55,8 +55,8 @@ def internal_frontend(user=None):
     cnx = connect_db()
 
     # Check if the user is authenticated
-    cnx.execute('PREPARE check_auth FROM \
-                 \'SELECT * FROM SESSION WHERE session_id = ?\';')
+    cnx.execute('PREPARE check_auth FROM ' +
+                '\'SELECT * FROM SESSION WHERE session_id = ?\';')
     cnx.execute('SET @a = \'{}\';'.format(request.cookies.get('SID')))
     result = cnx.execute('EXECUTE check_auth USING @a;')
 
@@ -198,7 +198,7 @@ def connect_db():
         try:
             cnx = engine.connect()
         except Exception as e:
-            print('Could not connect to database.  Message is: "{}". \
-                   Retrying...'.format(e))
+            print('Could not connect to database.  Message is: "{}". ' +
+                   'Retrying...'.format(e))
     print('Connected to database.')
     return cnx
