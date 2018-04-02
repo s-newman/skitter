@@ -84,12 +84,16 @@ def authentication():
             else:
                 # Test authentication is not in use
                 resp = get_response(AUTH, request.path, 'POST', request.data)
+
+                # Add Session ID cookie to browser
+                sid = json_to_dict(resp.get_data().decode())['sessionID']
+                resp.set_cookie('SID', value=sid)
         else:
             # Posting something other than /signIn, so don't need to check for
             # test authentication
             resp = get_response(AUTH, request.path, 'POST', request.data)
 
-    return r
+    return resp
 
 
 # Optional methods are not included in this list.
