@@ -4,6 +4,7 @@ from werkzeug.datastructures import Headers
 import requests
 from json import loads as json_to_dict
 from sqlalchemy.engine import create_engine, Connection
+from sqlalchemy.pool import NullPool
 from binascii import hexlify
 from os import urandom
 
@@ -129,7 +130,7 @@ def connect_db():
     # Create engine
     engine = create_engine('mysql+mysqlconnector://{}:{}@{}/users'.format(
         DB_USER, DB_PASS, DB
-    ))
+    ), poolclass=NullPool)
 
     # Try to connect
     cnx = None
