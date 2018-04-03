@@ -8,4 +8,4 @@ DB_USER = 'api-gateway'
 
 DB_PASS = 'changemeplease-securitysucks'
 
-TEST_USERS = ['test{}'.format(idx) for idx in range(500)]
+TEST_USERS = ['test{}'.format(idx) for idx in range(999)]

@@ -80,7 +80,7 @@ def test_auth(creds):
                     'firstname': 'Test',
                     'lastname': 'User'
                 },
-                'successful': 'true'
+                'successful': 'already authenticated'
             })
 
         # Generate the session ID
