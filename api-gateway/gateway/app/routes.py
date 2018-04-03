@@ -19,6 +19,9 @@ def logout():
     cnx.execute('SET @a = \'{}\';'.format(request.cookies.get('SID')))
     cnx.execute('EXECUTE remove_session USING @a;')
 
+    # Close database connection
+    cnx.close()
+
     # Remove the cookie
     resp = get_response(FRONTEND, request.path, 'GET')
     resp.set_cookie('SID', value='', expires=0)
@@ -58,6 +61,9 @@ def internal_frontend(user=None):
 
     # Convert the results to a list to make my life easier
     rows = [row for row in result]
+
+    # Close database connection
+    cnx.close()
 
     # Display a 401 error if the user is not logged in
     if len(rows) != 1:

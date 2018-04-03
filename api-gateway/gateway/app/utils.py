@@ -94,6 +94,9 @@ def test_auth(creds):
         cnx.execute('EXECUTE add_session USING @a, @b;')
         cnx.execute('COMMIT')
 
+        # Close the database connection
+        cnx.close()
+
         # Emulate the auth server
         resp = jsonify({
             'sessionID': sid,
@@ -136,5 +139,4 @@ def connect_db():
         except Exception as e:
             print('Could not connect to database.  Message is: "{}". ' +
                   'Retrying...'.format(e))
-    print('Connected to database.')
     return cnx
