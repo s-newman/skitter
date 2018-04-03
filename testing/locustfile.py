@@ -21,6 +21,10 @@ class UnauthenticatedTests(TaskSet):
     def profile(self):
         page_id = randint(1, 1000)
         internal_page(self, '/profile/{}'.format(page_id))
+    
+    @task
+    def exit(self):
+        self.interrupt()
 
 
 class InternalTests(TaskSet):
@@ -33,9 +37,6 @@ class InternalTests(TaskSet):
             'username': username,
             'password': 'fakenews'
         }))
-    
-    def on_stop(self):
-        self.client.get('/logout')
     
     @task
     def dashboard(self):
@@ -53,6 +54,11 @@ class InternalTests(TaskSet):
     def profile(self):
         page_id = randint(1, 1000)
         self.client.get('/profile/{}'.format(page_id))
+
+    @task
+    def logout(self):
+        self.client.get('/logout')
+        self.interrupt()
 
 
 class Tests(TaskSet):
