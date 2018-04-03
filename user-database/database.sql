@@ -48,3 +48,6 @@ INSERT INTO PROFILE_PICTURE (picture_id, picture) VALUES (
     0,
     '/static/img/default-profile'
 );
+
+-- Log queries
+SET GLOBAL general_log=1;
