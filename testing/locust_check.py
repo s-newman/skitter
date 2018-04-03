@@ -13,6 +13,9 @@ with open(CSV_FILE + '_requests.csv') as csvfile:
     reader = DictReader(csvfile)
     for row in reader:
         if row['Name'] == 'Total':
-            exit(int(row['# failures']))
+            if row['# failures'] * 200 > row['# requests']:
+                exit(row['# failures'])
+            else:
+                exit(0)
 
 call(['rm', '*.csv'])
