@@ -1,6 +1,6 @@
 from locust import HttpLocust, TaskSet, task
 from random import randint
-from json import dumps
+from json import dumps, loads
 
 
 # Ensure that unauthenticated users get 401 errors for internal pages
@@ -30,9 +30,14 @@ class UnauthenticatedTests(TaskSet):
 class InternalTests(TaskSet):
 
     def on_start(self):
-        username = 'test{}'.format(randint(1, 500))
-        self.client.get('/')
-        self.client.get('/isAuthenticated?username={}'.format(username))
+        while True:
+            # Loop until we hit a user that is not already authenticated
+            username = 'test{}'.format(randint(1, 999))
+            self.client.get('/')
+            resp = self.client.get('/isAuthenticated?username=' + username)
+            if loads(resp.text)['authenticated'] == 'false':
+                break
+        # We have a unique user, go ahead and log in
         self.client.post('/signIn', json={
             'username': username,
             'password': 'fakenews'
@@ -63,15 +68,9 @@ class InternalTests(TaskSet):
 
 class Tests(TaskSet):
     tasks = {
-        InternalTests: 7,
-        UnauthenticatedTests: 2
+        InternalTests: 2,
+        UnauthenticatedTests: 1
     }
-
-    @task(1)
-    def index(self):
-        self.client.get('/')
-    
-
 
 class WebsiteUser(HttpLocust):
     task_set = Tests
