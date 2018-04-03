@@ -33,10 +33,10 @@ class InternalTests(TaskSet):
         username = 'test{}'.format(randint(1, 500))
         self.client.get('/')
         self.client.get('/isAuthenticated?username={}'.format(username))
-        self.client.post('/signIn', json=dumps({
+        self.client.post('/signIn', json={
             'username': username,
             'password': 'fakenews'
-        }))
+        })
     
     @task
     def dashboard(self):
