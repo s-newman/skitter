@@ -8,9 +8,10 @@ from sqlalchemy.pool import NullPool
 from binascii import hexlify
 from os import urandom
 
+
 def get_response(host, method, http_method, data=None):
     """Make a given request and return the associated response.
-    
+
     Arguments:
         host {string} -- The hostname of the microservice endpoint to send the
         request to, including the destination part.  Should be formatted as
@@ -20,11 +21,11 @@ def get_response(host, method, http_method, data=None):
         method {string} -- The API method the request is being sent to.
         http_method {string} -- The HTTP method to use to send the request to
         the microservice endpoint.
-    
+
     Keyword Arguments:
         data {string} -- The message-body of the request.  Should only be set
         if the request method is POSt. (default: {None})
-    
+
     Returns:
         flask.Response -- A response object that can be returned from a Flask
         view directly, or edited before returning.
@@ -39,7 +40,7 @@ def get_response(host, method, http_method, data=None):
 
     elif http_method == 'POST':
         r = requests.post(url, json=json_to_dict(data.decode('utf-8')))
-    
+
     # Create a flask response object from the requests.Reponse object.  That's
     # not confusing, right?
     resp = make_response(r.content)
@@ -51,11 +52,11 @@ def get_response(host, method, http_method, data=None):
 
 def test_auth(creds):
     """Performs authentiation for test users, such as "test123".
-    
+
     Arguments:
         creds {dict} -- A dictionary containing the "username" and "password"
         keys that should be used to authenticate the test user.
-    
+
     Returns:
         string -- A JSON stringified dictionary that can be returned in the
         message body of a response.  If the user is authenticated, it contains
@@ -115,13 +116,13 @@ def test_auth(creds):
             'message': 'Authentication error',
             'successful': 'false'
         })
-    
+
     return resp
 
 
 def connect_db():
     """Creates a new connection to the user database.
-    
+
     Returns:
         sqlalchemy.engine.Connection -- A new connection object that is
         attached to the users table in the user database.

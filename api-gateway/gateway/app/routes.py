@@ -123,4 +123,3 @@ def unimplemented():
     :return:    An HTTP 501: Not Implemented error.
     """
     abort(501)
-

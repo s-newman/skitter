@@ -12,16 +12,16 @@ class UnauthenticatedTests(TaskSet):
     @task
     def settings(self):
         internal_page(self, '/settings')
-    
+
     @task
     def new_account(self):
         internal_page(self, '/new-account')
-    
+
     @task
     def profile(self):
         page_id = randint(1, 1000)
         internal_page(self, '/profile/{}'.format(page_id))
-    
+
     @task
     def exit(self):
         self.interrupt()
@@ -42,19 +42,19 @@ class InternalTests(TaskSet):
             'username': username,
             'password': 'fakenews'
         })
-    
+
     @task
     def dashboard(self):
         self.client.get('/dashboard')
-    
+
     @task
     def settings(self):
         self.client.get('/settings')
-    
+
     @task
     def new_account(self):
         self.client.get('/new-account')
-    
+
     @task
     def profile(self):
         page_id = randint(1, 1000)
@@ -72,6 +72,7 @@ class Tests(TaskSet):
         UnauthenticatedTests: 1
     }
 
+
 class WebsiteUser(HttpLocust):
     task_set = Tests
     min_wait = 1000
@@ -82,7 +83,7 @@ class WebsiteUser(HttpLocust):
 def internal_page(self, page):
     """Ensure that an unauthenticated user recieves a 401 error for internal
     pages
-    
+
     Arguments:
         page {string} -- The URI of the page to check
     """
