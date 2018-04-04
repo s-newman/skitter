@@ -13,7 +13,7 @@ with open(CSV_FILE + '_requests.csv') as csvfile:
     reader = DictReader(csvfile)
     for row in reader:
         if row['Name'] == 'Total':
-            if int(row['# failures']) * 200 > int(row['# requests']):
+            if int(row['# failures']) * 100 > int(row['# requests']):
                 exit(row['# failures'])
             else:
                 exit(0)
