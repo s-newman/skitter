@@ -4,13 +4,15 @@
   "description": "Skits Controller",
   "main": "index.js",
   "dependencies": {
+    "body-parser": "^1.18.2",
+    "elasticdump": "^3.3.7",
     "elasticsearch": "^14.2.2",
     "express": "^4.16.3"
   },
   "devDependencies": {},
   "scripts": {
-    "start": "node index.js",
-    "test": "node test.js"
+    "start": "sleep 20 && bash import.sh && node app/index.js",
+    "test": "node app/test.js"
   },
   "author": "dp",
   "license": "ISC"
