@@ -147,7 +147,7 @@ def connect_db():
 def gen_secure_token():
     """Generates a secure token that is suitable for use as a session ID or in
     CSRF protections.
-    
+
     Returns:
         string -- A 70-character ASCII string of hex characters that represents
         a cryptographically secure random 30-byte value.
@@ -160,10 +160,10 @@ def csrf_check(request):
     """Verifies a state-changing request by verifying the request is same
     origin and that the CSRF token is valid.  The CSRF token in question is
     using the double cookie submit method.
-    
+
     Arguments:
         request {flask.request} -- The request whose intent should be verified.
-    
+
     Returns:
         boolean -- True if the request is valid, false if the request is
         invalid.
@@ -174,10 +174,10 @@ def csrf_check(request):
         request.headers.get('Origin') == ORIGIN or
         request.headers.get('Referer').startswith(REFERER)
     )
-    
+
     # Verify target origin
     target = request.headers.get('Host') == HOST
-    
+
     # Verify token
     json_dict = json_to_dict(request.data.decode('utf-8'))
     token = json_dict['crsfToken'] == request.cookies.get('csrfToken')
