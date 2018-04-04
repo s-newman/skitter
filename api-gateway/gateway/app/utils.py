@@ -85,7 +85,7 @@ def test_auth(creds):
             })
 
         # Generate the session ID
-        sid = hexlify(urandom(30)).decode('ascii')
+        sid = gen_secure_token()
 
         # Store the session ID in the session table
         cnx.execute('PREPARE add_session FROM ' +
@@ -142,3 +142,15 @@ def connect_db():
             print('Could not connect to database.  Message is: "{}". ' +
                   'Retrying...'.format(e))
     return cnx
+
+
+def gen_secure_token():
+    """Generates a secure token that is suitable for use as a session ID or in
+    CSRF protections.
+    
+    Returns:
+        string -- A 70-character ASCII string of hex characters that represents
+        a cryptographically secure random 30-byte value.
+    """
+
+    return hexlify(urandom(30)).decode('ascii')

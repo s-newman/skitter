@@ -98,6 +98,10 @@ def authentication():
             # Posting something other than /signIn, so don't need to check for
             # test authentication
             resp = get_response(AUTH, request.path, 'POST', request.data)
+    
+    # Add a CSRF token if the user is authenticated
+    if json_to_dict(resp.get_data().decode())['successful'] != 'false':
+        resp.set_cookie('csrfToken', gen_secure_token())
 
     return resp
 
