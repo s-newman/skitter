@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<body>
+    <header class="page-header border">
+        <nav class="page-header">
+            <a href="/dashboard" class="nav-link">Skitter</a>
+            <a href="/settings" class="nav-link">Settings</a>
+            <a href="/logout" class="nav-link">Log Out</a>
+        </nav>
+    </header>
+    <section class="main">
+{% block internal_page %}{% endblock %}
+    </section>
+</body>
+{% endblock %}

@@ -1,0 +1,153 @@
+body {
+    margin: auto;
+    padding: 0 0 1em 0;
+    width: 60em;
+    line-height: 1em;
+    color: #6c3c17;
+    font-family: Arial;
+    background-color: #ffba78;
+}
+
+body.login {
+    width: 45em;
+}
+
+h1 {
+    font-size: 2em;
+}
+
+h2 {
+    font-size: 1.5em;
+}
+
+section.login {
+    float: right;
+    padding: 0 2em;
+}
+
+section.main {
+    margin: 4em auto;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+}
+
+section.middle-col {
+    flex: 2;
+    background-color: #eeeeee;
+    padding: 2em;
+    -webkit-box-shadow: 0 0 1em 0.5em;
+       -moz-box-shadow: 0 0 1em 0.5em;
+            box-shadow: 0 0 1em 0.5em;
+}
+
+section.skits {
+    flex: 2;
+    display: flex;
+    flex-flow: column-reverse;
+}
+
+#login-logo {
+    left: 0;
+}
+
+form {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+ul {
+    list-style: none;
+}
+
+li.form-item {
+    padding: 0.25em 0;
+}
+
+img.skit-profile-pic {
+    float: left;
+}
+
+input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding: 0.25em 1em;
+    border: 0.1em solid #6c3c17;
+    background: none;
+    box-shadow: none;
+    color: #6c3c17;
+}
+
+input[type=submit] {
+    border: 0;
+    border-radius: 0em;
+    background-color: #ee7b23;
+    font-weight: bold;
+}
+
+input.error {
+    border-color: #ff0000;
+}
+
+.border {
+    border-radius: 0.2em;
+}
+
+#errorText {
+    color: #ff0000;
+    font-size: 0.8em;
+}
+
+header.page-header {
+    position: fixed;
+    display: flex;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 0.5em;
+    background-color: #a8fcf6;
+}
+
+nav.page-header {
+    margin: 0 auto;
+    justify-content: center;
+}
+
+aside.user-sidebar {
+    flex: 1;
+    display: inline-flex;
+    flex-direction: column;
+    background-color: #a8fcf6;
+    height: fit-content;
+    margin: 0 4em 0 0;
+    padding: 1em;
+    -webkit-box-shadow: 0 0 1em 0.5em;
+       -moz-box-shadow: 0 0 1em 0.5em;
+            box-shadow: 0 0 1em 0.5em;
+}
+
+a.username {
+    color: #6c3c17;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 0.25em 0.1em;
+}
+
+a.main-username {
+    font-weight: bold;
+    font-size: 1.5em;
+    background-color: #eeeeee;
+    background-blend-mode: lighten;
+    padding: 0.3em;
+}
+
+a.username:visited {
+    color: #6c3c17;
+    text-decoration: none;
+}
+
+a.username:hover {
+    color: #34c3b9;
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-decoration-color: #34c3b9;
+}

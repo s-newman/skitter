@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/settings.js') }}" type="text/javascript"></script>
+<script src="{{ url_for('static', filename='js/new-account.js') }}" type="text/javascript"></script>
+{% endblock %}
+
+{% block content %}
+<body class="login">
+    <section class="main border">
+        <section class="middle-col">
+            <h1>Welcome to Skitter!</h1>
+            <p>We just need some info before you get started.</p>
+            <form id="new-acct-form" action="/newUser" method="POST" enctype="multipart/form-data">
+                <ul>
+                    <li class="form-item">
+                        <label>Choose a username:</label>
+                        <input type="text" id="username" class="border">
+                    </li>
+                    <li><label>(Make it a good one!)</label></li>
+                    <li><input type="submit" value="Sign me up!" class="border"></li>
+                    <span id="form-error-text"></span>
+                </ul>
+            </form>
+        </section>
+    </section>
+</body>
+{% endblock %}

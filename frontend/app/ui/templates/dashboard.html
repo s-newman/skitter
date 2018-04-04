@@ -1,0 +1,17 @@
+{% extends "internal.html" %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/dashboard.js') }}" type="text/javascript"></script>
+{% endblock %}
+
+{% block internal_page %}
+<section class="middle-col">
+    <form id="post-skit">
+        <input class="new-skit" placeholder="What's on your mind?" />
+        <input class="submit-skit" type="submit" value="Post!" />
+        <span id="errortext"></span>
+    </form>
+    <section class="skits">
+    </section>
+</section>
+{% endblock %}

@@ -41,3 +41,8 @@ sudo docker-compose up
 This will allow you to run Locust tests across the entire infrastructure.
 Details about testing individual microservices can be found in the README files
 for those microservices, if applicable.
+
+## API
+The Skitter API documentation can be found under "documentation/REFERENCE.md" -
+please note that new entries will be added as new functionality is
+designed/implemented.

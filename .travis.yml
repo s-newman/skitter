@@ -1,5 +1,5 @@
 sudo: required
-
+dist: trusty
 language: python3
 python:
     - "3.6"
@@ -8,12 +8,28 @@ services:
     - docker
 
 before_install:
-    - curl https://bootstrap.pypa.io/get-pip.py > get-pip.py
-    - sudo python3 get-pip.py
-    - sudo pip3 install locust
+    - (cd authenticate-server; ./gradlew bootJar)
+    - docker-compose build
+
+install:
     - docker-compose up -d
 
+before_script:
+    - curl https://bootstrap.pypa.io/get-pip.py > get-pip.py
+    - sudo python3 get-pip.py
+    - sudo pip3 install -r requirements.txt
+    - sudo rm -f get-pip.py
+
 script:
-    - docker ps | grep api-gateway -q
+    # Check code style
+    - pycodestyle --ignore=E402 $(find . -name "*.py")
+
+    # Check if all the docker images are up
     - docker ps | grep frontend -q
-    - python3 locust_check.py
+    - docker ps | grep front-proxy -q
+    - docker ps | grep api-gate -q
+    - docker ps | grep proxy -q
+    - docker ps | grep user-db -q
+
+    # Run load balance checks
+    - python3 testing/locust_check.py
