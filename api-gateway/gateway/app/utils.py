@@ -1,5 +1,5 @@
 from app.config import *
-from flask import make_response, jsonify
+from flask import make_response, jsonify, request
 from werkzeug.datastructures import Headers
 import requests
 from json import loads as json_to_dict
@@ -85,7 +85,7 @@ def test_auth(creds):
             })
 
         # Generate the session ID
-        sid = hexlify(urandom(30)).decode('ascii')
+        sid = gen_secure_token()
 
         # Store the session ID in the session table
         cnx.execute('PREPARE add_session FROM ' +
@@ -142,3 +142,44 @@ def connect_db():
             print('Could not connect to database.  Message is: "{}". ' +
                   'Retrying...'.format(e))
     return cnx
+
+
+def gen_secure_token():
+    """Generates a secure token that is suitable for use as a session ID or in
+    CSRF protections.
+
+    Returns:
+        string -- A 70-character ASCII string of hex characters that represents
+        a cryptographically secure random 30-byte value.
+    """
+
+    return hexlify(urandom(30)).decode('ascii')
+
+
+def csrf_check(request):
+    """Verifies a state-changing request by verifying the request is same
+    origin and that the CSRF token is valid.  The CSRF token in question is
+    using the double cookie submit method.
+
+    Arguments:
+        request {flask.request} -- The request whose intent should be verified.
+
+    Returns:
+        boolean -- True if the request is valid, false if the request is
+        invalid.
+    """
+
+    # Verify source origin
+    source = (
+        request.headers.get('Origin') == ORIGIN or
+        request.headers.get('Referer').startswith(REFERER)
+    )
+
+    # Verify target origin
+    target = request.headers.get('Host') == HOST
+
+    # Verify token
+    json_dict = json_to_dict(request.data.decode('utf-8'))
+    token = json_dict['crsfToken'] == request.cookies.get('csrfToken')
+
+    return source and target and token
