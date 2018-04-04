@@ -56,5 +56,6 @@ module.exports = {
     initIndex: initIndex,
     addDocument: addDocument,
     deleteDocument: deleteDocument,
-    getDocument: getDocument
+    getDocument: getDocument,
+    HOST: HOST,
 }

@@ -1,11 +1,9 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var es = require('./es');
-var kibana = require('./kibana');
 var app = express();
 var PORT = 8080;
 
-// TODO loop startup
 async function start() {
     app.listen(PORT);
 }
