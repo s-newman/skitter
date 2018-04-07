@@ -17,7 +17,6 @@ CREATE TABLE USER_INFO (
     first_name varchar(15),
     last_name varchar(25),
     email varchar(254) NOT NULL,
-    session_id varchar(40),
     private_account bool,
     profile_picture_id int NOT NULL,
     PRIMARY KEY (rit_username),
