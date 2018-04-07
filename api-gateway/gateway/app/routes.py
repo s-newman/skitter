@@ -86,7 +86,7 @@ def authentication():
     return resp
 
 
-@app.route('./signIn', methods=['POST'])
+@app.route('/signIn', methods=['POST'])
 def sign_in():
     # Check if we're using test authentication
     json_dict = json_to_dict(request.data.decode('utf-8'))
@@ -111,7 +111,7 @@ def sign_in():
     rows = [row for row in cnx.execute('EXECUTE check_user USING @a;')]
 
     # If user doesn't have an account, set message
-    if rows == 0:
+    if len(rows) == 0:
         resp_data['successful'] = 'user not created'
 
     # Add a CSRF token if the user is authenticated
