@@ -19,6 +19,7 @@ def logout():
                 '\'DELETE FROM SESSION WHERE session_id = ?\';')
     cnx.execute('SET @a = \'{}\';'.format(request.cookies.get('SID')))
     cnx.execute('EXECUTE remove_session USING @a;')
+    cnx.execute('COMMIT;')
 
     # Close database connection
     cnx.close()
