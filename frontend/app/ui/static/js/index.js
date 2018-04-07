@@ -45,10 +45,10 @@ function authenticate(event, location) {
                 console.log('/signIn request was successful.');
 
                 // Was able to sign in
-                if(data.successful === 'true') {
+                if(data2.successful === 'true') {
                     console.log('Signed in!');
                     window.location.href = location;
-                } else if(data.successful === 'user not created') {
+                } else if(data2.successful === 'user not created') {
                     // No user has been created yet - need to create one first
                     console.log('User not created.');
 
