@@ -4,6 +4,7 @@ from app.utils import *
 from flask import request, abort
 import requests
 from json import loads as json_to_dict
+from json import dumps
 
 CHUNK_SIZE = 1024
 """The size, in bytes, of data to stream at a time."""
@@ -80,10 +81,7 @@ def authentication():
     if request.method == 'GET':
         resp = get_response(AUTH, request.full_path, 'GET')
     elif request.method == 'POST':
-        else:
-            # Posting something other than /signIn, so don't need to check for
-            # test authentication
-            resp = get_response(AUTH, request.path, 'POST', request.data)
+        resp = get_response(AUTH, request.path, 'POST', request.data)
 
     return resp
 
@@ -97,14 +95,31 @@ def sign_in():
         resp = test_auth(json_dict)
     else:
         # Test authentication is not in use
-        resp = get_response(AUTH, request.path, 'POST', request.data
+        resp = get_response(AUTH, request.path, 'POST', request.data)
         # Add Session ID cookie to browser
         sid = json_to_dict(resp.get_data().decode())['sessionID']
-        resp.set_cookie('SID', value=sid
+        resp.set_cookie('SID', value=sid)
+    
+    # Convert response data to dict
+    resp_data = json_to_dict(resp.get_data().decode())
+    
+    # Check if user has an account
+    cnx = connect_db()
+    cnx.execute('PREPARE check_user FROM ' +
+                '\'SELECT * FROM USER_INFO WHERE rit_username = ?\';')
+    cnx.execute('SET @a = \'{}\';'.format(json_dict['username']))
+    rows = [row for row in cnx.execute('EXECUTE check_user USING @a;')]
+
+    # If user doesn't have an account, set message
+    if rows == 0:
+        resp_data['successful'] = 'user not created'
 
     # Add a CSRF token if the user is authenticated
-    if json_to_dict(resp.get_data().decode())['successful'] != 'false':
+    if resp_data['successful'] != 'false':
         resp.set_cookie('csrfToken', gen_secure_token())
+    
+    # Re-set the response data
+    resp.set_data(dumps(resp_data).encode('utf-8'))
     
     return resp
 
