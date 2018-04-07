@@ -19,11 +19,11 @@ function authenticate(event, location) {
     let checkRequest = $.get('/isAuthenticated', authCheck);
     
     // Request is successful
-    checkRequest.done(function(data) {
+    checkRequest.done(function(data1) {
         console.log('/isAuthenticated request sent successfully.');
 
         // Already authentiated
-        if(data.authenticated === 'true') {
+        if(data1.authenticated === 'true') {
             console.log('Already authenticated!');
             window.location.href = location;
         } else {
@@ -41,13 +41,24 @@ function authenticate(event, location) {
             });
 
             // Request is successful
-            authRequest.done(function(data) {
+            authRequest.done(function(data2) {
                 console.log('/signIn request was successful.');
 
                 // Was able to sign in
-                if(data.successful === 'true') {
+                if(data2.successful === 'true') {
                     console.log('Signed in!');
                     window.location.href = location;
+                } else if(data2.successful === 'user not created') {
+                    // No user has been created yet - need to create one first
+                    console.log('User not created.');
+
+                    // Save first and last names as cookies
+                    setCookie('firstname', data2.message.firstname);
+                    setCookie('lastname', data2.message.lastname);
+                    setCookie('username', $('#username').val());
+                    
+                    // Redirect
+                    window.location.href = '/new-account';
                 } else {
                     // Could not sign in
                     $('#errorText').html('Invalid credentials.');
