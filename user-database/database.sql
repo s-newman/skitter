@@ -27,10 +27,9 @@ CREATE TABLE USER_INFO (
 -- Create FOLLOW Table
 
 CREATE TABLE FOLLOW (
-    follow_id int NOT NULL,
     follower_user_id varchar(7) NOT NULL,
     following_user_id varchar(7) NOT NULL,
-    PRIMARY KEY (follow_id),
+    PRIMARY KEY (follower_user_id, following_user_id),
     FOREIGN KEY (follower_user_id) REFERENCES USER_INFO(rit_username),
     FOREIGN KEY (following_user_id) REFERENCES USER_INFO(rit_username)
 );
