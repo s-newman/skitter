@@ -6,8 +6,9 @@
 
 {% block internal_page %}
 <aside class="user-sidebar">
-    <img alt="Profile Picture" height=100 width=100 id="main-profile-pic" />
-    <a class="username main-username" href="/profile/{{ user }}">Username</a>
+    <img src="{{ pic }}" alt="Profile Picture" height=64 width=64 id="main-profile-pic" />
+    <a class="username main-username" href="/profile/{{ username }}">@{{ username }}</a>
+    <p class="display-name">{{ fname }} {{ lname }}</p>
 </aside>
 <section class="middle-col">
     <section class="skits">
