@@ -20,7 +20,7 @@ class UnauthenticatedTests(TaskSet):
     @task
     def profile(self):
         page_id = randint(1, 1000)
-        internal_page(self, '/profile/test{}'.format(page_id), target_code=404)
+        internal_page(self, '/profile/test{}'.format(page_id))
 
     @task
     def exit(self):
@@ -80,7 +80,7 @@ class WebsiteUser(HttpLocust):
     host = 'http://localhost'
 
 
-def internal_page(self, page, target_code=401):
+def internal_page(self, page):
     """Ensure that an unauthenticated user recieves a 401 error for internal
     pages
 
@@ -89,7 +89,7 @@ def internal_page(self, page, target_code=401):
     """
 
     with self.client.get(page, catch_response=True) as response:
-        if response.status_code == target_code:
+        if response.status_code == 401
             response.success()
         else:
-            response.failure('Did not return {} error.'.format(target_code))
+            response.failure('Did not return 401 error.')
