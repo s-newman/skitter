@@ -1,4 +1,5 @@
 from ui import app
+from ui.utils import *
 from flask import render_template
 
 
@@ -25,7 +26,23 @@ def settings():
 
 @app.route('/profile/<user>')
 def profile(user):
-    return render_template('profile.html', scripts=True, user=user)
+    cnx = connect_db()
+
+    # Get user information
+    cnx.execute('PREPARE get_info FROM ' +
+                '\'SELECT * FROM USER_INFO WHERE rit_username = ?\';')
+    cnx.execute('SET @a = \'{}\';'.format(user))
+    result = [row for row in cnx.execute('EXECUTE get_info USING @a;')][0]
+
+    # Get profile picture URL
+    cnx.execute('PREPARE get_pic FROM ' +
+                '\'SELECT * FROM PROFILE_PICTURE WHERE picture_id = ?\';')
+    cnx.execute('SET @a = \'{}\';'.format(result[5]))
+    picture_url = [r for r in cnx.execute('EXECUTE get_pic USING @a;')][0][1]
+
+    # Render page
+    return render_template('profile.html', scripts=True, username=result[0],
+                           fname=result[1], lname=result[2], pic=picture_url)
 
 
 @app.route('/logout')
