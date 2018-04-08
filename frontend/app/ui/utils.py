@@ -1,5 +1,6 @@
 from sqlalchemy.engine import create_engine, Connection
 from sqlalchemy.pool import NullPool
+from ui.config import *
 
 def connect_db():
     """Creates a new connection to the user database.
