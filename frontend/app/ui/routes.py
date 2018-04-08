@@ -1,6 +1,6 @@
 from ui import app
 from ui.utils import *
-from flask import render_template
+from flask import render_template, abort
 
 
 # Routes for webpages
@@ -32,7 +32,13 @@ def profile(user):
     cnx.execute('PREPARE get_info FROM ' +
                 '\'SELECT * FROM USER_INFO WHERE rit_username = ?\';')
     cnx.execute('SET @a = \'{}\';'.format(user))
-    result = [row for row in cnx.execute('EXECUTE get_info USING @a;')][0]
+    result = [row for row in cnx.execute('EXECUTE get_info USING @a;')]
+
+    # Check if there is no user of that name
+    if len(result) == 0:
+        abort(404)
+    else:
+        result = result[0]
 
     # Get profile picture URL
     cnx.execute('PREPARE get_pic FROM ' +
