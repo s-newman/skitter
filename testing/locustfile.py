@@ -89,7 +89,7 @@ def internal_page(self, page):
     """
 
     with self.client.get(page, catch_response=True) as response:
-        if response.status_code == 401
+        if response.status_code == 401:
             response.success()
         else:
             response.failure('Did not return 401 error.')
