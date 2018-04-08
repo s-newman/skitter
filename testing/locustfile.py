@@ -58,7 +58,7 @@ class InternalTests(TaskSet):
     @task
     def profile(self):
         page_id = randint(1, 1000)
-        self.client.get('/profile/{}'.format(page_id))
+        self.client.get('/profile/test{}'.format(page_id))
 
     @task
     def logout(self):
