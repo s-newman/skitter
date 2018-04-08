@@ -92,4 +92,4 @@ def internal_page(self, page, target_code=401):
         if response.status_code == target_code:
             response.success()
         else:
-            response.failure('Did not return 401 error.')
+            response.failure('Did not return {} error.'.format(target_code))
