@@ -46,8 +46,27 @@ CREATE TABLE SESSION (
 -- Add default profile picture
 INSERT INTO PROFILE_PICTURE (picture_id, picture) VALUES (
     0,
-    '/static/img/default-profile'
+    '/static/img/default-profile.png'
 );
 
 -- Log queries
 SET GLOBAL general_log=1;
+
+-- Add users
+DELIMITER //
+CREATE PROCEDURE makeuser()
+BEGIN
+    DECLARE start INT DEFAULT 0;
+    WHILE start <= 999 DO
+        INSERT INTO USER_INFO (rit_username, first_name, last_name, email, profile_picture_id) VALUES (
+            concat('test', start),
+            'Test',
+            'User',
+            concat('test', start, '@rit.edu'),
+            0
+        );
+        SET start = start +1;
+    END WHILE;
+END//
+DELIMITER ;
+CALL makeuser;

@@ -20,7 +20,7 @@ class UnauthenticatedTests(TaskSet):
     @task
     def profile(self):
         page_id = randint(1, 1000)
-        internal_page(self, '/profile/{}'.format(page_id))
+        internal_page(self, '/profile/test{}'.format(page_id))
 
     @task
     def exit(self):
@@ -58,7 +58,7 @@ class InternalTests(TaskSet):
     @task
     def profile(self):
         page_id = randint(1, 1000)
-        self.client.get('/profile/{}'.format(page_id))
+        self.client.get('/profile/test{}'.format(page_id))
 
     @task
     def logout(self):
