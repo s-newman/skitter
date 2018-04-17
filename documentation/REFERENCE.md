@@ -8,11 +8,32 @@ be formatted as `METHOD https://skitter.com/node/uri`.
 ## Authentication and User Manipulation
 API nodes that relate to the authentication, creation, and removal of users.
 
-### GET     /isAuthenticated
-Checks if a specific user is currently authenticated, given their username and password.
+### `GET /isAuthenticated`
+Checks if a specific user is currently authenticated, given their RIT username.
 
-### POST    /signIn
-Attempts to authenticate a specific user.
+#### Parameters:
+```
+{
+    username: The RIT username to check for authentication
+}
+```
+
+#### Returns:
+```
+{
+    authenticated: boolean value,
+    message: string
+}
+```
+- `authenticated`
+    - `true` if the user is authenticated against the RIT LDAP server.
+    - `false` if the user is not authenticated against the RIT LDAP server.
+- `message`
+    - An empty string (`""`) if no error occurred.
+    - A non-empty string if any error occurred during the process of checking for authentication.
+
+### `POST /signIn`
+Attempts to authenticate a specific user using the RIT username.
 
 #### Parameters:
 ```
@@ -30,28 +51,59 @@ Attempts to authenticate a specific user.
     successful: boolean value
 }
 ```
-`sessionID` is `""` if the authentication is unsuccessful, otherwise it is the new session ID of the logged in user.
-If authentication is successful, `message` is the following object:
-```
-{
-    firstname: The RIT student first name,
-    lastname: The RIT student last name
-}
-```
-If authentication is unsuccessful, `message` is a string describing the problem.
-`successful` is `"true"` when authentication is successful, and `"false"` when authentication is unsuccessful.
+- `sessionID`
+    - A new session ID of the logged in user if the autentication is successful.
+    - An empty string (`""`) if the authentication is unsuccessful.
+- `message`
+    - If authentication is successful, `message` is the following object:
+        ```
+        {
+            firstname: The RIT student first name,
+            lastname: The RIT student last name
+        }
+        ```
+    - If authentication is unsuccessful, `message` is a string describing the problem.
+- `successful`
+    - `"true"` when authentication is successful
+    - `"false"` when authentication is unsuccessful.
 
-### PUT     /logout
+### `PUT /logout`
 __Not implemented__
 Attempts to log out a specific user.
 
-### POST    /newUser
-__Not implemented__
+### `POST /newUser`
 Registers a new user.
 
-### GET     /deleteUser
-__Not implemented__
+#### Parameters:
+```
+{
+
+}
+```
+
+#### Returns:
+```
+{
+
+}
+```
+
+### `GET /deleteUser`
 Deletes an already existing user.
+
+#### Parameters:
+```
+{
+
+}
+```
+
+#### Returns:
+```
+{
+
+}
+```
 
 ## Settings
 API nodes that relate to the viewing and modification of user settings.
@@ -95,17 +147,63 @@ Retrieves the current account settings for a specific user.
 API nodes that relate to the creation, removal, and viewing of Skits and
 replies to Skits.
 
-### POST    /addSkit
-__Not implemented__
+### POST /addSkit
 Creates a new Skit.
 
-### DELETE  /removeSkit
-__Not implemented__
+#### Parameters:
+```
+{
+    username: The RIT username of the author,
+    content: The content of the skit,
+    date_posted: The timestamp of the skit for indexing purpose
+}
+```
+
+#### Returns:
+```
+{
+    successful: boolean,
+    skit_id: string,
+    message: string
+}
+```
+- `successful`: `true` if the skit is successfully indexed, `false` otherwise.
+- `skit_id`: a string represent the id of the document in the elasticsearch cluster if the skit was successfully index or an empty string otherwise.
+- `message`: any error message will be in this field.
+
+### DELETE /removeSkit
 Deletes an existing Skit.
 
-### GET     /getSkits
-__Not implemented__
+#### Parameters:
+```
+{
+
+}
+```
+
+#### Returns:
+```
+{
+
+}
+```
+
+### GET /getSkits
 Retrieves the latest Skits from all followed users.
+
+#### Parameters:
+```
+{
+
+}
+```
+
+#### Returns:
+```
+{
+
+}
+```
 
 ### POST    /addSkitReply
 __Not implemented__
