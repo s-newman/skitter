@@ -53,3 +53,31 @@ services:
         restart: always
         depends_on:
             - api-gate
+
+    skits-controller:
+        build: skits-controller
+        image: skits-controller
+        expose:
+            - "8080"
+        restart: always
+        depends_on:
+            - kibana
+            - elasticsearch
+
+    elasticsearch:
+        build: skits-elasticsearch/elasticsearch
+        image: es
+        expose:
+            - "9200"
+        restart: always
+        depends_on:
+            - frontend
+
+    kibana:
+        build: skits-elasticsearch/kibana
+        image: kibana
+        expose:
+            - "5601"
+        restart: always
+        depends_on:
+            - elasticsearch

@@ -27,7 +27,19 @@ app.post('/addSkit', (req, res) => {
     });
 });
 
+/*
+    Get all the skits by a user
+    - username: the RIT username to get skits from
+*/
 app.get('/getSkits', (req, res) => {
+
+});
+
+/*
+    Get a skit by its ID in elasticsearch
+    - id: The ID of the skit
+*/
+app.get('/getSkitById', (req, res) => {
 
 });
 
