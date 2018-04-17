@@ -41,12 +41,37 @@ function addDocument(indexName, data) {
     });
 }
 
-function deleteDocument(indexName, data) {
-
+function deleteDocumentById(indexName, id) {
+    return client.delete({
+        index: indexName,
+        type: '_doc',
+        id: id
+    });
 }
 
-function getDocument(indexName, data) {
+function getDocumentById(indexName, id) {
+    return client.get({
+        index: indexName,
+        type: '_doc',
+        id: id
+    });
+}
 
+async function searchDocument(indexName, query) {
+    let count = await countDocument(indexName, query);
+    count = count['count']; // Because the response itself is JSON, not a string
+    return client.search({
+        index: indexName,
+        q: query,
+        size: count
+    });
+}
+
+function countDocument(indexName, query) {
+    return client.count({
+        index: indexName,
+        q: query
+    });
 }
 
 module.exports = {
@@ -55,7 +80,9 @@ module.exports = {
     deleteIndex: deleteIndex,
     initIndex: initIndex,
     addDocument: addDocument,
-    deleteDocument: deleteDocument,
-    getDocument: getDocument,
+    deleteDocumentById: deleteDocumentById,
+    getDocumentById: getDocumentById,
+    searchDocument: searchDocument,
+    countDocument: countDocument,
     HOST: HOST,
 }

@@ -23,28 +23,55 @@ app.post('/addSkit', (req, res) => {
         res.json(resp);
     }, (reason) => {
         console.log(reason);
-        res.send("Failed to add document");
+        res.send(reason);
     });
 });
 
 /*
     Get all the skits by a user
     - username: the RIT username to get skits from
+    - index: the index to search in, either skit or skitreply. By default it's skit.
 */
 app.get('/getSkits', (req, res) => {
+    let username = req.query.username;
+    let indexName = req.query.index || "skit";
 
+    es.searchDocument(indexName, 'username: ' + username)
+    .then( (resp) => {
+        res.json(resp);
+    }, (reason) => {
+        console.log(reason);
+        res.send(reason);
+    });
 });
 
 /*
     Get a skit by its ID in elasticsearch
     - id: The ID of the skit
+    - index: the index to search in, either skit or skitreply. By default it's skit.
 */
 app.get('/getSkitById', (req, res) => {
-
+    let id = req.query.id;
+    let indexName = req.query.index || "skit"; // Search in the skit index by default
+    es.getDocumentById(indexName, id)
+    .then( (resp) => {
+        res.json(resp);
+    }, (reason) => {
+        console.log(reason);
+        res.send(reason);
+    });
 });
 
 app.delete('/removeSkit', (req, res) => {
-
+    let id = req.query.id;
+    let indexName = req.query.index || "skit";
+    es.deleteDocumentById(indexName, id)
+    .then( (resp) => {
+        res.json(resp);
+    }, (reason) => {
+        console.log(reason);
+        res.send(reason);
+    });
 });
 
 process.on('unhandledRejection', (reason, p) => {
