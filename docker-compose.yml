@@ -83,3 +83,12 @@ services:
         restart: always
         depends_on:
             - elasticsearch
+
+    skits-reply-controller:
+        build: skits-reply-controller
+        image: skits-reply-controller
+        expose:
+            - "3000"
+        restart: always
+        depends_on:
+            - skits-controller
