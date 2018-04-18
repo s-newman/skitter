@@ -27,6 +27,17 @@ app.post('/addSkit', (req, res) => {
     });
 });
 
+app.post('/addSkitReply', (req, res) => {
+    let data = req.body;
+    es.addDocument('skit-reply', data)
+    .then( (resp) => {
+        res.json(resp);
+    }, (reason) => {
+        console.log(reason);
+        res.send(reason);
+    });
+});
+
 /*
     Get all the skits by a user
     - username: the RIT username to get skits from
