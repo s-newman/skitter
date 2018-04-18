@@ -18,10 +18,14 @@ class SkitsController < ActionController::API
     end
 
     def removeSkitReply
-        render json: {status: 'SUCCESS', message:'Testing'},status: :ok
+        id = params["id"]
+        r = RestClient.delete "http://#@NODEHOST/removeSkit", {params: {id: id, index: "skit-reply"}}
+        render json: r
     end
 
     def getSkitReplies
-        render json: {status: 'SUCCESS', message:'Testing'},status: :ok
+        skitID = params["skitID"]
+        r = RestClient.get "http://#@NODEHOST/getSkitReplies", {params: {skitID: skitID}}
+        render json: r
     end
 end

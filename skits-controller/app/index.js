@@ -27,6 +27,13 @@ app.post('/addSkit', (req, res) => {
     });
 });
 
+/*
+    The request body needs to have at least the following information:
+    - username: the RIT username
+    - date_posted: a timestamp of the skit
+    - content: a non-empty string that is fewer than 140 characters
+    - skitID: the ID of the skit
+*/
 app.post('/addSkitReply', (req, res) => {
     let data = req.body;
     es.addDocument('skit-reply', data)
@@ -48,6 +55,22 @@ app.get('/getSkits', (req, res) => {
     let indexName = req.query.index || "skit";
 
     es.searchDocument(indexName, 'username: ' + username)
+    .then( (resp) => {
+        res.json(resp);
+    }, (reason) => {
+        console.log(reason);
+        res.send(reason);
+    });
+});
+
+/*
+    Get all replies of a skit
+    - skitID: the ID of the skit
+*/
+app.get('/getSkitReplies', (req, res) => {
+    let indexName = 'skit-reply';
+    let skitID = req.query.skitID;
+    es.searchDocument(indexName, 'skitID :' + skitID)
     .then( (resp) => {
         res.json(resp);
     }, (reason) => {
