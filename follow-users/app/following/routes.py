@@ -13,6 +13,10 @@ def search():
 
     # Search for each keyword
     for keyword in keywords:
+        if keyword == '':
+            # You're trying to scam us.  Get the heck outta here.
+            continue
+
         cnx.execute('PREPARE get_results FROM \'SELECT\n' +
                     'USER_INFO.rit_username,\n' +
                     'USER_INFO.first_name,\n' +
@@ -39,6 +43,9 @@ def search():
             }
             if user not in data['users']:
                 data['users'].append(user)
+    
+    # Quietly limit the number of results
+    data['users'] = data['users'][:50]
 
     # Close the database connection
     cnx.close()
