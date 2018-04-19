@@ -39,12 +39,12 @@ def search():
             }
             if user not in data['users']:
                 data['users'].append(user)
-            
-    
+
     # Close the database connection
     cnx.close()
 
-    return None
+    # Prepare the results and return them
+    return jsonify(data)
 
 
 @app.route('/followUser')
