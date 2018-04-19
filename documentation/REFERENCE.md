@@ -224,10 +224,10 @@ API nodes that relate to following and unfollowing users.
 __Not implemented__
 Retrieves the results of a user search.
 
-### PUT     /followUser
+### POST    /followUser
 __Not implemented__
 Follows a user.
 
-### DELETE  /unfollowUser
+### GET     /unfollowUser
 __Not implemented__
 Unfollows a user.
