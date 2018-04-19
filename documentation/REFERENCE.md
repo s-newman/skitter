@@ -234,22 +234,17 @@ __Not implemented__
 #### Returns:
 ```
 {
-    user: {
-        rit_username: string,
-        first_name: string,
-        last_name: string,
-        profile_picture: string
-    },
-    user: {
-        rit_username: string,
-        first_name: string,
-        last_name: string,
-        profile_picture: string
-    },
-    ...etc
+    users: [
+        {
+            rit_username: string,
+            first_name: string,
+            last_name: string,
+            profile_picture: string
+        }
+    ]
 }
 ```
-- `user`: A container for related user information.  Repeated for each search result.
+- `users`: A list of unique user information objects.
 - `rit_username`: The RIT username for the given search result user.
 - `first_name`: The first name for the given search result user.
 - `last_name`: The last name for the given search result user.
