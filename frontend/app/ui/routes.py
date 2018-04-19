@@ -24,6 +24,11 @@ def settings():
     return render_template('settings.html', scripts=True)
 
 
+@app.route('/search')
+def search():
+    return render_template('search.html', scripts=True)
+
+
 @app.route('/profile/<user>')
 def profile(user):
     cnx = connect_db()
