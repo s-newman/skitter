@@ -27,6 +27,23 @@ services:
         depends_on:
             - frontend
 
+    follow-users:
+        build: follow-users/app
+        image: follow-users
+        command: uwsgi --ini following.ini
+        expose:
+            - "8000"
+        restart: always
+
+    follow-proxy:
+        build: follow-users/proxy
+        image: follow-proxy
+        expose:
+            - "8000"
+        restart: always
+        depends_on:
+            - follow-users
+
     auth:
         build: authenticate-server
         image: auth
