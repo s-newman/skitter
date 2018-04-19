@@ -129,7 +129,7 @@ def sign_in():
 @app.route('/userSearch')
 @app.route('/unfollowUser')
 def follow():
-    return get_response(FOLLOW, request.path, request.method)
+    return get_response(FOLLOW, request.full_path, request.method)
 
 
 # Optional methods are not included in this list.
