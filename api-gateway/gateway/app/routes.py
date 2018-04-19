@@ -124,6 +124,12 @@ def sign_in():
 
     return resp
 
+@app.route('/followUser')
+@app.route('/userSearch')
+@app.route('/unfollowUser')
+def follow():
+    return get_response(FOLLOW, request.path, request.method)
+
 
 # Optional methods are not included in this list.
 @app.route('/changeDisplayName')
@@ -131,9 +137,6 @@ def sign_in():
 @app.route('/AddSkit')
 @app.route('/RemoveSkit')
 @app.route('/GetSkits')
-@app.route('/followUser')
-@app.route('/unfollowUser')
-@app.route('/userSearch')
 @app.route('/addSkitReply')
 @app.route('/removeSkitReply')
 def unimplemented():
