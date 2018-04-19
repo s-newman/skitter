@@ -33,6 +33,7 @@ def logout():
 
 
 @app.route('/')
+@app.route('/search')
 @app.route('/static/<filename>')
 @app.route('/static/js/<filename>')
 @app.route('/static/img/<filename>')
