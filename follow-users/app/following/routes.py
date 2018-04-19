@@ -9,7 +9,7 @@ def search():
     keywords = request.args['search_string'].split(' ')
 
     cnx = connect_db()
-    data = { 'users': [] }
+    data = {'users': []}
 
     # Search for each keyword
     for keyword in keywords:
@@ -33,7 +33,7 @@ def search():
         cnx.execute('SET @b = \'%{}%\';'.format(keyword))
         cnx.execute('SET @c = \'%{}%\';'.format(keyword))
         results = [r for r in cnx.execute('EXECUTE get_results USING ' +
-                                         '@a, @b, @c;')]
+                                          '@a, @b, @c;')]
         for result in results:
             user = {
                 'rit_username': result[0],
@@ -43,7 +43,7 @@ def search():
             }
             if user not in data['users']:
                 data['users'].append(user)
-    
+
     # Quietly limit the number of results
     data['users'] = data['users'][:50]
 
