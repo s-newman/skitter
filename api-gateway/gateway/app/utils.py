@@ -9,7 +9,7 @@ from binascii import hexlify
 from os import urandom
 
 
-def get_response(host, method, http_method, data=None):
+def get_response(host, method, http_method, data=None, cookies=None):
     """Make a given request and return the associated response.
 
     Arguments:
@@ -21,6 +21,7 @@ def get_response(host, method, http_method, data=None):
         method {string} -- The API method the request is being sent to.
         http_method {string} -- The HTTP method to use to send the request to
         the microservice endpoint.
+        cookies {dict} -- A dictionary of cookies to include in the request.
 
     Keyword Arguments:
         data {string} -- The message-body of the request.  Should only be set
@@ -36,10 +37,11 @@ def get_response(host, method, http_method, data=None):
     # Fetch the URL and stream it back
     # return requests.get(url, stream=True, params=request.args)
     if http_method == 'GET':
-        r = requests.get(url)
+        r = requests.get(url, cookies=cookies)
 
     elif http_method == 'POST':
-        r = requests.post(url, json=json_to_dict(data.decode('utf-8')))
+        r = requests.post(url, json=json_to_dict(data.decode('utf-8')),
+                          cookies=cookies)
 
     # Create a flask response object from the requests.Reponse object.  That's
     # not confusing, right?

@@ -1,6 +1,7 @@
 from following import app
 from following.utils import *
 from flask import request, abort, jsonify
+from json import loads
 
 
 @app.route('/userSearch')
@@ -54,9 +55,78 @@ def search():
     return jsonify(data)
 
 
-@app.route('/followUser')
+@app.route('/followUser', methods=['POST'])
 def follow():
-    return None
+    # Parse the request data
+    data = loads(request.data.decode('utf-8'))
+
+    cnx = connect_db()
+
+    # Check that the user is logged in
+    cnx.execute('PREPARE check_auth FROM ' +
+                '\'SELECT * FROM SESSION WHERE session_id = ?\';')
+    cnx.execute('SET @a = \'{}\';'.format(data['session_id']))
+    results = [r for r in cnx.execute('EXECUTE check_auth USING @a;')]
+
+    # There should only be one entry for that session ID
+    if len(results) != 1:
+        return jsonify({'success': False})
+
+    # Save the username
+    username = results[0][0]
+
+    # Check if the user is already followed
+    cnx.execute('PREPARE check_follow FROM ' +
+                '\'SELECT * FROM FOLLOW\n' +
+                'WHERE follower = ? AND followed = ?\';')
+    cnx.execute('SET @a = \'{}\';'.format(username))
+    cnx.execute('SET @b = \'{}\';'.format(data['rit_username']))
+    results = [r for r in cnx.execute('EXECUTE check_follow USING @a, @b;')]
+    if len(results) > 0:
+        return jsonify({'success': True})
+
+    # Follow the user if they aren't followed yet
+    cnx.execute('PREPARE follow_user FROM ' +
+                '\'INSERT INTO FOLLOW VALUES (?, ?)\';')
+    cnx.execute('SET @a = \'{}\';'.format(username))
+    cnx.execute('SET @b = \'{}\';'.format(data['rit_username']))
+    cnx.execute('EXECUTE follow_user USING @a, @b;')
+    cnx.execute('COMMIT;')
+    cnx.close()
+    return jsonify({'success': True})
+
+
+@app.route('/followState')
+def check_follow():
+    # Parse the request data
+    follow = request.args['follow']
+
+    cnx = connect_db()
+
+    # Check that the user is logged in
+    cnx.execute('PREPARE check_auth FROM ' +
+                '\'SELECT * FROM SESSION WHERE session_id = ?\';')
+    cnx.execute('SET @a = \'{}\';'.format(request.cookies['SID']))
+    results = [r for r in cnx.execute('EXECUTE check_auth USING @a;')]
+
+    # There should only be one entry for that session ID
+    if len(results) != 1:
+        return jsonify({'success': False})
+
+    # Save the username
+    username = results[0][0]
+
+    # Check if the user is already followed
+    cnx.execute('PREPARE check_follow FROM ' +
+                '\'SELECT * FROM FOLLOW\n' +
+                'WHERE follower = ? AND followed = ?\';')
+    cnx.execute('SET @a = \'{}\';'.format(username))
+    cnx.execute('SET @b = \'{}\';'.format(follow))
+    results = [r for r in cnx.execute('EXECUTE check_follow USING @a, @b;')]
+    if len(results) > 0:
+        return jsonify({'success': True})
+    else:
+        return jsonify({'success': False})
 
 
 @app.route('/unfollowUser')
