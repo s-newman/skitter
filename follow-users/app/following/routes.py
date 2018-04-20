@@ -67,11 +67,11 @@ def follow():
                 '\'SELECT * FROM SESSION WHERE session_id = ?\';')
     cnx.execute('SET @a = \'{}\';'.format(data['session_id']))
     results = [r for r in cnx.execute('EXECUTE check_auth USING @a;')]
-    
+
     # There should only be one entry for that session ID
     if len(results) != 1:
-        return jsonify({'success':False})
-    
+        return jsonify({'success': False})
+
     # Save the username
     username = results[0][0]
 
@@ -83,7 +83,7 @@ def follow():
     cnx.execute('SET @b = \'{}\';'.format(data['rit_username']))
     results = [r for r in cnx.execute('EXECUTE check_follow USING @a, @b;')]
     if len(results) > 0:
-        return jsonify({'success':True})
+        return jsonify({'success': True})
 
     # Follow the user if they aren't followed yet
     cnx.execute('PREPARE follow_user FROM ' +
@@ -93,7 +93,7 @@ def follow():
     cnx.execute('EXECUTE follow_user USING @a, @b;')
     cnx.execute('COMMIT;')
     cnx.close()
-    return jsonify({'success':True})
+    return jsonify({'success': True})
 
 
 @app.route('/followState')
@@ -108,11 +108,11 @@ def check_follow():
                 '\'SELECT * FROM SESSION WHERE session_id = ?\';')
     cnx.execute('SET @a = \'{}\';'.format(request.cookies['SID']))
     results = [r for r in cnx.execute('EXECUTE check_auth USING @a;')]
-    
+
     # There should only be one entry for that session ID
     if len(results) != 1:
-        return jsonify({'success':False})
-    
+        return jsonify({'success': False})
+
     # Save the username
     username = results[0][0]
 
@@ -124,9 +124,9 @@ def check_follow():
     cnx.execute('SET @b = \'{}\';'.format(follow))
     results = [r for r in cnx.execute('EXECUTE check_follow USING @a, @b;')]
     if len(results) > 0:
-        return jsonify({'success':True})
+        return jsonify({'success': True})
     else:
-        return jsonify({'success':False})
+        return jsonify({'success': False})
 
 
 @app.route('/unfollowUser')
