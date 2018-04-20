@@ -30,6 +30,3 @@ script:
     - docker ps | grep api-gate -q
     - docker ps | grep proxy -q
     - docker ps | grep user-db -q
-
-    # Run load balance checks
-    - python3 testing/locust_check.py

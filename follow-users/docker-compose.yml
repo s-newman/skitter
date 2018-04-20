@@ -1,0 +1,21 @@
+version: '2'
+services:
+
+    follow-users:
+        build: app
+        image: follow-users
+        command: uwsgi --ini following.ini
+        expose:
+            - "8000"
+        restart: always
+
+    follow-proxy:
+        build: proxy
+        image: follow-proxy
+        expose:
+            - "8000"
+        ports:
+            - "80:8000"
+        restart: always
+        depends_on:
+            - follow-users

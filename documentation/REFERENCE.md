@@ -222,12 +222,38 @@ API nodes that relate to following and unfollowing users.
 
 ### GET     /userSearch
 __Not implemented__
-Retrieves the results of a user search.
 
-### PUT     /followUser
+#### Parameters:
+```
+{
+    search_string: string
+}
+```
+- `search_string`: A URL-encoded string to use for the search.
+
+#### Returns:
+```
+{
+    users: [
+        {
+            rit_username: string,
+            first_name: string,
+            last_name: string,
+            profile_picture: string
+        }
+    ]
+}
+```
+- `users`: A list of unique user information objects.
+- `rit_username`: The RIT username for the given search result user.
+- `first_name`: The first name for the given search result user.
+- `last_name`: The last name for the given search result user.
+- `profile_picture`: The URL to the user's profile picture image on the server.  Can be used to insert into a webpage.
+
+### POST    /followUser
 __Not implemented__
 Follows a user.
 
-### DELETE  /unfollowUser
+### GET     /unfollowUser
 __Not implemented__
 Unfollows a user.
