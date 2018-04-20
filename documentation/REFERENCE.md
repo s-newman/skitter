@@ -272,3 +272,21 @@ API nodes that relate to following and unfollowing users.
 ### GET     /unfollowUser
 __Not implemented__
 Unfollows a user.
+
+### GET     /followState
+
+#### Parameters:
+```
+{
+    follow: string
+}
+```
+- `follow`: The RIT username of the person you would like to check if you are following.
+
+#### Returns:
+```
+{
+    success: boolean
+}
+```
+- `success`: `True` if the user is currently followed, `False` if the user is not followed.
