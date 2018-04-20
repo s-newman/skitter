@@ -169,3 +169,39 @@ def unfollow():
     cnx.execute('COMMIT;')
     cnx.close()
     return jsonify({'success': True})
+
+
+@app.route('/following')
+def following():
+    cnx = connect_db()
+
+    # Check that the user is logged in
+    cnx.execute('PREPARE check_auth FROM ' +
+                '\'SELECT * FROM SESSION WHERE session_id = ?\';')
+    cnx.execute('SET @a = \'{}\';'.format(request.cookies['SID']))
+    results = [r for r in cnx.execute('EXECUTE check_auth USING @a;')]
+
+    # There should only be one entry for that session ID
+    if len(results) != 1:
+        return jsonify({'users': None})
+
+    # Save the username
+    username = results[0][0]
+
+    # Get the users we're following
+    cnx.execute('PREPARE get_follow FROM ' +
+                '\'SELECT followed FROM FOLLOW\n' +
+                'WHERE follower = ?\';')
+    cnx.execute('SET @a = \'{}\';'.format(username))
+    results = [r for r in cnx.execute('EXECUTE get_follow USING @a;')]
+
+    # Unpack the results
+    response_data = {'users': []}
+    for result in results:
+        response_data['users'].append({'rit_username': result[0]})
+
+    # Set users to none if there were no results
+    if len(response_data['users']) == 0:
+        response_data['users'] = None
+
+    return jsonify(response_data)
