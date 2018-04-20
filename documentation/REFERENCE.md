@@ -270,8 +270,22 @@ API nodes that relate to following and unfollowing users.
 - `success`: `True` if the user was added to the list of followed users, or if they already are followed.  `False` if there was an authentication error, or any other problems.
 
 ### GET     /unfollowUser
-__Not implemented__
-Unfollows a user.
+
+#### Parameters:
+```
+{
+    unfollow: string
+}
+```
+- `unfollow`: The RIT username of the person you would like to unfollow.
+
+#### Returns:
+```
+{
+    success: boolean
+}
+```
+- `success`: `True` if the user was successfully unfollowed, otherwise `False`.
 
 ### GET     /followState
 
