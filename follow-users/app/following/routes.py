@@ -88,8 +88,8 @@ def follow():
     # Follow the user if they aren't followed yet
     cnx.execute('PREPARE follow_user FROM ' +
                 '\'INSERT INTO FOLLOW VALUES (?, ?)\';')
-    cnx.execute('SET @a = \'{}\';'.follow(username))
-    cnx.execute('SET @b = \'{}\';'.follow(data['rit_username']))
+    cnx.execute('SET @a = \'{}\';'.format(username))
+    cnx.execute('SET @b = \'{}\';'.format(data['rit_username']))
     cnx.execute('EXECUTE follow_user USING @a, @b;')
     cnx.execute('COMMIT;')
     cnx.close()
