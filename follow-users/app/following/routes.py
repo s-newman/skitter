@@ -188,3 +188,20 @@ def following():
     # Save the username
     username = results[0][0]
 
+    # Get the users we're following
+    cnx.execute('PREPARE get_follow FROM ' +
+                '\'SELECT followed FROM FOLLOW\n' +
+                'WHERE follower = ?\';')
+    cnx.execute('SET @a = \'{}\';'.format(username))
+    results = [r for r in cnx.execute('EXECUTE get_follow USING @a;')]
+
+    # Unpack the results
+    response_data = {'users': []}
+    for result in results:
+        response_data['users'].append({'rit_username': result[0]})
+    
+    # Set users to none if there were no results
+    if len(response_data['users']) == 0:
+        response_data['users'] = None
+    
+    return jsonify(response_data)
