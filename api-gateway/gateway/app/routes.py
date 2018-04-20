@@ -10,7 +10,7 @@ from datetime import datetime
 from cgi import escape
 
 CHUNK_SIZE = 1024
-ALPHANUMERIC = string.letters + string.digits
+ALPHANUMERIC = string.ascii_letters + string.digits
 """The size, in bytes, of data to stream at a time."""
 
 
@@ -129,9 +129,9 @@ def sign_in():
 
     return resp
 
-@app.route('/AddSkit', method=['POST'])
-@app.route('/RemoveSkit')
-@app.route('/GetSkits')
+@app.route('/addSkit', methods=['POST'])
+@app.route('/removeSkit')
+@app.route('/getSkits')
 def skits_handler():
     if request.method == 'POST':
         # Add Skit: The front-end only send the content of the skit
@@ -160,7 +160,7 @@ def skits_handler():
     return resp
 
 
-@app.route('/addSkitReply', method=['POST'])
+@app.route('/addSkitReply', methods=['POST'])
 @app.route('/removeSkitReply') #id
 @app.route('/getSkitReplies') #skitID
 def replies_handler():
