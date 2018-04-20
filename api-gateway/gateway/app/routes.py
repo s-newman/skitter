@@ -126,11 +126,16 @@ def sign_in():
     return resp
 
 
-@app.route('/followUser')
+@app.route('/followUser', methods=['POST'])
 @app.route('/userSearch')
 @app.route('/unfollowUser')
 def follow():
-    return get_response(FOLLOW, request.full_path, request.method)
+    if request.method == 'GET':
+        resp = get_response(FOLLOW, request.full_path, 'GET')
+    elif request.method == 'POST':
+        resp = get_response(FOLLOW, request.path, 'POST', request.data)
+
+    return resp
 
 
 # Optional methods are not included in this list.

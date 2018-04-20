@@ -55,7 +55,7 @@ def search():
     return jsonify(data)
 
 
-@app.route('/followUser')
+@app.route('/followUser', methods=['POST'])
 def follow():
     # Parse the request data
     data = loads(request.data.decode('utf-8'))
