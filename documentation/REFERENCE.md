@@ -250,6 +250,7 @@ API nodes that relate to following and unfollowing users.
 - `profile_picture`: The URL to the user's profile picture image on the server.  Can be used to insert into a webpage.
 
 ### POST    /followUser
+Uses the SID cookie.
 
 #### Parameters:
 ```
@@ -288,6 +289,7 @@ API nodes that relate to following and unfollowing users.
 - `success`: `True` if the user was successfully unfollowed, otherwise `False`.
 
 ### GET     /followState
+Uses the SID cookie.
 
 #### Parameters:
 ```
@@ -304,3 +306,20 @@ API nodes that relate to following and unfollowing users.
 }
 ```
 - `success`: `True` if the user is currently followed, `False` if the user is not followed.
+
+### GET     /following
+Uses the SID cookie.
+
+#### Parameters:
+None.
+
+#### Returns:
+```
+{
+    users: [
+        rit_username: string,
+        ...
+    ]
+}
+```
+- `users`: An array of usernames that the user is currrently following.  If there was an error, or if the user is not following any users, will be `None`.
