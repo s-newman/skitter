@@ -221,7 +221,6 @@ Retrieves the replies to a Skit.
 API nodes that relate to following and unfollowing users.
 
 ### GET     /userSearch
-__Not implemented__
 
 #### Parameters:
 ```
@@ -251,8 +250,24 @@ __Not implemented__
 - `profile_picture`: The URL to the user's profile picture image on the server.  Can be used to insert into a webpage.
 
 ### POST    /followUser
-__Not implemented__
-Follows a user.
+
+#### Parameters:
+```
+{
+    rit_username: string,
+    session_id: string
+}
+```
+- `rit_username`: The RIT username of the user that should be followed
+- `session_id`: The session token of the currently logged-in user (this is the user doing the following)
+
+#### Returns:
+```
+{
+    success: boolean
+}
+```
+- `success`: `True` if the user was added to the list of followed users, or if they already are followed.  `False` if there was an authentication error, or any other problems.
 
 ### GET     /unfollowUser
 __Not implemented__
