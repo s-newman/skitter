@@ -1,6 +1,7 @@
 from following import app
 from following.utils import *
 from flask import request, abort, jsonify
+from json import loads
 
 
 @app.route('/userSearch')
@@ -56,7 +57,16 @@ def search():
 
 @app.route('/followUser')
 def follow():
-    return None
+    # Parse the request data
+    data = loads(request.data.decode('utf-8'))
+
+    cnx = connect_db()
+
+    # Check that the user is logged in
+    # Check if the user is already followed
+    # Follow the user if they aren't followed yet
+    # Return the bool
+    return jsonify({'success':False})
 
 
 @app.route('/unfollowUser')
