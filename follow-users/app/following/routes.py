@@ -199,9 +199,9 @@ def following():
     response_data = {'users': []}
     for result in results:
         response_data['users'].append({'rit_username': result[0]})
-    
+
     # Set users to none if there were no results
     if len(response_data['users']) == 0:
         response_data['users'] = None
-    
+
     return jsonify(response_data)
