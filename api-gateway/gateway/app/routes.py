@@ -129,9 +129,11 @@ def sign_in():
 @app.route('/followUser', methods=['POST'])
 @app.route('/userSearch')
 @app.route('/unfollowUser')
+@app.route('/followState')
 def follow():
     if request.method == 'GET':
-        resp = get_response(FOLLOW, request.full_path, 'GET')
+        resp = get_response(FOLLOW, request.full_path, 'GET',
+                            cookies=request.cookies)
     elif request.method == 'POST':
         resp = get_response(FOLLOW, request.path, 'POST', request.data)
 
