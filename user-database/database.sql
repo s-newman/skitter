@@ -5,7 +5,7 @@ GRANT ALL ON users.* to 'api-gateway'@'%';
 -- Create PROFILE_PICTURE Table
 
 CREATE TABLE PROFILE_PICTURE (
-    picture_id int NOT NULL,
+    picture_id int NOT NULL AUTO_INCREMENT,
     picture varchar(50) NOT NULL,
     PRIMARY KEY (picture_id)
 );
