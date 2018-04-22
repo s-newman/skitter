@@ -45,7 +45,7 @@ CREATE TABLE SESSION (
 -- Add default profile picture
 INSERT INTO PROFILE_PICTURE (picture_id, picture) VALUES (
     0,
-    '/static/img/default-profile.png'
+    '/img/default-profile.png'
 );
 
 -- Log queries
