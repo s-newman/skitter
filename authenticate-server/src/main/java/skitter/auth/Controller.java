@@ -211,7 +211,7 @@ public class Controller {
         String lastname = signup.getLastname();
 
         String email = rit_username + "@rit.edu";
-        int profile_picture_id = 0;
+        int profile_picture_id = 1;
 
         JSONObject response = new JSONObject();
         response.put("successful", "false");
