@@ -109,3 +109,10 @@ services:
         restart: always
         depends_on:
             - skits-controller
+
+    settings:
+        build: settings
+        image: settings
+        expose:
+            - "80"
+        restart: always
