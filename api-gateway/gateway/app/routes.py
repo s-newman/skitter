@@ -146,6 +146,11 @@ def profPic():
     return get_response(SETTINGS, request.path, 'POST', request.data)
 
 
+@app.route('/img/<file>')
+def images(file):
+    return get_response(SETTINGS, request.full_path, 'GET')
+
+
 # Optional methods are not included in this list.
 @app.route('/AddSkit')
 @app.route('/RemoveSkit')
