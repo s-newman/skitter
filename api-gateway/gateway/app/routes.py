@@ -141,9 +141,12 @@ def follow():
     return resp
 
 
+@app.route('/changeProfileImage.php')
+def profPic():
+    return get_response(SETTINGS, request.path, 'POST', request.data)
+
+
 # Optional methods are not included in this list.
-@app.route('/changeDisplayName')
-@app.route('/changeProfileImage')
 @app.route('/AddSkit')
 @app.route('/RemoveSkit')
 @app.route('/GetSkits')
