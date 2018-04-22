@@ -20,10 +20,17 @@ app.post('/addSkit', (req, res) => {
     let data = req.body;
     es.addDocument('skit', data)
     .then( (resp) => {
-        res.json(resp);
+        //res.json(resp);
+        res.json({
+            success: true,
+            skitID: resp['_id'],
+            data: req.body
+        });
     }, (reason) => {
         console.log(reason);
-        res.send(reason);
+        res.json({
+            success: false
+        });
     });
 });
 
@@ -38,10 +45,16 @@ app.post('/addSkitReply', (req, res) => {
     let data = req.body;
     es.addDocument('skit-reply', data)
     .then( (resp) => {
-        res.json(resp);
+        res.json({
+            success: true,
+            skitReplyID: resp['_id'],
+            data: req.body
+        });
     }, (reason) => {
         console.log(reason);
-        res.send(reason);
+        res.json({
+            success: false
+        });
     });
 });
 
@@ -56,10 +69,23 @@ app.get('/getSkits', (req, res) => {
 
     es.searchDocument(indexName, 'username: ' + username)
     .then( (resp) => {
-        res.json(resp);
+        let data = [];
+        for (var i = 0; i < resp['hits']['hits'].length; i++) {
+            let entry = {};
+            entry['skitID'] = resp['hits']['hits'][i]['_id'];
+            entry['skit'] = resp['hits']['hits'][i]['_source'];
+            data.push(entry);
+        }
+        res.json({
+            success: true,
+            username: req.query.username,
+            data: data
+        });
     }, (reason) => {
         console.log(reason);
-        res.send(reason);
+        res.json({
+            success: false
+        });
     });
 });
 
@@ -72,10 +98,23 @@ app.get('/getSkitReplies', (req, res) => {
     let skitID = req.query.skitID;
     es.searchDocument(indexName, 'skitID :' + skitID)
     .then( (resp) => {
-        res.json(resp);
+        let data = [];
+        for (var i = 0; i < resp['hits']['hits'].length; i++) {
+            let entry = {};
+            entry['skitReplyID'] = resp['hits']['hits'][i]['_id'];
+            entry['skitReply'] = resp['hits']['hits'][i]['_source'];
+            data.push(entry);
+        }
+        res.json({
+            success: true,
+            skitID: req.query.skitID,
+            data: data
+        });
     }, (reason) => {
         console.log(reason);
-        res.send(reason);
+        res.json({
+            success: false
+        });
     });
 });
 
@@ -89,10 +128,16 @@ app.get('/getSkitById', (req, res) => {
     let indexName = req.query.index || "skit"; // Search in the skit index by default
     es.getDocumentById(indexName, id)
     .then( (resp) => {
-        res.json(resp);
+        res.json({
+            success: true,
+            skitID: resp['_id'],
+            data: resp['_source']
+        });
     }, (reason) => {
         console.log(reason);
-        res.send(reason);
+        res.json({
+            success: false
+        });
     });
 });
 
@@ -101,10 +146,14 @@ app.get('/removeSkit', (req, res) => {
     let indexName = req.query.index || "skit";
     es.deleteDocumentById(indexName, id)
     .then( (resp) => {
-        res.json(resp);
+        res.json({
+            success: true
+        })
     }, (reason) => {
         console.log(reason);
-        res.send(reason);
+        res.json({
+            success: false
+        });
     });
 });
 
