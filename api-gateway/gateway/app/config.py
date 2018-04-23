@@ -10,6 +10,8 @@ DB_PASS = 'changemeplease-securitysucks'
 
 FOLLOW = 'follow-proxy:8000'
 
+SETTINGS = 'settings:80'
+
 TEST_USERS = ['test{}'.format(idx) for idx in range(999)]
 
 ORIGIN = 'http://localhost'

@@ -127,11 +127,7 @@ Checks if a specific username/display name is taken.  This function is rate-limi
 ```
 `taken` is `true` if the username is taken, and `false` if the username is free.
 
-### PUT     /changeDisplayName
-__Not implemented__
-Changes a user's display name.
-
-### PUT     /changeProfileImage
+### POST     /changeProfileImage
 __Not implemented__
 Changes a user's profile image.
 

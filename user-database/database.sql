@@ -1,11 +1,7 @@
-CREATE DATABASE users;
-USE users;
-GRANT ALL ON users.* to 'api-gateway'@'%';
-
 -- Create PROFILE_PICTURE Table
 
 CREATE TABLE PROFILE_PICTURE (
-    picture_id int NOT NULL,
+    picture_id int NOT NULL AUTO_INCREMENT,
     picture varchar(50) NOT NULL,
     PRIMARY KEY (picture_id)
 );
@@ -43,9 +39,8 @@ CREATE TABLE SESSION (
 );
 
 -- Add default profile picture
-INSERT INTO PROFILE_PICTURE (picture_id, picture) VALUES (
-    0,
-    '/static/img/default-profile.png'
+INSERT INTO PROFILE_PICTURE (picture) VALUES (
+    '/img/default-profile.png'
 );
 
 -- Log queries
@@ -62,7 +57,7 @@ BEGIN
             'Test',
             'User',
             concat('test', start, '@rit.edu'),
-            0
+            1
         );
         SET start = start +1;
     END WHILE;

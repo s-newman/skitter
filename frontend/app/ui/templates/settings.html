@@ -10,20 +10,11 @@
     <h1>Want to change things up?</h1>
     <p>You came to the right place.</p>
     <ul>
-        <form id="change-username">
-            <li class="form-item"><h2>Username</h2></li>
-            <li class="form-item">
-                <label>New Username:</label>
-                <input type="text" id="username" placeholder="">
-            </li>
-            <li class="form-item"><input type="submit" value="Change"></li>
-            <li class="form-item"><span id="username-error-text"></span></li>
-        </form>
-        <form id="change-profile-pic" enctype="multipart/form-data">
+        <form id="change-profile-pic" enctype="multipart/form-data" action="/changeProfileImage.php" method="post">
             <li class="form-item"><h2>Profile Picture</h2></li>
             <li class="form-item">
                 <label>Upload New Picture:</label>
-                <input type="file" id="picture-upload">
+                <input type="file" id="upload" name="upload">
                 <span id="upload-error-text"></span>
             </li>
             <li class="form-item"><input type="submit" value="Change"></li>
