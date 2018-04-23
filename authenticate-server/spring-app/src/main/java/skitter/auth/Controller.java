@@ -129,7 +129,7 @@ public class Controller {
                 }
             }
 
-            // Create new session
+            // Create new session if user has not logged in
             if (sessionID.equals("")) {
                 try {
                     stmt = db.getConn().prepareStatement("INSERT INTO SESSION (rit_username, session_id) VALUES (?, ?)");

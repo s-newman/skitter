@@ -17,7 +17,7 @@ function authenticate(event, location) {
         username: $('#username').val()
     };
     let checkRequest = $.get('/isAuthenticated', authCheck);
-    
+
     // Request is successful
     checkRequest.done(function(data1) {
         console.log('/isAuthenticated request sent successfully.');
@@ -31,13 +31,17 @@ function authenticate(event, location) {
             console.log('Not already authentiated, please hold')
             let auth = JSON.stringify({
                 username: $('#username').val(),
-                password: $('#password').val()
+                password: $('#password').val(),
+                "g-recaptcha-response": $('#captcha').val()
             });
             let authRequest = $.ajax({
                 type: 'POST',
                 url: '/signIn',
                 contentType: 'application/json',
-                data: auth
+                data: auth,
+                // xhrFields: {
+                //     withCredentials: true
+                // }
             });
 
             // Request is successful
@@ -56,7 +60,7 @@ function authenticate(event, location) {
                     setCookie('firstname', data2.message.firstname);
                     setCookie('lastname', data2.message.lastname);
                     setCookie('username', $('#username').val());
-                    
+
                     // Redirect
                     window.location.href = '/new-account';
                 } else {
@@ -74,7 +78,7 @@ function authenticate(event, location) {
             });
         }
     });
-    
+
     checkRequest.fail(function() {
         console.log('/isAuthenticated request was unsuccessful.');
     });

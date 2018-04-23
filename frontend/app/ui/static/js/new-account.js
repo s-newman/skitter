@@ -2,7 +2,7 @@ $(document).ready(function() {
     // Create the user
     $('#accept').click(function() {
         console.log('Hooray!');
-        
+
         // Create the data to send
         let postData = JSON.stringify({
             rit_username: getCookie('username'),
@@ -15,7 +15,10 @@ $(document).ready(function() {
             type: 'POST',
             url: '/newUser',
             contentType: 'application/json',
-            data: postData
+            data: postData,
+            // xhrFields: {
+            //     withCredentials: true
+            // }
         });
 
         // Successful request was made

@@ -9,15 +9,15 @@ $(document).ready(function() {
     $('#post-skit').submit(function(event) {
         // Create a JSON string to send
         let postData = {
-            // TODO
+            content: $('#skit-content').val()
         };
 
         // Attempt to post skit
         console.log('Attempting to post skit:', postData);
-        let skitPost = $.post('/addSkit', postData, function() {
+        let skitPost = $.post('/addSkit', postData, function(data) {
             console.log('Skit posted.');
 
-            // Load latest skits
+
         });
 
         // Log error if post failed
@@ -28,7 +28,7 @@ $(document).ready(function() {
 
         event.preventDefault();
     });
-    
+
     // Show or hide skit replies
     $('.skits').on('click', 'button', function(event) {
         // Show skit replies
@@ -41,17 +41,24 @@ $(document).ready(function() {
             let skitID = event.target.id.split('-')[1];
 
             // Retrieve replies from server
-            //let getReplies = $.get('/getSkitReplies', function(data) {
+            let getReplies = $.get('/getSkitReplies?skitID=' + event.target.id, function(data) {
                 console.log('Getting skit replies...');
-
+                console.log(data);
                 // Add replies to DOM
-                $(event.target).siblings('#' + skitID + '-replies').html(newSkitReply('dude', '/profile/dude', null, 'hey man this reply sucks'));
+                //$(event.target).siblings('#' + skitID + '-replies').html(newSkitReply('dude', '/profile/dude', null, 'hey man this reply sucks'));
                 /*
                 *******************
                 * TODO: Implement *
                 *******************
                 */
-            //});
+                for (var i = 0; i < data['data'].length; i++) {
+                    let username = data['data'][i]['skitReply']['username'];
+                    let skitID = event.target.id;
+                    $.get('/profilePicPath?username=' + username, function(data1) {
+                        //$(event.target).siblings('#' + skitID + '-replies').html(newSkitReply('dude', '/profile/dude', null, 'hey man this reply sucks'));
+                    });
+                }
+            });
         }
 
         // Hide skit replies
@@ -84,22 +91,23 @@ $(document).ready(function() {
                 let postData = {
                     // TODO
                 };
-        
+
                 // Attempt to post skit reply
                 console.log('Attempting to post skit reply:', postData);
-                let skitReplyPost = $.post('/addSkitReply', postData, function() {
+                let skitReplyPost = $.post('/addSkitReply', postData, function(data) {
                     console.log('Reply posted.');
+                    console.log(data);
                 });
-        
+
                 // Log error if post failed
                 skitReplyPost.fail(function() {
-        
+
                     console.log('Failed to reply to skit.')
                 });
-        
+
                 // Remove skit reply form
                 innerEvent.target.parentNode.innerHTML = '';
-        
+
                 innerEvent.preventDefault();
             });
     });
@@ -113,25 +121,30 @@ var counter = 123;
 
 // Getter for skits
 function getSkits() {
-    //$.get('/getSkits', function() {
+    $.get('/getSkits', function(data) {
         console.log('Getting skits...');
+        console.log(data);
         // TODO
+        for (var i = 0; i < data['data'].length; i++) {
+            let skitAuthor = data['data'][i]['skit']['username'];
 
+            $('.skits').append(newSkit('broseph', '/profile/theOfficialBroseph', null, counter, '12222'));
+        }
         // Add skits to the DOM
-        $('.skits').append(newSkit('broseph', '/profile/theOfficialBroseph', null, counter, '12222'));
-        counter++;  // Remove from prod.
-    //});
+        // $('.skits').append(newSkit('broseph', '/profile/theOfficialBroseph', null, counter, '12222'));
+        // counter++;  // Remove from prod.
+    });
 }
 
 
 // Constructor for replies
-function newSkitReply(username, profilePath, picturePath, content) {
+function newSkitReply(username, profilePath, picturePath, content, skitReplyID) {
     // Set the profile picture to the default if one is not specified
     if(picturePath === null) {
         picturePath = defaultProfile;
     }
 
-    return '<article class="skit-reply">' +
+    return '<article id="' + skitReplyID + '" class="skit-reply">' +
         '<img src="' + picturePath + '" class="skit-profile-pic" height=64 width=64 />' +
         '<a class="username" href"' + profilePath + '">' + username + '</a>' +
         '<p>' + content + '</p>' +
@@ -146,7 +159,7 @@ function newSkit(username, profilePath, picturePath, content, skitID) {
     }
 
     // Ain't that ugly as hell?
-    return '<article id="' + skitID +  '"class="skit">' +
+    return '<article id="' + skitID + '" class="skit">' +
         '<img src="' + picturePath + '" alt="Skit Profile Picture" class="skit-profile-pic" height=64 width=64 />' +
         '<a class="username" href="' + profilePath + '">' + username + '</a>' +
         '<p>' + content + '</p>' +
