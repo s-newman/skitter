@@ -141,9 +141,14 @@ def follow():
     return resp
 
 
-@app.route('/changeProfileImage.php')
+@app.route('/changeProfileImage.php', methods=['POST'])
 def profPic():
-    return get_response(SETTINGS, request.path, 'POST', request.data)
+    resp = make_response(requests.post(
+        'http://settings/changeProfilePicture.php',
+        data=request.data,
+        files=request.files
+    ).content)
+    return resp
 
 
 @app.route('/img/<file>')

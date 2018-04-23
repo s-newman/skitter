@@ -48,7 +48,7 @@ def profile(user):
     # Get profile picture URL
     cnx.execute('PREPARE get_pic FROM ' +
                 '\'SELECT * FROM PROFILE_PICTURE WHERE picture_id = ?\';')
-    cnx.execute('SET @a = \'{}\';'.format(result[5]))
+    cnx.execute('SET @a = \'{}\';'.format(result[6]))
     picture_url = [r for r in cnx.execute('EXECUTE get_pic USING @a;')][0][1]
 
     # Render page
