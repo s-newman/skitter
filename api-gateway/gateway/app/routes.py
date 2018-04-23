@@ -156,6 +156,31 @@ def images(file):
     return get_response(SETTINGS, request.full_path, 'GET')
 
 
+@app.route('/profilePicPath')
+def path():
+    cnx = connect_db()
+
+    # Get user information
+    cnx.execute('PREPARE get_info FROM ' +
+                '\'SELECT * FROM USER_INFO WHERE rit_username = ?\';')
+    cnx.execute('SET @a = \'{}\';'.format(request.args['username']))
+    result = [row for row in cnx.execute('EXECUTE get_info USING @a;')]
+
+    # Check if there is no user of that name
+    if len(result) == 0:
+        abort(404)
+    else:
+        result = result[0]
+
+    # Get profile picture URL
+    cnx.execute('PREPARE get_pic FROM ' +
+                '\'SELECT * FROM PROFILE_PICTURE WHERE picture_id = ?\';')
+    cnx.execute('SET @a = \'{}\';'.format(result[6]))
+    picture_url = [r for r in cnx.execute('EXECUTE get_pic USING @a;')][0][1]
+
+    return jsonify({'url': picture_url})
+
+
 # Optional methods are not included in this list.
 @app.route('/AddSkit')
 @app.route('/RemoveSkit')
