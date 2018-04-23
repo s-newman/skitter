@@ -1,15 +1,49 @@
 $(document).ready(function() {
-    // Create the new user
-    $('#new-acct-form').submit(function(event) {
-        // Clear the error text
-        $('#form-error-text').empty();
+    // Create the user
+    $('#accept').click(function() {
+        console.log('Hooray!');
 
-        // Check if all forms have been filled
-        if($('#username').val() === '') {
-            console.log('The username has not been entered.');
-            $('#form-error-text').html('Please pick a username!<br />');
-            event.preventDefault();
-        }
-        // Allow the form to be submitted
-    });
+        // Create the data to send
+        let postData = JSON.stringify({
+            rit_username: getCookie('username'),
+            firstname: getCookie('firstname'),
+            lastname: getCookie('lastname')
+        });
+
+        // Create the user
+        let newUserRequest = $.ajax({
+            type: 'POST',
+            url: '/newUser',
+            contentType: 'application/json',
+            data: postData,
+            // xhrFields: {
+            //     withCredentials: true
+            // }
+        });
+
+        // Successful request was made
+        newUserRequest.done(function(data) {
+            if(data.successful === 'true') {
+                // User was created
+                console.log('Created user.');
+                window.location.href = '/dashboard';
+            } else {
+                // User was not created
+                console.log('An error occurred.');
+                window.location.href = '/logout';
+            }
+        });
+
+        // This shouldn't happen but it did
+        newUserRequest.fail(function() {
+            console.log('A request failure occurred.  This should not happen.');
+            window.location.href = '/logout';
+        });
+    })
+
+    // Don't create a user
+    $('#deny').click(function() {
+        console.log('Fine then, jeez.');
+        window.location.href = '/logout';
+    })
 });

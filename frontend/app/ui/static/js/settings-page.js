@@ -25,27 +25,4 @@ $(document).ready(function() {
             event.preventDefault();
         });
     });
-
-    // Submit profile picture change
-    $('#change-profile-pic').submit(function(event) {
-        let fileArray = document.getElementById('picture-upload').files;
-
-        // Continue only if the most recently uploaded file is small enough
-        if(checkPictureSize(fileArray[fileArray.length - 1].size, $('#upload-error-text'))) {
-            console.log('Changing profile picture.');
-            
-            // Change image
-            let putImage = $.put('/changeProfileImage', { place: 'holder'}, function(data) {
-                console.log('Successfully changed photo.');
-            });
-
-            // Log errors
-            putImage.fail(function() {
-                console.log('Encountered an error when changing photo.');
-                event.preventDefault();
-            });
-        } else {
-            event.preventDefault();
-        }
-    });
 });

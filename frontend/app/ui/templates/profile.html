@@ -6,26 +6,11 @@
 
 {% block internal_page %}
 <aside class="user-sidebar">
-    <img alt="Profile Picture" height=100 width=100 id="main-profile-pic" />
-    <a class="username main-username" href="/profile/{{ user }}">Username</a>
+    <img src="{{ pic }}" alt="Profile Picture" height=64 width=64 id="main-profile-pic" />
+    <a class="username main-username" href="/profile/{{ username }}">@{{ username }}</a>
+    <p class="display-name">{{ fname }} {{ lname }}</p>
 </aside>
 <section class="middle-col">
-    <section class="skits">
-        <article class="skit">
-            <h1>Test skit</h1>
-            <p>Hi!</p>
-        </article>
-        <article id="12345" class="skit">
-            <img src="{{ url_for('static', filename='img/default-profile.png') }}" alt="Skit Profile Picture" class="skit-profile-pic" height=64 width=64 />
-            <a class="username" href="/profile/xyz">Username</a>
-            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-            Aenean commodo ligula eget dolor. Aenean massa. Cum sociis
-            natoque penatibus et magnis dis parturient.</p>
-            <button id="toggle-12345" type="button" class="show-replies">Replies</button>
-            <button id="reply-12345" type="button" class="add-reply">Respond</button><br />
-            <section id="12345-response"></section>
-            <section id="12345-replies"></section>
-        </article>
-    </section>
+    <section class="skits"></section>
 </section>
 {% endblock %}

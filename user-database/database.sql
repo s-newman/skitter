@@ -1,11 +1,7 @@
-CREATE DATABASE users;
-USE users;
-GRANT ALL ON users.* to 'api-gateway'@'%';
-
 -- Create PROFILE_PICTURE Table
 
 CREATE TABLE PROFILE_PICTURE (
-    picture_id int NOT NULL,
+    picture_id int NOT NULL AUTO_INCREMENT,
     picture varchar(50) NOT NULL,
     PRIMARY KEY (picture_id)
 );
@@ -27,12 +23,11 @@ CREATE TABLE USER_INFO (
 -- Create FOLLOW Table
 
 CREATE TABLE FOLLOW (
-    follow_id int NOT NULL,
-    follower_user_id varchar(7) NOT NULL,
-    following_user_id varchar(7) NOT NULL,
-    PRIMARY KEY (follow_id),
-    FOREIGN KEY (follower_user_id) REFERENCES USER_INFO(rit_username),
-    FOREIGN KEY (following_user_id) REFERENCES USER_INFO(rit_username)
+    follower varchar(7) NOT NULL,
+    followed varchar(7) NOT NULL,
+    PRIMARY KEY (follower, followed),
+    FOREIGN KEY (follower) REFERENCES USER_INFO(rit_username),
+    FOREIGN KEY (followed) REFERENCES USER_INFO(rit_username)
 );
 
 -- Create SESSION Table
@@ -44,10 +39,28 @@ CREATE TABLE SESSION (
 );
 
 -- Add default profile picture
-INSERT INTO PROFILE_PICTURE (picture_id, picture) VALUES (
-    0,
-    '/static/img/default-profile'
+INSERT INTO PROFILE_PICTURE (picture) VALUES (
+    '/img/default-profile.png'
 );
 
 -- Log queries
 SET GLOBAL general_log=1;
+
+-- Add users
+DELIMITER //
+CREATE PROCEDURE makeuser()
+BEGIN
+    DECLARE start INT DEFAULT 0;
+    WHILE start <= 999 DO
+        INSERT INTO USER_INFO (rit_username, first_name, last_name, email, profile_picture_id) VALUES (
+            concat('test', start),
+            'Test',
+            'User',
+            concat('test', start, '@rit.edu'),
+            1
+        );
+        SET start = start +1;
+    END WHILE;
+END//
+DELIMITER ;
+CALL makeuser;

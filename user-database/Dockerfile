@@ -11,4 +11,4 @@ COPY logging.cnf /etc/mysql/conf.d/logging.cnf
 
 # Create the database
 COPY database.sql /docker-entrypoint-initdb.d/database.sql
-ENV MYSQL_DATABSE="users"
+ENV MYSQL_DATABASE="users"

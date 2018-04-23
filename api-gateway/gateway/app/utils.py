@@ -7,9 +7,9 @@ from sqlalchemy.engine import create_engine, Connection
 from sqlalchemy.pool import NullPool
 from binascii import hexlify
 from os import urandom
+from datetime import datetime
 
-
-def get_response(host, method, http_method, data=None):
+def get_response(host, method, http_method, data=None, cookies=None):
     """Make a given request and return the associated response.
 
     Arguments:
@@ -21,6 +21,7 @@ def get_response(host, method, http_method, data=None):
         method {string} -- The API method the request is being sent to.
         http_method {string} -- The HTTP method to use to send the request to
         the microservice endpoint.
+        cookies {dict} -- A dictionary of cookies to include in the request.
 
     Keyword Arguments:
         data {string} -- The message-body of the request.  Should only be set
@@ -36,10 +37,11 @@ def get_response(host, method, http_method, data=None):
     # Fetch the URL and stream it back
     # return requests.get(url, stream=True, params=request.args)
     if http_method == 'GET':
-        r = requests.get(url)
+        r = requests.get(url, cookies=cookies)
 
     elif http_method == 'POST':
-        r = requests.post(url, json=json_to_dict(data.decode('utf-8')))
+        r = requests.post(url, json=json_to_dict(data.decode('utf-8')),
+                          cookies=cookies)
 
     # Create a flask response object from the requests.Reponse object.  That's
     # not confusing, right?
@@ -139,8 +141,7 @@ def connect_db():
         try:
             cnx = engine.connect()
         except Exception as e:
-            print('Could not connect to database.  Message is: "{}". ' +
-                  'Retrying...'.format(e))
+            print('Could not connect to database.  Message is: "{}". Retrying...'.format(e))
     return cnx
 
 
@@ -183,3 +184,12 @@ def csrf_check(request):
     token = json_dict['crsfToken'] == request.cookies.get('csrfToken')
 
     return source and target and token
+
+def skit_compare(skit1, skit2):
+    time1 = datetime.strptime(skit1['skit']['date_posted'])
+    time2 = datetime.strptime(skit2['skit']['date_posted'])
+    if time1 < time2:
+        return -1
+    elif time1 == time2:
+        return 0
+    return 1

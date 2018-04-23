@@ -151,3 +151,8 @@ a.username:hover {
     text-decoration-style: dotted;
     text-decoration-color: #34c3b9;
 }
+
+.result-user {
+    float: left;
+    clear: left;
+}

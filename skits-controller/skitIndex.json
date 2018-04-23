@@ -1,0 +1,1 @@
+{"skit":{"mappings":{"_doc":{"properties":{"content":{"type":"text","fields":{"keyword":{"type":"keyword","ignore_above":256}}},"date_posted":{"type":"date","format":"yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis"},"username":{"type":"text","fields":{"keyword":{"type":"keyword","ignore_above":256}}}}}}}}
