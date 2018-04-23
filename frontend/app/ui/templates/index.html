@@ -2,6 +2,7 @@
 
 {% block scripts %}
 <script src="{{ url_for('static', filename='js/index.js')}}" type="text/javascript"></script>
+<script src='https://www.google.com/recaptcha/api.js'></script>
 {% endblock %}
 
 {% block content %}
@@ -16,6 +17,15 @@
                     <ul>
                         <li class="form-item"><input type="text" id="username" placeholder="Username" class="border" /></li>
                         <li class="form-item"><input type="password" id="password" placeholder="Password" class="border" /></li>
+                        <li class="form-item">
+                            <script type="text/javascript">
+                            function onHuman(response) {
+                                document.getElementById('captcha').value = response;
+                            }
+                            </script>
+                            <div class="g-recaptcha" data-callback="onHuman" data-sitekey="6LfU3VQUAAAAABTy0DWOv9mJETdzw6orTKUKYoK0"></div>
+                            <input type="hidden" id="captcha" name="captcha" value="">
+                        </li>
                         <li class="form-item">
                             <input id="log-in" type="submit" value="Log In" class="border" />
                             <span id="errorText"></span>
