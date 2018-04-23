@@ -9,15 +9,15 @@ $(document).ready(function() {
     $('#post-skit').submit(function(event) {
         // Create a JSON string to send
         let postData = {
-            // TODO
+            content: $('#skit-content').val()
         };
 
         // Attempt to post skit
         console.log('Attempting to post skit:', postData);
-        let skitPost = $.post('/addSkit', postData, function() {
+        let skitPost = $.post('/addSkit', postData, function(data) {
             console.log('Skit posted.');
 
-            // Load latest skits
+
         });
 
         // Log error if post failed
@@ -51,6 +51,13 @@ $(document).ready(function() {
                 * TODO: Implement *
                 *******************
                 */
+                for (var i = 0; i < data['data'].length; i++) {
+                    let username = data['data'][i]['skitReply']['username'];
+                    let skitID = event.target.id;
+                    $.get('/profilePicPath?username=' + username, function(data1) {
+                        //$(event.target).siblings('#' + skitID + '-replies').html(newSkitReply('dude', '/profile/dude', null, 'hey man this reply sucks'));
+                    });
+                }
             });
         }
 
