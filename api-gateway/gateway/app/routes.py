@@ -3,10 +3,14 @@ from app.config import *
 from app.utils import *
 from flask import request, abort
 import requests
+import string
 from json import loads as json_to_dict
 from json import dumps
+from datetime import datetime
+from cgi import escape
 
 CHUNK_SIZE = 1024
+ALPHANUMERIC = string.letters + string.digits
 """The size, in bytes, of data to stream at a time."""
 
 
@@ -125,6 +129,76 @@ def sign_in():
 
     return resp
 
+@app.route('/AddSkit', method=['POST'])
+@app.route('/RemoveSkit')
+@app.route('/GetSkits')
+def skits_handler():
+    if request.method == 'POST':
+        # Add Skit: The front-end only send the content of the skit
+        cnx = connect_db()
+        SID = request.cookie.get('SID')
+        cnx.execute('PREPARE check_auth FROM ' +
+                        '\'SELECT * FROM SESSION WHERE session_id = ?\';')
+        cnx.execute('SET @a = \'{}\';'.format(SID))
+        results = [r for r in cnx.execute('EXECUTE check_auth USING @a;')]
+
+        username = results[0][0]
+        date_posted = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        content = request.data['content']
+        # Sanitize the first time
+        if len(content) > 140:
+            abort(406)
+        content = escape(content)
+        data = {
+            "username": username,
+            "date_posted": date_posted,
+            "content": content
+        }
+        resp = get_response(NODE_SERVER, request.path, 'POST', data)
+    elif request.method == 'GET':
+        resp = get_response(NODE_SERVER, request.full_path, 'GET')
+    return resp
+
+
+@app.route('/addSkitReply', method=['POST'])
+@app.route('/removeSkitReply') #id
+@app.route('/getSkitReplies') #skitID
+def replies_handler():
+    if request.method == 'POST':
+        skitID = request.data['skitID']
+        for c in skitID:
+            if c not in ALPHANUMERIC:
+                abort(406)
+        resp = get_response(NODE_SERVER, '/getSkitById?id={}'.format(skitID), 'GET')
+        if resp['success'] == 'false':
+            abort(406)
+
+        cnx = connect_db()
+        SID = request.cookie.get('SID')
+        cnx.execute('PREPARE check_auth FROM ' +
+                        '\'SELECT * FROM SESSION WHERE session_id = ?\';')
+        cnx.execute('SET @a = \'{}\';'.format(SID))
+        results = [r for r in cnx.execute('EXECUTE check_auth USING @a;')]
+
+        username = results[0][0]
+        date_posted = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        content = request.data['content']
+
+        # Sanitize the first time
+        if len(content) > 140:
+            abort(406)
+        content = escape(content)
+        data = {
+            "username": username,
+            "date_posted": date_posted,
+            "content": content,
+            "skitID": skitID
+        }
+        resp = get_response(NODE_SERVER, request.path, 'POST', data)
+    elif request.method == 'GET':
+        resp = get_response(NODE_SERVER, request.full_path, 'GET')
+
+    return resp
 
 @app.route('/followUser', methods=['POST'])
 @app.route('/userSearch')
@@ -182,11 +256,8 @@ def path():
 
 
 # Optional methods are not included in this list.
-@app.route('/AddSkit')
-@app.route('/RemoveSkit')
-@app.route('/GetSkits')
-@app.route('/addSkitReply')
-@app.route('/removeSkitReply')
+@app.route('/changeDisplayName')
+@app.route('/changeProfileImage')
 def unimplemented():
     """Returns an HTTP 501: Not Implemented error.
 

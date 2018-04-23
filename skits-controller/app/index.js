@@ -96,7 +96,7 @@ app.get('/getSkitById', (req, res) => {
     });
 });
 
-app.delete('/removeSkit', (req, res) => {
+app.get('/removeSkit', (req, res) => {
     let id = req.query.id;
     let indexName = req.query.index || "skit";
     es.deleteDocumentById(indexName, id)

@@ -19,7 +19,7 @@ class SkitsController < ActionController::API
 
     def removeSkitReply
         id = params["id"]
-        r = RestClient.delete "http://#@NODEHOST/removeSkit", {params: {id: id, index: "skit-reply"}}
+        r = RestClient.get "http://#@NODEHOST/removeSkit", {params: {id: id, index: "skit-reply"}}
         render json: r
     end
 
