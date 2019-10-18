@@ -11,5 +11,5 @@ requests==2.18.4
 SQLAlchemy==1.2.6
 urllib3==1.22
 uWSGI==2.0.16
-Werkzeug==0.14.1
+Werkzeug==0.15.3
 https://dev.mysql.com/get/Downloads/Connector-Python/mysql-connector-python-2.1.7.tar.gz
